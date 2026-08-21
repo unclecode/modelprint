@@ -14,6 +14,8 @@ const PROVIDERS = {
   deepseek:  { label: "DeepSeek", keyHint: "sk-…", base: "https://api.deepseek.com", models: [] },
   anthropic: { label: "Anthropic", keyHint: "sk-ant-…", base: "https://api.anthropic.com/v1",
                models: [], anthropic: true },
+  mimo:      { label: "Xiaomi MiMo", keyHint: "sk-…", base: "https://api.xiaomimimo.com/v1",
+               models: [] },
   custom:    { label: "Custom URL…", keyHint: "key", base: null, models: [] },
 };
 
@@ -23,6 +25,7 @@ const POPULAR = {
     "anthropic/claude-opus-5", "openai/gpt-5.6-luna", "moonshotai/kimi-k3",
     "qwen/qwen3.7-flash", "x-ai/grok-4.6"],
   openai: ["gpt-5.6-sol", "gpt-5.6-luna", "gpt-5.4-nano"],
+  mimo: ["mimo-v2.5-pro", "mimo-v2.5"],
   deepseek: ["deepseek-v4-flash", "deepseek-v4-pro"],
   anthropic: ["claude-opus-5", "claude-sonnet-5"],
   demo: ["stealth/ox-alpha", "z-ai/glm-5.3", "deepseek/deepseek-v4-flash"],
