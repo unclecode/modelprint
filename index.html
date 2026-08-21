@@ -47,6 +47,10 @@
   .logo{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .logo h1{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;letter-spacing:-.5px}
   .logo h1 .dot{color:var(--accent)}
+  .ver{font-size:12px;color:var(--ink3)}
+  .repolink{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink2);
+    text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:3px 9px}
+  .repolink:hover{color:var(--accent);border-color:var(--accent)}
   .demo-badge{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.8px;
     background:var(--warn);color:var(--warn-ink);border-radius:5px;padding:3px 8px;text-transform:uppercase}
   .tagline{color:var(--ink2);font-size:14.5px;margin-top:6px;max-width:58ch}
@@ -163,7 +167,11 @@
   <header>
     <div class="logo">
       <h1>modelprint<span class="dot">_</span></h1>
+      <span class="ver mono">v0.2.0</span>
       <span class="demo-badge" id="modebadge" style="display:none">demo mode</span>
+      <a class="repolink mono" href="https://github.com/unclecode/modelprint">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        github</a>
     </div>
     <p class="tagline">Who is really behind that API? Run infrastructure probes against any
     OpenAI-compatible endpoint and compare the fingerprints. <b>Plumbing does not lie; personality does.</b></p>
@@ -172,7 +180,8 @@
   <p class="keynote" style="margin-top:14px">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
     Your keys stay in this tab. Every call goes from your browser straight to the provider.
-    Model lists are fetched live from each provider's /models endpoint.
+    Model lists are fetched live. No key yet? Create one in a minute at
+    <a href="https://openrouter.ai/settings/keys" style="color:var(--accent)">openrouter.ai/settings/keys</a>.
   </p>
 
   <section class="results">
@@ -209,6 +218,21 @@
     <p><b>Why no censorship or personality probes:</b> the community ran both on Ox Alpha and got
     contradictory verdicts from the same model on the same day. Behaviour bends to a system prompt;
     tokenizers and error handlers do not. This tool fingerprints the plumbing only.</p>
+  </details>
+
+  <details>
+    <summary>Add your own probes</summary>
+    <p>Every probe is one small JavaScript file in
+    <a href="https://github.com/unclecode/modelprint/tree/main/probes" style="color:var(--accent)">probes/</a>.
+    A probe gets a <b>ctx.chat(payload)</b> function, sends one or two requests, and returns
+    <b>{ value }</b>: a string or number that must come out identical when two endpoints run the
+    same stack. Token counts, error wording, limit numbers: good values. Timestamps, latency,
+    random ids: never.</p>
+    <p>Copy <a href="https://github.com/unclecode/modelprint/blob/main/probes/_template.js" style="color:var(--accent)">probes/_template.js</a>,
+    keep its header comment (name, description, author, version), and open a pull request.
+    An approved probe is one added line in <b>probes/index.js</b>, and the page loads it
+    automatically. Ideas waiting for an author: logprobs support, stop-sequence limits,
+    system-role handling, streaming chunk shape.</p>
   </details>
 
   <footer>
