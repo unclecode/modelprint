@@ -167,7 +167,7 @@
   <header>
     <div class="logo">
       <h1>modelprint<span class="dot">_</span></h1>
-      <span class="ver mono">v0.3.0</span>
+      <span class="ver mono">v0.4.0</span>
       <span class="demo-badge" id="modebadge" style="display:none">demo mode</span>
       <a class="repolink mono" href="https://github.com/unclecode/modelprint">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -215,6 +215,18 @@
     max_tokens) return validation prose written by the lab's own engineers, often with numeric
     codes. GLM's content filter answers with code 1301; that code appearing behind a stealth model
     ended the mystery for many.</p>
+    <p><b>network forensics</b> — three probes read the delivery chain itself: the router's
+    opt-in metadata snapshot names the edge region and provider that served each call; the
+    <b>/generation</b> ledger repeats that plus native token counts; and response-header families
+    (<b>cf-ray</b>, <b>x-amzn-requestid</b>, <b>openai-processing-ms</b>) fingerprint the serving
+    stack the way nmap fingerprints a web server.</p>
+    <p><b>capability ceilings</b> — a bisected padding ladder finds the exact context ceiling
+    (1,048,576 vs 262,144 dates the variant instantly), and date-recall questions binary-search
+    the training cutoff. Hard numbers beat vibes.</p>
+    <p><b>deep signals</b> — the one-token battery samples "pick a random number/color/coin"
+    cells whose modal answers are stable per trained model (arXiv:2607.10252); logprob geometry
+    reads δ≈0.32 gap structure where exposed; reasoning overhead, wrapper-leak hashes and stream
+    cadence buckets corroborate the rest.</p>
     <p><b>Why no censorship or personality probes:</b> the community ran both on Ox Alpha and got
     contradictory verdicts from the same model on the same day. Behaviour bends to a system prompt;
     tokenizers and error handlers do not. This tool fingerprints the plumbing only.</p>
@@ -231,8 +243,8 @@
     <p>Copy <a href="https://github.com/unclecode/modelprint/blob/main/probes/_template.js" style="color:var(--accent)">probes/_template.js</a>,
     keep its header comment (name, description, author, version), and open a pull request.
     An approved probe is one added line in <b>probes/index.js</b>, and the page loads it
-    automatically. Ideas waiting for an author: logprobs support, stop-sequence limits,
-    system-role handling, streaming chunk shape.</p>
+    automatically. Ideas waiting for an author: video-encoder token budgets, adversarial
+    tokenizer string sets, stop-sequence limits, system-role handling.</p>
   </details>
 
   <footer>

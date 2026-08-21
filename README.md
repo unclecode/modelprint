@@ -55,6 +55,25 @@ lab's best is 2 of 4.
 | error code family | numeric vs string vs typed errors | GLM's 1301 code gave Ox away |
 | finish vocabulary | `finish_reason` values | vocabularies differ per lab |
 
+### Community batch: network forensics + capability + deep signals
+
+| probe | what it reads | why it identifies a lab |
+| --- | --- | --- |
+| router region | the router's opt-in metadata snapshot (region, provider, strategy) | the routing layer names who answered — a "Stealth" lane served by Z.AI ends one argument |
+| generation record | OpenRouter's `/generation` ledger for one call id | provider name, data region and NATIVE token counts, straight from the router's books |
+| header dna | response header families (`cf-ray`, `x-amzn-requestid`, `openai-processing-ms`…) and the response-id prefix | serving stacks expose different headers; Bedrock ≠ Vertex ≠ first-party |
+| context ceiling | bisected maximum accepted prompt size | 1,048,576 vs 262,144 vs 131,072 — exact ceilings date the variant |
+| cutoff dating | binary-searched recall of pinned event dates | training data has a hard edge; weights do not lie |
+| wrapper leak | extracted hidden system prompt (length + hash) | routers and labs inject wrappers; their wording unmasks the host |
+| reasoning trace | invalid-`reasoning_effort` prose + thinking-token overhead on a fixed puzzle | labs validate parameters in their own words and budget thinking differently |
+| logprob geometry | normalized 3rd top-logprob gap δ on pinned continuations | EVT predicts δ≈0.32 universally; deviations flag quantized or substituted weights |
+| stream cadence | bucketed TTFT / chunk gap / chunk size of a streamed reply | vLLM, TGI and first-party stacks pace chunks differently |
+| one-token battery | modal answer to "random number / color / coin" cells | per arXiv:2607.10252 these biases are model-deep and stable across providers |
+
+Telemetry probes degrade honestly when a harness lacks the signal
+(`harness-lacks-http`, `headers-hidden-by-cors`, `logprobs-unsupported`) —
+an honest absence beats a fake fingerprint.
+
 Tokenizer counts are **normalized against a one-character baseline**, so a
 host's hidden template cancels out. Two hosts wrapping the same tokenizer
 match; raw counts never would. Every tokenizer probe also runs twice and
@@ -102,11 +121,13 @@ request. Approved probes are one line in [`probes/index.js`](probes/index.js).
 ## Run the test suites yourself
 
 ```
-node smoke.mjs      # every probe against two real models, prints values
-node suspects.mjs   # the full 12-model lineup, prints the ranking
+node selftest.mjs    # no key needed: every probe against a mock harness
+node smoke.mjs       # every probe against two real models, prints values
+node suspects.mjs    # the full 12-model lineup, prints the ranking
 ```
 
-Both need an OpenRouter key in the environment they read.
+`selftest.mjs` runs everywhere; the other two need an OpenRouter key in the
+environment they read.
 
 ---
 

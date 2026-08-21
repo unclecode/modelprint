@@ -53,10 +53,24 @@ async function fetchModels(provider, key) {
   } catch { return []; }
 }
 
-/* ---------------- the chat adapter: one normalized call ---------------- */
+/* ---------------- the chat adapter: one normalized call ----------------
+   Every result carries the fields probes have always used (ok, status,
+   usage, finish, text, error) PLUS optional telemetry the newer probes
+   read when present and skip when absent:
+   id, reportedModel, systemFingerprint, reasoningTokens, logprobs,
+   metadata (router routing snapshot), headers, ms / ttftMs, stream.
+   The Node suites (smoke.mjs) build thinner results; every probe that
+   touches telemetry must degrade to an honest value without it. */
+function pickHeaders(r) {
+  const h = {};
+  try { r.headers.forEach((v, k) => { h[k] = v; }); } catch {}
+  return h;
+}
+
 async function chat(lane, payload) {
   const p = PROVIDERS[lane.provider];
   const base = lane.provider === "custom" ? lane.customBase : p.base;
+  const t0 = performance.now();
   try {
     let url, headers, body;
     if (p.anthropic) {
@@ -77,26 +91,124 @@ async function chat(lane, payload) {
       if (lane.provider === "openrouter" && lane.pinHost)
         body.provider = { order: [lane.pinHost], allow_fallbacks: false };
     }
+    // Opt-in routing snapshot on every OpenRouter call: names the edge region
+    // and the provider that actually served the request (net-region probe).
+    if (lane.provider === "openrouter") headers["X-OpenRouter-Metadata"] = "enabled";
+
     const r = await fetch(url, { method: "POST", headers, body: JSON.stringify(body),
       signal: AbortSignal.timeout(60_000) });
+    const ttftMs = performance.now() - t0;          // response HEADERS arrived
+    const hdrs = pickHeaders(r);
+
+    /* streaming: keep the chunk timeline, then normalize as usual */
+    if (payload.stream && r.ok && r.body) {
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      let buf = "", timeline = [], firstAt = null;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const at = performance.now() - t0;
+        const s = dec.decode(value, { stream: true });
+        if (firstAt === null && s.trim()) firstAt = at;
+        timeline.push({ at: +at.toFixed(1), chars: s.length });
+        buf += s;
+      }
+      const total = performance.now() - t0;
+      const out = parseSse(buf);
+      if (!out.ok) return { ok: false, status: r.status, error: buf.slice(0, 2000),
+        ms: total, ttftMs, headers: hdrs };
+      return { ...out, status: r.status, ms: total, ttftMs, headers: hdrs,
+        stream: summarizeStream(timeline) };
+    }
+
     const text = await r.text();
-    if (!r.ok) return { ok: false, status: r.status, error: text };
+    const ms = performance.now() - t0;
+    if (!r.ok) return { ok: false, status: r.status, error: text,
+      ms, ttftMs, headers: hdrs };
     const d = JSON.parse(text);
+    const common = { ok: true, status: r.status, ms, ttftMs, headers: hdrs,
+      id: d.id, reportedModel: d.model, systemFingerprint: d.system_fingerprint,
+      metadata: d.openrouter_metadata };
     if (p.anthropic) {
-      return { ok: true, status: r.status,
+      return { ...common,
         usage: { prompt_tokens: d.usage?.input_tokens, completion_tokens: d.usage?.output_tokens },
         finish: d.stop_reason,
         text: (d.content || []).map(b => b.text || "").join("") };
     }
     const choice = (d.choices || [])[0] || {};
-    return { ok: true, status: r.status,
+    return { ...common,
       usage: { prompt_tokens: d.usage?.prompt_tokens, completion_tokens: d.usage?.completion_tokens },
+      reasoningTokens: d.usage?.completion_tokens_details?.reasoning_tokens
+        ?? d.usage?.output_tokens_details?.reasoning_tokens ?? null,
+      logprobs: choice.logprobs?.content?.[0]?.top_logprobs ?? choice.logprobs ?? null,
       // Routers NORMALIZE finish_reason; the lab's own vocabulary survives in
       // native_finish_reason. Without this, every routed model reads the same.
       finish: choice.native_finish_reason || choice.finish_reason,
       text: choice.message?.content || "" };
   } catch (e) {
-    return { ok: false, status: 0, error: "network/CORS: " + e.message };
+    return { ok: false, status: 0, error: "network/CORS: " + e.message,
+      ms: performance.now() - t0 };
+  }
+}
+
+/* SSE buffer -> the same shape a non-streaming call returns */
+function parseSse(buf) {
+  let text = "", usage = null, finish = null, meta = null, id = null, model = null;
+  for (const line of buf.split("\n")) {
+    const s = line.trim();
+    if (!s.startsWith("data:")) continue;
+    const data = s.slice(5).trim();
+    if (!data || data === "[DONE]") continue;
+    let j; try { j = JSON.parse(data); } catch { continue; }
+    if (j.openrouter_metadata) meta = j.openrouter_metadata;
+    if (j.usage) usage = j.usage;
+    if (j.id) id = j.id;
+    if (j.model) model = j.model;
+    const ch = (j.choices || [])[0] || {};
+    if (typeof ch.delta?.content === "string") text += ch.delta.content;
+    if (ch.finish_reason) finish = ch.native_finish_reason || ch.finish_reason;
+  }
+  if (!id && !text && !usage && !finish) return { ok: false };
+  return { ok: true,
+    usage: { prompt_tokens: usage?.prompt_tokens, completion_tokens: usage?.completion_tokens },
+    reasoningTokens: usage?.completion_tokens_details?.reasoning_tokens ?? null,
+    finish, text, id, reportedModel: model, systemFingerprint: undefined,
+    metadata: meta, logprobs: null };
+}
+
+/* chunk timeline -> coarse cadence numbers a probe can bucket */
+function summarizeStream(timeline) {
+  if (!timeline.length) return null;
+  const gaps = [];
+  for (let i = 1; i < timeline.length; i++)
+    gaps.push(+(timeline[i].at - timeline[i - 1].at).toFixed(1));
+  const med = a => a.length ? a.slice().sort((x, y) => x - y)[Math.floor(a.length / 2)] : 0;
+  return { chunks: timeline.length,
+    ttftMs: timeline[0].at,
+    gapMedianMs: med(gaps),
+    charsMedian: med(timeline.map(c => c.chars)),
+    totalMs: timeline[timeline.length - 1].at };
+}
+
+/* authenticated GET through the lane (generation records, host lists).
+   Probes get this as ctx.http; the demo harness omits it entirely. */
+async function httpGet(lane, pathOrUrl) {
+  const p = PROVIDERS[lane.provider];
+  const base = lane.provider === "custom" ? lane.customBase : p.base;
+  if (!base) return { ok: false, status: 0, text: "no base url", json: null };
+  try {
+    const url = /^https?:/.test(pathOrUrl) ? pathOrUrl : base.replace(/\/$/, "") + pathOrUrl;
+    const headers = p.anthropic
+      ? { "x-api-key": lane.key, "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true" }
+      : { Authorization: "Bearer " + lane.key };
+    const r = await fetch(url, { headers, signal: AbortSignal.timeout(30_000) });
+    const text = await r.text();
+    let json = null; try { json = JSON.parse(text); } catch {}
+    return { ok: r.ok, status: r.status, text, json, headers: pickHeaders(r) };
+  } catch (e) {
+    return { ok: false, status: 0, text: String(e), json: null };
   }
 }
 
@@ -106,27 +218,77 @@ const DEMO_DB = {
     "template-offset": "+75 (delta 8)",
     "err-temperature": '"temperature must be in [0, 2.0]. Adjust the parameter and resubmit."',
     "err-maxtokens": '"invalid max_tokens: expected positive integer" · code 20015',
-    "err-code-family": "numeric-code", "finish-vocab": "stop · length" },
+    "err-code-family": "numeric-code", "finish-vocab": "stop · length",
+    // community probes (simulated)
+    "net-region": "iad · Stealth · direct",
+    "net-genrecord": "Stealth · global · stop",
+    "net-headerdna": "id:gen- · cf-ray · rl-*",
+    "cap-contextceiling": "≈1M", "cap-cutoffdate": "≈2025-Q4",
+    "leak-wrapper": 'len=213 h=9a41c2f7 "You are GLM…"',
+    "reason-trace": "+312 tok",
+    "lp-geometry": "δ=0.33 · k=10 ok",
+    "stream-cadence": "ttft<300ms · ≤12ch · ≤40ms",
+    "behave-onetoken": "42 | blue | heads | 七" },
   deepseek: { "tok-english": 52, "tok-chinese": 96, "tok-code": 127, "tok-emoji": 71,
     "template-offset": "+21 (delta 8)",
     "err-temperature": '"1 validation error: temperature: Input should be less than or equal to 2"',
     "err-maxtokens": '"max_tokens must be greater than 0" · invalid_request_error',
-    "err-code-family": "string-code · type:invalid_request_error", "finish-vocab": "stop · length" },
+    "err-code-family": "string-code · type:invalid_request_error", "finish-vocab": "stop · length",
+    // community probes (simulated)
+    "net-region": "iad · DeepSeek · direct",
+    "net-genrecord": "DeepSeek · global · stop",
+    "net-headerdna": "id:chatcmpl- · server:uvicorn · rl-*",
+    "cap-contextceiling": "≈128k", "cap-cutoffdate": "≈2025-Q2",
+    "leak-wrapper": "no-leak",
+    "reason-trace": "+187 tok",
+    "lp-geometry": "δ=0.30 · k=10 ok",
+    "stream-cadence": "ttft<800ms · ≤12ch · ≤40ms",
+    "behave-onetoken": "37 | blue | heads | 八" },
   openai:   { "tok-english": 44, "tok-chinese": 104, "tok-code": 118, "tok-emoji": 58,
     "template-offset": "+11 (delta 8)",
     "err-temperature": `"'temperature' must be between 0 and 2, got 2.5"`,
     "err-maxtokens": '"max_tokens: integer above 0 expected"',
-    "err-code-family": "string-code · param-field", "finish-vocab": "stop · length" },
+    "err-code-family": "string-code · param-field", "finish-vocab": "stop · length",
+    // community probes (simulated)
+    "net-region": "iad · OpenAI · direct",
+    "net-genrecord": "OpenAI · global · stop",
+    "net-headerdna": "id:chatcmpl- · openai-processing-ms · fp · rl-*",
+    "cap-contextceiling": "≈400k", "cap-cutoffdate": "≈2025-Q3",
+    "leak-wrapper": "no-leak",
+    "reason-trace": "+240 tok",
+    "lp-geometry": "δ=0.32 · k=10 ok",
+    "stream-cadence": "ttft<300ms · ≤12ch · ≤15ms",
+    "behave-onetoken": "42 | blue | heads | 七" },
   anthropic:{ "tok-english": 49, "tok-chinese": 91, "tok-code": 124, "tok-emoji": 66,
     "template-offset": "+3 (delta 8)",
     "err-temperature": '"temperature: range 0..1" (different scale!)',
     "err-maxtokens": '"max_tokens: field required, minimum 1"',
-    "err-code-family": "type:invalid_request_error", "finish-vocab": "end_turn · max_tokens" },
+    "err-code-family": "type:invalid_request_error", "finish-vocab": "end_turn · max_tokens",
+    // community probes (simulated)
+    "net-region": "iad · Anthropic · direct",
+    "net-genrecord": "Anthropic · global · end_turn",
+    "net-headerdna": "id:msg_ · request-id · rl-*",
+    "cap-contextceiling": "≈200k", "cap-cutoffdate": "≈2025-Q1",
+    "leak-wrapper": "no-leak",
+    "reason-trace": "+96 tok",
+    "lp-geometry": "logprobs-unsupported",
+    "stream-cadence": "ttft<300ms · ≤4ch · ≤40ms",
+    "behave-onetoken": "57 | green | heads | 九" },
   qwen:     { "tok-english": 46, "tok-chinese": 82, "tok-code": 129, "tok-emoji": 61,
     "template-offset": "+44 (delta 8)",
     "err-temperature": '"InvalidParameter: temperature must be in [0, 2)"',
     "err-maxtokens": '"InvalidParameter: max_tokens invalid"',
-    "err-code-family": "numeric-code · param-field", "finish-vocab": "stop · length" },
+    "err-code-family": "numeric-code · param-field", "finish-vocab": "stop · length",
+    // community probes (simulated)
+    "net-region": "iad · Qwen · direct",
+    "net-genrecord": "Alibaba · global · stop",
+    "net-headerdna": "id:chatcmpl · server:gunicorn · rl-*",
+    "cap-contextceiling": "≈256k", "cap-cutoffdate": "≈2025-Q3",
+    "leak-wrapper": "no-leak",
+    "reason-trace": "+118 tok",
+    "lp-geometry": "δ=0.31 · k=10 ok",
+    "stream-cadence": "ttft<300ms · ≤4ch · ≤15ms",
+    "behave-onetoken": "42 | red | tails | 七" },
 };
 function demoFamily(model) {
   const m = model.toLowerCase();
@@ -382,7 +544,8 @@ window.runLane = async function (id) {
         await new Promise(r => setTimeout(r, 300 + Math.random() * 450));
         out = { value: DEMO_DB[demoFamily(lane.model)][meta.id] };
       } else {
-        out = await probe({ chat: (payload) => chat(lane, payload), model: lane.model });
+        out = await probe({ chat: (payload) => chat(lane, payload),
+          http: (path) => httpGet(lane, path), model: lane.model });
       }
       lane.results[meta.id] = out.value;
       if (out.raw !== undefined) lane.raw[meta.id] = out.raw;
@@ -400,6 +563,13 @@ const GROUP_NOTES = {
   tokenizer: "same text in, token count out — tokenizers are unique per lab",
   errors: "invalid requests return the lab's own validation prose",
   shape: "field vocabulary and finish behaviour",
+  network: "routing metadata, generation records and headers name the host that served you",
+  capability: "hard ceilings: context length and knowledge cutoff date the checkpoint",
+  leak: "the injected wrapper prompt unmasks whoever is wrapping your traffic",
+  reasoning: "thinking overhead and its parameter validation differ per lab",
+  logits: "top-logprob geometry survives API truncation; δ≈0.32 is universal, deviations are personal",
+  timing: "streaming chunk pacing fingerprints the serving stack",
+  behavior: "answer distributions on trivial choices are stable per trained model",
 };
 
 function renderGrid() {
