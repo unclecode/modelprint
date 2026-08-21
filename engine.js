@@ -137,15 +137,18 @@ function demoFamily(model) {
 /* ---------------- probe loading ---------------- */
 let PROBES = [];           // [{meta, probe}]
 async function loadProbes() {
-  const out = [];
-  for (const file of REGISTRY) {
+  // All files in parallel: sequential awaits cost one network round trip
+  // per probe and kept the page blank while they queued.
+  const loaded = await Promise.all(REGISTRY.map(async (file) => {
     try {
       const mod = await import(`./probes/${file}`);
-      if (mod.meta?.id && typeof mod.probe === "function") out.push(mod);
-      else console.warn("probe rejected (bad exports):", file);
+      if (mod.meta?.id && typeof mod.probe === "function") return mod;
+      console.warn("probe rejected (bad exports):", file);
     } catch (e) { console.warn("probe failed to load:", file, e); }
-  }
-  return out;
+    return null;
+  }));
+  // registry order is table order, so keep it
+  return REGISTRY.map(f => loaded[REGISTRY.indexOf(f)]).filter(Boolean);
 }
 
 /* ---------------- state + rendering ---------------- */
@@ -486,16 +489,17 @@ window.exportJson = function () {
 
 /* ---------------- boot ---------------- */
 (async function boot() {
-  PROBES = await loadProbes();
-  document.getElementById("modebadge").style.display = "";
-  document.getElementById("modebadge").textContent =
-    `${PROBES.length} probes loaded`;
+  // Cards first, instantly; probes stream in behind them.
   // Lane A: the current mystery model, real OpenRouter, host pre-pinned
   // (it is served by exactly one host, "Stealth"). The visitor adds a key.
   // Lane B: empty, focused — the model YOU suspect goes here.
   // The Demo provider stays one dropdown away for key-less visitors.
   addLane("openrouter", "stealth/ox-alpha");
   addLane("openrouter", "");
+  PROBES = await loadProbes();
+  document.getElementById("modebadge").style.display = "";
+  document.getElementById("modebadge").textContent = `${PROBES.length} probes loaded`;
+  render();
   // focus lane B's model picker once its list arrives
   const focusB = setInterval(() => {
     const cells = document.querySelectorAll(".lanecell");
