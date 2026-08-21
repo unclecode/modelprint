@@ -1,0 +1,222 @@
+<title>modelprint</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#f7f6f3; --surface:#ffffff; --surface2:#efede8; --border:#dcd9d2;
+    --ink:#171614; --ink2:#5c5a54; --ink3:#8f8d86;
+    --accent:#0d7a68; --accent-ink:#ffffff;
+    --match:#e8f5e9; --match-border:#9ccc9f; --match-ink:#1b5e20;
+    --diff:#fdecea;  --diff-border:#efb8b0;  --diff-ink:#8c2f24;
+    --warn:#fff6e0;  --warn-ink:#7a5b00;
+    --code:#f0efec;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --bg:#131312; --surface:#1c1c1a; --surface2:#242422; --border:#3a3935;
+      --ink:#f2f1ed; --ink2:#b5b3ab; --ink3:#7c7a72;
+      --accent:#2ea78f; --accent-ink:#0c1f1a;
+      --match:#173420; --match-border:#2e5c39; --match-ink:#8fd99a;
+      --diff:#3a1f1b;  --diff-border:#6b3a32;  --diff-ink:#f0a396;
+      --warn:#332b12;  --warn-ink:#e8c766;
+      --code:#232321;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#131312; --surface:#1c1c1a; --surface2:#242422; --border:#3a3935;
+    --ink:#f2f1ed; --ink2:#b5b3ab; --ink3:#7c7a72;
+    --accent:#2ea78f; --accent-ink:#0c1f1a;
+    --match:#173420; --match-border:#2e5c39; --match-ink:#8fd99a;
+    --diff:#3a1f1b;  --diff-border:#6b3a32;  --diff-ink:#f0a396;
+    --warn:#332b12;  --warn-ink:#e8c766;
+    --code:#232321;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+  html,body{overflow-x:auto}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 14px 90px}
+  /* the board may grow wider than the wrap; the page scrolls, nothing clips */
+  .wrap,.results{overflow:visible}
+
+  header{padding:26px 2px 18px}
+  .logo{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .logo h1{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;letter-spacing:-.5px}
+  .logo h1 .dot{color:var(--accent)}
+  .demo-badge{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.8px;
+    background:var(--warn);color:var(--warn-ink);border-radius:5px;padding:3px 8px;text-transform:uppercase}
+  .tagline{color:var(--ink2);font-size:14.5px;margin-top:6px;max-width:58ch}
+  .tagline b{color:var(--ink)}
+
+  /* ---- the board: lane cards and table share ONE horizontal scroller,
+         so card A sits exactly above column A at any model count ---- */
+  :root{--probe-col:172px; --colw:252px}
+  @media(max-width:600px){:root{--probe-col:138px; --colw:216px}}
+  .board{margin-top:16px;padding-bottom:6px}
+  .board-inner{width:max-content;min-width:100%}
+  .lanerow{display:flex;align-items:stretch;padding:9px 0 14px}
+  .lane-spacer{flex:0 0 var(--probe-col)}
+  .lanecell{flex:0 0 var(--colw);padding-right:10px;scroll-snap-align:start}
+  .lane{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:16px 14px 12px;position:relative;height:100%}
+  .lane .chip{position:absolute;top:-9px;left:12px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+    font-weight:600;letter-spacing:.6px;background:var(--surface);color:var(--accent);
+    border:1px solid var(--accent);border-radius:4px;padding:2px 8px}
+  .lane .close{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--ink3);
+    font-size:15px;cursor:pointer;line-height:1}
+  .lane .close:hover{color:var(--diff-ink)}
+  .lane label{display:block;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin:9px 0 3px}
+  .lane input,.lane select{width:100%;background:var(--code);border:1px solid var(--border);color:var(--ink);
+    border-radius:7px;padding:7px 9px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;outline:none}
+  .lane input:focus,.lane select:focus{border-color:var(--accent)}
+  .picker{position:relative}
+  .picker input{width:100%}
+  .panel{position:absolute;top:calc(100% + 4px);left:0;right:0;max-height:280px;overflow-y:auto;
+    background:var(--surface);border:1px solid var(--border);border-radius:9px;z-index:8;
+    box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .panel .sect{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--ink3);
+    padding:8px 11px 3px;position:sticky;top:0;background:var(--surface)}
+  .panel .opt{padding:6px 11px;font-family:"IBM Plex Mono",monospace;font-size:12px;cursor:pointer;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .panel .opt:hover,.panel .opt.hit{background:var(--surface2)}
+  .panel .none{padding:10px 11px;font-size:12px;color:var(--ink3)}
+  .fetchnote{font-size:10.5px;color:var(--ink3);margin-top:3px}
+  .fetchnote.ok{color:var(--match-ink)}
+  .runbtn{width:100%;margin-top:12px;background:var(--accent);color:var(--accent-ink);border:none;border-radius:8px;
+    padding:9px 0;font-weight:600;font-size:13.5px;font-family:inherit;cursor:pointer}
+  .runbtn:hover{filter:brightness(1.08)}
+  .runbtn:disabled{opacity:.45;cursor:default}
+  .status{font-family:"IBM Plex Mono",monospace;font-size:11px;margin-top:8px;color:var(--ink3);
+    min-height:15px;display:flex;align-items:center;gap:6px}
+  .led{width:7px;height:7px;border-radius:50%;background:var(--border);flex:none}
+  .led.done{background:var(--match-ink)}
+  .led.running{background:var(--warn-ink);animation:blink 1s infinite}
+  @keyframes blink{50%{opacity:.25}}
+  .add-lane{flex:0 0 150px;border:1.5px dashed var(--border);border-radius:12px;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;color:var(--ink3);
+    font-size:12.5px;cursor:pointer;background:none;font-family:inherit;gap:6px;min-height:150px}
+  .add-lane:hover{border-color:var(--accent);color:var(--accent)}
+  .add-lane .plus{font-size:22px;line-height:1}
+  .keynote{font-size:12px;color:var(--ink3);margin-top:10px;display:flex;gap:6px;align-items:flex-start}
+  .keynote svg{flex:none;margin-top:2px}
+
+  .results{margin-top:26px}
+  .results-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .results-head h2{font-size:17px}
+  .actions{display:flex;gap:8px}
+  .actions button{background:var(--surface);border:1px solid var(--border);color:var(--ink2);border-radius:7px;
+    padding:6px 11px;font-size:12px;font-family:"IBM Plex Mono",monospace;cursor:pointer}
+  .actions button:hover{color:var(--ink);border-color:var(--ink3)}
+  .actions button.runbtn{background:var(--accent);color:var(--accent-ink);border:none;font-weight:600;
+    font-family:"IBM Plex Sans",sans-serif}
+  .actions button.runbtn:hover{color:var(--accent-ink);filter:brightness(1.08)}
+  .tablewrap{border:1px solid var(--border);border-radius:12px;background:var(--surface);width:max-content;min-width:100%}
+  table{border-collapse:separate;border-spacing:0;table-layout:fixed;font-size:13px}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  thead th{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;background:var(--surface2);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  thead th:first-child{position:sticky;left:0;z-index:2;background:var(--surface2)}
+  tbody th{font-weight:500;font-size:12.5px;color:var(--ink2);background:var(--surface);
+    position:sticky;left:0;border-right:1px solid var(--border);z-index:1;white-space:normal}
+  tbody th .why{display:block;font-size:10.5px;color:var(--ink3);font-weight:400;margin-top:1px}
+  td{font-family:"IBM Plex Mono",monospace;font-size:12px;white-space:nowrap;transition:background .3s;
+    overflow:hidden;text-overflow:ellipsis}
+  td .long{white-space:normal;display:block;font-size:11px;line-height:1.45}
+  tr.section th{background:var(--surface2);color:var(--ink);font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;letter-spacing:1px;text-transform:uppercase;border-right:none;position:static}
+  tr.section td{background:var(--surface2);font-family:"IBM Plex Sans",sans-serif;color:var(--ink3);
+    font-size:11.5px;white-space:normal}
+  td.match{background:var(--match);color:var(--match-ink);box-shadow:inset 3px 0 0 var(--match-border)}
+  td.diff{background:var(--diff);color:var(--diff-ink);box-shadow:inset 3px 0 0 var(--diff-border)}
+  td.pending{color:var(--ink3)}
+  td .spin{display:inline-block;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .verdict{margin-top:14px;display:grid;gap:10px;grid-template-columns:1fr}
+  @media(min-width:760px){.verdict{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
+  .vcard{border-radius:12px;padding:13px 16px;border:1px solid var(--border);background:var(--surface)}
+  .vcard .pair{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink2)}
+  .vcard .score{font-size:25px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+  .vcard .read{font-size:12.5px;color:var(--ink2);margin-top:2px}
+  .vcard.hot{border-color:var(--match-border);background:var(--match)}
+  .vcard.hot .score,.vcard.hot .read{color:var(--match-ink)}
+  .meter{height:6px;border-radius:3px;background:var(--surface2);margin-top:9px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .8s}
+  .vcard.hot .meter i{background:var(--match-ink)}
+
+  details{margin-top:26px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px}
+  summary{cursor:pointer;font-weight:600;font-size:14px}
+  details p{font-size:13px;color:var(--ink2);margin-top:9px;max-width:70ch}
+  details p b{color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:12px}
+  footer{margin-top:34px;color:var(--ink3);font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px 18px}
+  footer a{color:var(--accent);text-decoration:none}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
+    font-size:13px;padding:9px 16px;border-radius:9px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:20}
+  .toast.show{opacity:1}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <h1>modelprint<span class="dot">_</span></h1>
+      <span class="demo-badge" id="modebadge" style="display:none">demo mode</span>
+    </div>
+    <p class="tagline">Who is really behind that API? Run infrastructure probes against any
+    OpenAI-compatible endpoint and compare the fingerprints. <b>Plumbing does not lie; personality does.</b></p>
+  </header>
+
+  <p class="keynote" style="margin-top:14px">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+    Your keys stay in this tab. Every call goes from your browser straight to the provider.
+    Model lists are fetched live from each provider's /models endpoint.
+  </p>
+
+  <section class="results">
+    <div class="results-head">
+      <h2>Fingerprint comparison</h2>
+      <div class="actions">
+        <button onclick="exportMarkdown()">copy as markdown</button>
+        <button onclick="exportJson()">copy JSON</button>
+        <button class="runbtn" id="runall" onclick="runAll()"
+          style="width:auto;margin:0;padding:7px 22px;font-size:13px">Run all models</button>
+      </div>
+    </div>
+    <div class="board" id="board">
+      <div class="board-inner">
+        <div class="lanerow" id="lanes"></div>
+        <div class="tablewrap"><table id="grid"></table></div>
+      </div>
+    </div>
+    <div class="verdict" id="verdict"></div>
+  </section>
+
+  <details>
+    <summary>What each probe does, and why personality tests are excluded</summary>
+    <p><b>tokenizer counts</b> — the same text goes to each model; the API's own
+    <b>usage.prompt_tokens</b> comes back. Tokenizers are built per lab and almost never match
+    across labs. Five texts (English, Chinese, code, emoji, empty) give five independent readings.</p>
+    <p><b>template offset</b> — an empty prompt against a one-word prompt reveals how many hidden
+    tokens the serving template adds. A constant +75 offset was one of the clues the community used
+    on Ox Alpha.</p>
+    <p><b>error taxonomy</b> — deliberately invalid parameters (temperature 2.5, negative
+    max_tokens) return validation prose written by the lab's own engineers, often with numeric
+    codes. GLM's content filter answers with code 1301; that code appearing behind a stealth model
+    ended the mystery for many.</p>
+    <p><b>Why no censorship or personality probes:</b> the community ran both on Ox Alpha and got
+    contradictory verdicts from the same model on the same day. Behaviour bends to a system prompt;
+    tokenizers and error handlers do not. This tool fingerprints the plumbing only.</p>
+  </details>
+
+  <footer>
+    <span>built by <a href="https://x.com/unclecode">@unclecode</a> (author of Crawl4AI)</span>
+    <span><a href="https://github.com/unclecode/modelprint">github.com/unclecode/modelprint</a></span>
+    <span>MIT · one HTML file · no build step</span>
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module" src="./engine.js"></script>
