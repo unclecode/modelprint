@@ -1,13 +1,13 @@
 // name:        router region
 // description: which edge region and which provider actually served each call,
 //              from the router's own opt-in metadata snapshot
-// author:      your-handle
+// author:      ItIsCuthNotCup
 // version:     1.0.0
 
 export const meta = {
   id: "net-region", name: "router region", group: "network",
   why: "the routing layer names its region and the provider that answered",
-  long: false, author: "unclecode", version: "1.0.0",
+  long: false, author: "ItIsCuthNotCup", version: "1.0.0",
 };
 
 // OpenRouter answers with an openrouter_metadata object when the request

@@ -15,10 +15,5 @@ export const REGISTRY = [
   "net-genrecord.js",
   "net-headerdna.js",
   "cap-contextceiling.js",
-  "cap-cutoffdate.js",
-  "leak-wrapper.js",
-  "reason-trace.js",
   "lp-geometry.js",
-  "stream-cadence.js",
-  "behave-onetoken.js",
 ];

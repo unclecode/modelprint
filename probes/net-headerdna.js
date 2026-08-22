@@ -1,13 +1,13 @@
 // name:        header dna
 // description: which response headers exist and in what format — serving
 //              stacks expose different header families, and CORS hides the rest
-// author:      your-handle
+// author:      ItIsCuthNotCup
 // version:     1.0.0
 
 export const meta = {
   id: "net-headerdna", name: "header dna", group: "network",
   why: "header presence/format is stack DNA (Bedrock, Vertex, Cloudflare…)",
-  long: false, author: "unclecode", version: "1.0.0",
+  long: false, author: "ItIsCuthNotCup", version: "1.0.0",
 };
 
 // Values like request ids are per-call; PRESENCE and FORMAT are stable.

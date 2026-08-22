@@ -1,13 +1,13 @@
 // name:        generation record
 // description: OpenRouter's /generation endpoint names the serving provider,
 //              its data region and the NATIVE token counts for one call
-// author:      your-handle
+// author:      ItIsCuthNotCup
 // version:     1.0.0
 
 export const meta = {
   id: "net-genrecord", name: "generation record", group: "network",
   why: "the router's own ledger: provider_name + data_region + native tokens",
-  long: false, author: "unclecode", version: "1.0.0",
+  long: false, author: "ItIsCuthNotCup", version: "1.0.0",
 };
 
 // The chat response id (gen-…) is the key to a richer record the router

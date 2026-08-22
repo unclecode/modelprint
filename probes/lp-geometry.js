@@ -2,13 +2,13 @@
 // description: the normalized 3rd top-logprob gap on pinned continuations.
 //              EVT predicts δ≈0.318 for Gumbel-class models; deviations and
 //              gap vectors are model-specific (fallrisk.ai protocol)
-// author:      your-handle
+// author:      ItIsCuthNotCup
 // version:     1.0.0
 
 export const meta = {
   id: "lp-geometry", name: "logprob geometry", group: "logits",
   why: "δ_norm ≈ 0.32 is universal; the residual spread is a personal signature",
-  long: false, author: "unclecode", version: "1.0.0",
+  long: false, author: "ItIsCuthNotCup", version: "1.0.0",
 };
 
 // Pinned one-token continuations. For each position with k>=5 candidates:

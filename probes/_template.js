@@ -2,6 +2,9 @@
 // description: one sentence: what it measures and why it identifies a lab
 // author:      your-github-or-x-handle
 // version:     1.0.0
+// calls:       ~N API calls per run, tested on <provider> (e.g. ~3, OpenRouter).
+//              Keep it small. The behavior benchmark measures the real count
+//              and flags a probe that burns tokens; declare it honestly.
 //
 // CONTRACT
 // Every probe is one file in probes/, exporting exactly two things:
@@ -25,6 +28,18 @@
 //
 // A probe must never throw: return { value: "probe-failed: <reason>" } so
 // one broken probe cannot kill a whole run.
+//
+// SAFETY (enforced by probe-check.mjs, a PR fails otherwise): a probe is a
+// stranger's code that receives the user's API key. Reach the network ONLY
+// through ctx.chat and ctx.http. No raw fetch, no eval, no Function(), no
+// require/dynamic import, no process/window/document/localStorage. ctx.http
+// is locked to the lane's own endpoint origin, so the key can never leave to
+// a third host.
+//
+// DETERMINISM: return a value that is IDENTICAL on two runs of the same model.
+// Read something the model cannot vary (token counts, error prose, header
+// shapes), never the generated text, which changes at temperature > 0. An
+// unstable value is not a fingerprint.
 
 export const meta = {
   id: "_template",
