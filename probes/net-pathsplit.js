@@ -3,18 +3,18 @@
 //              upstream-rejected call, isolating the router->provider network
 //              leg with no GPU, no queueing and no vantage dependence
 // author:      pjperez
-// version:     2.0.0
+// version:     2.1.0
 // calls:       up to 11 per run: up to 3 cascade probes + 8 measurement calls.
 //              EVERY call is deliberately rejected with max_tokens: 1, so zero
 //              completion tokens are billed and each carries ~2 prompt tokens —
-//              cheaper in tokens than a single normal probe. Bails after 1-3
-//              calls on a lane with no upstream rejection path. Tested on
-//              OpenRouter.
+//              cheaper in tokens than a single normal probe. Bails after 1 call
+//              on an auth/credit/throttle failure, and after 1-3 on a lane with
+//              no upstream rejection path. Tested on OpenRouter.
 
 export const meta = {
   id: "net-pathsplit", name: "path split", group: "timing",
   why: "router-rejected vs upstream-rejected latency isolates the provider RTT",
-  long: false, author: "pjperez", version: "2.0.0",
+  long: false, author: "pjperez", version: "2.1.0",
 };
 
 // A client-measured latency to an aggregator is dominated by the client's own
@@ -79,6 +79,22 @@ function band(v, bands) {
 }
 
 function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
+
+// A call is EVIDENCE about the lane only if it actually reached the routing
+// layer's validation: a 2xx (the payload was accepted) or a 400 (something
+// validated it and said no). Everything else describes the ACCOUNT or the
+// transport, not the provider — 401/403 auth, 402 out of credits, 408/429
+// throttling, any 5xx, or status 0 for a network/CORS failure.
+//
+// This distinction is load-bearing, not pedantry. When an account runs out of
+// credits EVERY lane answers 402, and without this guard the cascade finds no
+// upstream rejection anywhere and reports a confident "no-upstream-reject-path"
+// for every model at once. That reads like a unanimous fingerprint but is only
+// a dead key — a fake absence dressed up as a finding, which is worse than the
+// honest absence the README asks for. Same for a 429 storm on free lanes.
+function isEvidence(r) {
+  return r.ok === true || r.status === 400;
+}
 
 const floorOf = (xs) => {
   const ok = xs.filter((v) => typeof v === "number" && isFinite(v));
@@ -145,6 +161,10 @@ export async function probe(ctx) {
       if (r.headers && !firstHeaders) firstHeaders = r.headers;
       grid.push({ poison: name, ok: r.ok, status: r.status, providerName: r.pn,
                   ms: r.ms, body: r.body });
+      // Infrastructure failure: stop now. Continuing would let a dead key or a
+      // throttled account masquerade as a statement about this provider.
+      if (!isEvidence(r))
+        return { value: "probe-failed: " + r.status, raw: { grid } };
       if (!r.ok && r.pn) {
         // The provider named itself in the rejection, so the packet reached it.
         if (r.ms === null)
@@ -166,11 +186,20 @@ export async function probe(ctx) {
     for (let i = 0; i < PAIRS; i++) {
       const a = await shot(ctx, BASELINE);
       aRaw.push({ ok: a.ok, status: a.status, providerName: a.pn, ms: a.ms });
+      // Same guard on the measurement arms. Quietly dropping an infra-failed
+      // sample and taking the floor of whatever survived is how a confident
+      // number gets computed from two lucky calls.
+      if (!isEvidence(a))
+        return { value: "probe-failed: " + a.status,
+                 raw: { grid, poison: poisonName, provider, aSamples: aRaw, bSamples: bRaw } };
       if (a.pn) baselineForeign = true;
       else if (!a.ok && a.ms !== null) aS.push(a.ms);
 
       const b = await shot(ctx, poison);
       bRaw.push({ ok: b.ok, status: b.status, providerName: b.pn, ms: b.ms });
+      if (!isEvidence(b))
+        return { value: "probe-failed: " + b.status,
+                 raw: { grid, poison: poisonName, provider, aSamples: aRaw, bSamples: bRaw } };
       if (!b.ok && b.pn && b.ms !== null) bS.push(b.ms);
       if (b.headers && !firstHeaders) firstHeaders = b.headers;
     }
