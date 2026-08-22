@@ -10,6 +10,31 @@ import { REGISTRY } from "./probes/index.js";
    so a backend outage can never break the tool. */
 const BACKEND = "https://modelprint-api.unclecode.workers.dev";
 let FREE_INFO = null;   // filled from /proxy/status at boot when BACKEND is set
+const FREE_ELIGIBLE = new Map();  // model id -> true/false, from /proxy/freecheck
+
+function checkFreeEligible(model) {
+  if (!model || FREE_ELIGIBLE.has(model)) return;
+  FREE_ELIGIBLE.set(model, undefined);  // in flight
+  fetch(BACKEND + "/proxy/freecheck?model=" + encodeURIComponent(model),
+    { signal: AbortSignal.timeout(6000) })
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { FREE_ELIGIBLE.set(model, !!d?.free_tier); render(); })
+    .catch(() => FREE_ELIGIBLE.delete(model));
+}
+
+/* the out-of-credits banner: shown from status at load and the moment a
+   run hits a 429 mid-way */
+function showCreditsBanner(kind) {
+  if (document.getElementById("creditsbanner")) return;
+  const div = document.createElement("div");
+  div.id = "creditsbanner";
+  div.innerHTML = `<b>${kind === "global" ? "Free credits are done for today."
+      : "Your free credits are done for today."}</b>
+    Come back tomorrow, or use your own free key: the :free models cost $0.
+    <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noopener">get a key</a>
+    <button onclick="this.parentElement.remove()">✕</button>`;
+  document.body.prepend(div);
+}
 
 /* Anonymous usage counters (no cookies, no ids stored in the browser).
    Fire-and-forget: telemetry must never slow or break the tool. */
@@ -100,7 +125,13 @@ async function chat(lane, payload) {
         signal: AbortSignal.timeout(60_000),
       });
       const text = await r.text();
-      lane.freeUsed = r.headers.get("x-modelprint-calls-used") || lane.freeUsed;
+      if (r.status === 429) {
+        let kind = "visitor";
+        try { kind = JSON.parse(text).error === "global-exhausted" ? "global" : "visitor"; } catch {}
+        if (FREE_INFO) FREE_INFO[kind + "_exhausted"] = true;
+        showCreditsBanner(kind);
+        return { ok: false, status: 429, error: text };
+      }
       if (!r.ok) return { ok: false, status: r.status, error: text };
       const d = JSON.parse(text);
       const choice = (d.choices || [])[0] || {};
@@ -472,13 +503,19 @@ function laneHtml(lane, index) {
     ? `<label>base url</label><input placeholder="https://api.example.com/v1" class="mono"
          value="${lane.customBase}" onchange="setCustomBase(${lane.id}, this.value)">` : "";
   const keyField = lane.provider === "demo" ? "" :
-    `<label>api key</label><input type="password" id="key-${lane.id}" placeholder="${p.keyHint}" class="mono"
+    `<label>api key${lane.provider === "openrouter" && FREE_INFO ? " (optional)" : ""}</label><input type="password" id="key-${lane.id}" placeholder="${p.keyHint}" class="mono"
        value="${lane.key}" oninput="setKey(${lane.id}, this.value)">`;
-  const freeNote = (lane.provider === "openrouter" && !lane.key && BACKEND && FREE_INFO)
-    ? (FREE_INFO.free_models.includes(lane.model)
-        ? `<div class="fetchnote ok">✓ no key needed: runs on free credits${lane.freeUsed ? ` · ${lane.freeUsed}/${FREE_INFO.visitor_limit} today` : ""}</div>`
-        : (lane.model ? `<div class="fetchnote">this model needs your own key; free credits cover the cheap tier</div>` : ""))
-    : "";
+  let freeNote = "";
+  if (lane.provider === "openrouter" && !lane.key && BACKEND && FREE_INFO) {
+    if (lane.model) checkFreeEligible(lane.model);
+    if (FREE_INFO.visitor_exhausted || FREE_INFO.global_exhausted)
+      freeNote = `<div class="fetchnote">free credits done for today — a free key removes all limits,
+        :free models cost $0 → <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noopener">openrouter.ai/settings/keys</a></div>`;
+    else if (FREE_ELIGIBLE.get(lane.model) === true)
+      freeNote = `<div class="fetchnote ok">✓ no key needed — runs on free credits</div>`;
+    else if (lane.model && FREE_ELIGIBLE.get(lane.model) === false)
+      freeNote = `<div class="fetchnote">this model needs your own key — free credits cover models under $1.50/M</div>`;
+  }
   const pinField = lane.provider !== "openrouter" ? "" :
     (lane.hosts?.length
       ? `<label>pin host (optional)</label>
@@ -492,7 +529,11 @@ function laneHtml(lane, index) {
   const note = lane.fetchNote
     ? `<div class="fetchnote ${lane.fetchNote.startsWith("✓") ? "ok" : ""}">${lane.fetchNote}</div>`
     : (lane.provider === "demo" ? `<div class="fetchnote ok">✓ simulated — try the tool without any key</div>` : "");
-  const statusLine = lane.state === "shared" ? `<span class="led"></span>shared snapshot · Run to verify`
+  const creditsGone = lane.provider === "openrouter" && !lane.key && lane.model &&
+    FREE_INFO && (FREE_INFO.visitor_exhausted || FREE_INFO.global_exhausted);
+  const statusLine = (lane.state === "idle" && creditsGone)
+      ? `<span class="led"></span>free credits done — needs your key`
+      : lane.state === "shared" ? `<span class="led"></span>shared snapshot · Run to verify`
     : lane.state === "idle" ? `<span class="led"></span>ready`
     : lane.state === "running" ? `<span class="led running"></span>${lane.statusText || "starting…"}`
     : `<span class="led done"></span>done · ${SELECTED.size} probes · ${lane.elapsed}s`;
@@ -576,13 +617,23 @@ document.addEventListener("mousedown", (e) => {
 function laneReady(lane) {
   if (!lane.model) return false;
   if (lane.provider === "openrouter" && !lane.key && BACKEND && FREE_INFO)
-    return FREE_INFO.free_models.includes(lane.model);
+    return FREE_ELIGIBLE.get(lane.model) === true &&
+      !FREE_INFO.visitor_exhausted && !FREE_INFO.global_exhausted;
   return lane.provider === "demo" || !!lane.key || lane.provider === "custom";
 }
 
 window.runAll = async function () {
   const ready = lanes.filter(laneReady);
-  if (!ready.length) { toast("configure at least one model first"); return; }
+  if (!ready.length) {
+    const creditBlocked = FREE_INFO &&
+      (FREE_INFO.visitor_exhausted || FREE_INFO.global_exhausted) &&
+      lanes.some(l => l.provider === "openrouter" && !l.key && l.model);
+    if (creditBlocked) {
+      toast("free credits are done for today — add your own key to run");
+      showCreditsBanner(FREE_INFO.global_exhausted ? "global" : "visitor");
+    } else toast("configure at least one model first");
+    return;
+  }
   const btn = document.getElementById("runall");
   btn.disabled = true;
   ping("run", {
@@ -594,6 +645,18 @@ window.runAll = async function () {
   document.querySelector(".tablewrap")?.scrollIntoView({ behavior: "smooth", block: "start" });
   await Promise.all(ready.map(l => runLane(l.id)));
   btn.disabled = false;
+  // one-time nudge at the moment of delight: first successful free run
+  try {
+    const ranFree = ready.some(l => l.provider === "openrouter" && !l.key && l.state === "done");
+    if (ranFree && !localStorage.getItem("modelprint-nudged")) {
+      localStorage.setItem("modelprint-nudged", "1");
+      const verdict = document.getElementById("verdict");
+      if (verdict) verdict.insertAdjacentHTML("afterend",
+        `<div class="nudge">Ran on free credits. Your own free OpenRouter key takes one minute,
+         and the :free models cost $0, without our daily limits.
+         <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noopener">get a key</a></div>`);
+    }
+  } catch { /* storage blocked: skip the nudge */ }
 };
 
 window.runLane = async function (id) {
@@ -695,7 +758,7 @@ function renderGrid() {
     cols.forEach((lane, i) => {
       const v = values[i];
       if (v === undefined) {
-        html += `<td class="pending">${lane.state === "running" ? '<span class="spin">◌</span>' : "·"}</td>`;
+        html += `<td class="pending">${lane.state === "running" ? '<span class="spin"></span>' : "·"}</td>`;
       } else {
         const cls = present.length > 1 ? (counts[String(v)] > 1 ? "match" : "diff") : "";
         html += `<td class="${cls}">${meta.long ? `<span class="long">${escapeHtml(String(v))}</span>`
@@ -740,6 +803,7 @@ function renderVerdict() {
   if (pairs.length > shown.length)
     html += `<div class="vcard"><div class="pair">…and ${pairs.length - shown.length} more pairs</div>
       <div class="read">Strongest matches are shown first.</div></div>`;
+  html += `<div class="vshare"><button onclick="shareResult()">↗ Share this result</button></div>`;
   verdictEl.innerHTML = html;
 }
 
@@ -948,7 +1012,9 @@ window.exportJson = function () {
     fetch(BACKEND + "/proxy/status", { signal: AbortSignal.timeout(6000) })
       .then(r => r.ok ? r.json() : null)
       .then(info => {
-        FREE_INFO = (info && info.enabled && Array.isArray(info.free_models)) ? info : null;
+        FREE_INFO = (info && info.enabled) ? info : null;
+        if (FREE_INFO?.global_exhausted) showCreditsBanner("global");
+        else if (FREE_INFO?.visitor_exhausted) showCreditsBanner("visitor");
         render();
       })
       .catch(() => { FREE_INFO = null; });

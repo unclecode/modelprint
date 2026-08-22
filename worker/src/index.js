@@ -84,7 +84,14 @@ async function handleStats(request, env) {
   for (const k of list.keys) {
     out[k.name.slice(`t:${d}:`.length)] = parseInt((await env.KV.get(k.name)) || "0", 10);
   }
-  return json({ day: d, stats: out });
+  // money: today's credited-key spend, total and per model, in dollars
+  const spendTotal = parseFloat((await env.KV.get(`g$:${d}`)) || "0");
+  const byModel = {};
+  const mlist = await env.KV.list({ prefix: `m$:${d}:`, limit: 200 });
+  for (const k of mlist.keys)
+    byModel[k.name.slice(`m$:${d}:`.length)] = +parseFloat((await env.KV.get(k.name)) || "0").toFixed(6);
+  return json({ day: d, stats: out,
+    spend_today_usd: +spendTotal.toFixed(6), spend_by_model: byModel });
 }
 
 /* ---- short links ---- */
@@ -120,13 +127,158 @@ async function handleShareGet(id, env) {
   });
 }
 
-/* ---- parked: the credited-key proxy ---- */
+/* ---- the credited-key proxy: price catalog ----
+ *
+ * Free tier is a RULE, not a list: input price under $1 per million tokens.
+ * The catalog (model -> prompt price) is fetched from OpenRouter and cached
+ * in KV for an hour, so the rule keeps deciding by itself as models and
+ * prices change. */
 
-const PROXY_PARKED = { enabled: false,
-  note: "free credits not live yet; bring your own key" };
+const FREE_TIER_MAX_PROMPT_PRICE = 1.5 / 1_000_000; // $1.50 per million tokens
+const CATALOG_TTL = 60 * 60;                        // seconds
+const VISITOR_DAILY_USD = 0.05;    // ~6 glm-5.3 runs or ~50 flash-tier runs    // ~30 flash-tier runs
+const GLOBAL_DAILY_USD = 3.00;     // the whole world's ceiling per day
+const MAX_TOKENS_CLAMP = 2048;     // the only real cost lever in a probe call
+
+async function spend(kv, key) {
+  const mem = BUD_MEM.get(key);
+  if (mem && Date.now() - mem.t < 10_000) return mem.v;
+  const v = parseFloat((await kv.get(key)) || "0");
+  BUD_MEM.set(key, { t: Date.now(), v });
+  return v;
+}
+async function addSpend(kv, key, usd, ttlDays = 90) {
+  const stored = parseFloat((await kv.get(key)) || "0") + usd;
+  await kv.put(key, stored.toFixed(8), { expirationTtl: 60 * 60 * 24 * ttlDays });
+  BUD_MEM.set(key, { t: Date.now(), v: stored });
+  return stored;
+}
+
+/* Memory caches, per worker instance: the catalog barely changes and the
+   budget counters tolerate ten seconds of lag. This removes the storage
+   round trip from the hot path; the key-level $100 wall backs any lag. */
+let CAT_MEM = { t: 0, v: null };
+const BUD_MEM = new Map();
+
+async function getCatalog(env) {
+  if (CAT_MEM.v && Date.now() - CAT_MEM.t < 10 * 60 * 1000) return CAT_MEM.v;
+  const cached = await env.KV.get("catalog:prices", "json");
+  if (cached) { CAT_MEM = { t: Date.now(), v: cached }; return cached; }
+  const r = await fetch("https://openrouter.ai/api/v1/models");
+  if (!r.ok) return null;
+  const data = (await r.json()).data || [];
+  const prices = {};
+  for (const m of data) {
+    const p = parseFloat(m.pricing?.prompt);
+    if (Number.isFinite(p)) prices[m.id] = p;
+  }
+  await env.KV.put("catalog:prices", JSON.stringify(prices),
+    { expirationTtl: CATALOG_TTL });
+  CAT_MEM = { t: Date.now(), v: prices };
+  return prices;
+}
+
+function freeTierAllows(prices, model) {
+  const p = prices?.[model];
+  return Number.isFinite(p) && p >= 0 && p < FREE_TIER_MAX_PROMPT_PRICE;
+}
+
+/* ---- the credited-key proxy: budgets in dollars ----
+ *
+ * Enabled purely by the SECRET's existence: no key configured means the
+ * free mode honestly reports disabled. Costs are the REAL numbers OpenRouter
+ * returns per call (usage.include), accumulated per visitor, per day, and
+ * per model. The final wall is the spending limit set ON the key at
+ * OpenRouter, which this code cannot exceed even when wrong. */
+
+async function handleProxyStatus(request, env) {
+  if (!env.OPENROUTER_KEY) return json({ enabled: false,
+    note: "free credits not live yet; bring your own key" });
+  const d = day();
+  const visitor = await visitorId(request);
+  const used = await spend(env.KV, `v$:${visitor}:${d}`);
+  const globalUsed = await spend(env.KV, `g$:${d}`);
+  return json({
+    enabled: true,
+    rule: "models with input price under $1.50 per million tokens run free",
+    visitor_used_usd: +used.toFixed(6),
+    visitor_limit_usd: VISITOR_DAILY_USD,
+    visitor_exhausted: used >= VISITOR_DAILY_USD,
+    global_exhausted: globalUsed >= GLOBAL_DAILY_USD,
+  });
+}
+
+async function handleProxyChat(request, env, ctx) {
+  if (!env.OPENROUTER_KEY) return json({ enabled: false,
+    note: "free credits not live yet; bring your own key" }, 403);
+  let body;
+  try { body = await request.json(); } catch { return json({ error: "bad json" }, 400); }
+
+  const model = String(body.model || "");
+  const d = day();
+  // one parallel round for everything the gate needs
+  const visitor = await visitorId(request);
+  const [prices, globalUsed, visitorUsed] = await Promise.all([
+    getCatalog(env),
+    spend(env.KV, `g$:${d}`),
+    spend(env.KV, `v$:${visitor}:${d}`),
+  ]);
+  if (!prices) return json({ error: "price catalog unavailable, try again shortly" }, 503);
+  if (!freeTierAllows(prices, model))
+    return json({ error: "needs-own-key",
+      note: "this model is above the free tier; bring your own key" }, 403);
+  if (globalUsed >= GLOBAL_DAILY_USD)
+    return json({ error: "global-exhausted",
+      note: "free credits are done for today, come back tomorrow or use your own key" }, 429);
+  if (visitorUsed >= VISITOR_DAILY_USD)
+    return json({ error: "visitor-exhausted",
+      note: "your free credits are done for today, a free key removes all limits" }, 429);
+
+  const payload = {
+    model,
+    messages: body.messages,
+    max_tokens: Math.min(Math.abs(body.max_tokens ?? 256) || 256, MAX_TOKENS_CLAMP),
+    usage: { include: true },
+  };
+  if (body.temperature !== undefined) payload.temperature = body.temperature;
+  if (body.provider !== undefined) payload.provider = body.provider;
+  // the giant-max_tokens probe must reach the provider: the refusal text IS
+  // the fingerprint, and an impossible number can only error, never bill
+  if ((body.max_tokens ?? 0) >= 10_000_000) payload.max_tokens = body.max_tokens;
+
+  const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${env.OPENROUTER_KEY}`,
+      "HTTP-Referer": "https://unclecode.github.io/modelprint/",
+      "X-Title": "modelprint free credits",
+    },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(60_000),
+  });
+  const text = await upstream.text();
+
+  let cost = 0;
+  try { cost = parseFloat(JSON.parse(text)?.usage?.cost) || 0; } catch {}
+  if (cost > 0) {
+    // bookkeeping rides BEHIND the response; the caller never waits for it
+    ctx.waitUntil(Promise.all([
+      addSpend(env.KV, `v$:${visitor}:${d}`, cost, 2),
+      addSpend(env.KV, `g$:${d}`, cost),
+      addSpend(env.KV, `m$:${d}:${model.slice(0, 60)}`, cost),
+    ]));
+  }
+  return new Response(text, {
+    status: upstream.status,
+    headers: { "content-type": "application/json", ...CORS,
+      "x-modelprint-usd-used": (visitorUsed + cost).toFixed(6),
+      "x-modelprint-usd-limit": String(VISITOR_DAILY_USD) },
+  });
+}
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") return new Response(null, { headers: CORS });
     const url = new URL(request.url);
     const path = url.pathname;
@@ -136,8 +288,17 @@ export default {
     if (path === "/s" && request.method === "POST") return handleShareCreate(request, env);
     const shareMatch = path.match(/^\/s\/([a-z2-9]{6})$/);
     if (shareMatch) return handleShareGet(shareMatch[1], env);
-    if (path === "/proxy/status") return json(PROXY_PARKED);
-    if (path === "/proxy/chat") return json(PROXY_PARKED, 403);
+    if (path === "/proxy/status") return handleProxyStatus(request, env);
+    if (path === "/proxy/chat" && request.method === "POST")
+      return handleProxyChat(request, env, ctx);
+    if (path === "/proxy/freecheck") {
+      // step-1 verification endpoint: is this model inside the free tier?
+      const model = url.searchParams.get("model") || "";
+      const prices = await getCatalog(env);
+      if (!prices) return json({ error: "catalog unavailable" }, 503);
+      return json({ model, prompt_price_usd: prices[model] ?? null,
+        free_tier: freeTierAllows(prices, model) });
+    }
     return json({ ok: true, service: "modelprint-api", version: "1.0.0" });
   },
 };
