@@ -1,2 +1,5 @@
 .DS_Store
 nohup.out
+
+# local blueprints and handoffs, not for the public repo
+.context/
