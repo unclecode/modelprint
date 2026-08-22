@@ -3,18 +3,19 @@
 //              upstream-rejected call, isolating the router->provider network
 //              leg with no GPU, no queueing and no vantage dependence
 // author:      pjperez
-// version:     2.1.0
-// calls:       up to 11 per run: up to 3 cascade probes + 8 measurement calls.
-//              EVERY call is deliberately rejected with max_tokens: 1, so zero
-//              completion tokens are billed and each carries ~2 prompt tokens —
-//              cheaper in tokens than a single normal probe. Bails after 1 call
-//              on an auth/credit/throttle failure, and after 1-3 on a lane with
-//              no upstream rejection path. Tested on OpenRouter.
+// version:     2.2.0
+// calls:       up to 23 per run: up to 3 cascade probes + 20 measurement calls
+//              (10 interleaved A/B pairs). EVERY call is deliberately rejected
+//              with max_tokens: 1, so ZERO completion tokens are billed and each
+//              carries ~2 prompt tokens — the whole probe costs nothing in
+//              tokens despite the call count, and finishes in ~3s. Bails after 1
+//              call on an auth/credit/throttle failure, and after 1-3 on a lane
+//              with no upstream rejection path. Tested on OpenRouter.
 
 export const meta = {
   id: "net-pathsplit", name: "path split", group: "timing",
   why: "router-rejected vs upstream-rejected latency isolates the provider RTT",
-  long: false, author: "pjperez", version: "2.1.0",
+  long: false, author: "pjperez", version: "2.2.0",
 };
 
 // A client-measured latency to an aggregator is dominated by the client's own
@@ -64,13 +65,30 @@ const POISONS = [
 // way). That is precisely why it is the baseline arm.
 const BASELINE = { frequency_penalty: 9 };
 
-const PAIRS = 4;
+// Measured, not guessed. At 4 pairs the Together lane produced deltas of
+// 166 / 110 / 103 ms across three runs — a 63ms spread that straddles the
+// 150ms boundary and reports UNSTABLE. Its B samples were 633,407,207,212:
+// four draws simply never reached the true floor. At 10 pairs the same lane
+// draws 134-193 and yields 100 / 102 / 104 (4ms spread). Every lane tested
+// tightened to <=4ms at 10 pairs (ox-alpha 1ms, Novita 1ms, DeepInfra 4ms),
+// which is what the bucket boundaries assume. The extra calls are free: every
+// one is rejected, so no completion tokens are ever billed.
+const PAIRS = 10;
 
-// Boundaries sit >25ms from every observed lane value while run-to-run drift is
-// <=11ms, so a lane cannot walk across a boundary between two runs.
+// Boundaries sit in the MIDDLE of the gaps between observed lane clusters, so
+// ordinary jitter cannot walk a lane across one. Measured deltas (min-of-10,
+// three repeats each): Together 100-114 | ox-alpha 183-196 | DeepInfra 185-203
+// | Novita 226-246 | Z.AI 236-251 | Baidu ~285 | Alibaba 300-325.
+//
+// The first boundary set placed cuts at 225 and 300. Live runs showed both were
+// unsafe: Novita drew 226 against the 225 cut (1ms of margin) and Alibaba
+// straddled 300 outright, flipping bucket between two runs and reporting
+// UNSTABLE. Re-centring to 215 and 270 restores >=11ms of margin on every
+// observed lane while keeping the discrimination that matters — ox-alpha and
+// DeepInfra land in one bucket, Novita and Z.AI in the next.
 const RTT_BANDS = [
-  [80, "rtt<80ms"], [150, "rtt80-150ms"], [225, "rtt150-225ms"],
-  [300, "rtt225-300ms"], [450, "rtt300-450ms"], [Infinity, "rtt>450ms"],
+  [80, "rtt<80ms"], [150, "rtt80-150ms"], [215, "rtt150-215ms"],
+  [270, "rtt215-270ms"], [400, "rtt270-400ms"], [Infinity, "rtt>400ms"],
 ];
 
 function band(v, bands) {
@@ -80,20 +98,37 @@ function band(v, bands) {
 
 function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
 
-// A call is EVIDENCE about the lane only if it actually reached the routing
-// layer's validation: a 2xx (the payload was accepted) or a 400 (something
-// validated it and said no). Everything else describes the ACCOUNT or the
-// transport, not the provider — 401/403 auth, 402 out of credits, 408/429
-// throttling, any 5xx, or status 0 for a network/CORS failure.
+// Classify one answer. ORDER MATTERS.
 //
-// This distinction is load-bearing, not pedantry. When an account runs out of
-// credits EVERY lane answers 402, and without this guard the cascade finds no
-// upstream rejection anywhere and reports a confident "no-upstream-reject-path"
-// for every model at once. That reads like a unanimous fingerprint but is only
-// a dead key — a fake absence dressed up as a finding, which is worse than the
-// honest absence the README asks for. Same for a 429 storm on free lanes.
-function isEvidence(r) {
-  return r.ok === true || r.status === 400;
+// OpenRouter passes the UPSTREAM's status code straight through, so no status
+// allow-list can be correct: DeepInfra rejects a bad response_format with 422
+// (its own validation prose buried in metadata.raw, "Input should be 'text'"),
+// while Novita and Alibaba reject with 400. All three are real upstream
+// rejections. What they share is not a status code — it is that the provider
+// NAMED ITSELF in metadata.provider_name, which is only possible if the packet
+// completed the full round trip. So provider_name is the decisive signal and it
+// must be tested FIRST, before any status reasoning.
+//
+// Only once no provider is named does the status mean anything, and then it
+// separates the account/transport from the lane: 401/403 auth, 402 out of
+// credits, 408/429 throttling, any 5xx, or 0 for a network/CORS failure.
+//
+// That guard is load-bearing, not pedantry. When an account runs out of credits
+// EVERY lane answers 402, and without it the cascade finds no upstream rejection
+// anywhere and reports a confident "no-upstream-reject-path" for every model at
+// once. That reads like a unanimous fingerprint but is only a dead key — a fake
+// absence dressed up as a finding, which is worse than the honest absence the
+// README asks for. Same for a 429 storm on free lanes.
+const INFRA_STATUS = new Set([0, 401, 402, 403, 408, 429]);
+
+function classify(r) {
+  // 1. the provider named itself => the round trip happened => real evidence
+  if (r.pn) return "upstream";
+  // 2. nobody upstream answered, so the status describes the account/transport
+  if (typeof r.status !== "number") return "infra";
+  if (INFRA_STATUS.has(r.status) || r.status >= 500) return "infra";
+  // 3. 2xx (poison accepted) or a 4xx the router rejected locally
+  return "other";
 }
 
 const floorOf = (xs) => {
@@ -161,11 +196,12 @@ export async function probe(ctx) {
       if (r.headers && !firstHeaders) firstHeaders = r.headers;
       grid.push({ poison: name, ok: r.ok, status: r.status, providerName: r.pn,
                   ms: r.ms, body: r.body });
+      const kind = classify(r);
       // Infrastructure failure: stop now. Continuing would let a dead key or a
       // throttled account masquerade as a statement about this provider.
-      if (!isEvidence(r))
+      if (kind === "infra")
         return { value: "probe-failed: " + r.status, raw: { grid } };
-      if (!r.ok && r.pn) {
+      if (kind === "upstream") {
         // The provider named itself in the rejection, so the packet reached it.
         if (r.ms === null)
           // engine.js returns ms on the error path; probe-bench's mock ctx does
@@ -186,21 +222,28 @@ export async function probe(ctx) {
     for (let i = 0; i < PAIRS; i++) {
       const a = await shot(ctx, BASELINE);
       aRaw.push({ ok: a.ok, status: a.status, providerName: a.pn, ms: a.ms });
+      const aKind = classify(a);
+      // A named provider on the baseline means the router FORWARDED it, so it is
+      // not a local baseline at all. That is checked before the infra guard,
+      // because provider_name outranks the status code here too.
+      if (aKind === "upstream") baselineForeign = true;
       // Same guard on the measurement arms. Quietly dropping an infra-failed
       // sample and taking the floor of whatever survived is how a confident
       // number gets computed from two lucky calls.
-      if (!isEvidence(a))
+      else if (aKind === "infra")
         return { value: "probe-failed: " + a.status,
                  raw: { grid, poison: poisonName, provider, aSamples: aRaw, bSamples: bRaw } };
-      if (a.pn) baselineForeign = true;
       else if (!a.ok && a.ms !== null) aS.push(a.ms);
 
       const b = await shot(ctx, poison);
       bRaw.push({ ok: b.ok, status: b.status, providerName: b.pn, ms: b.ms });
-      if (!isEvidence(b))
+      const bKind = classify(b);
+      // Counted whatever the status: DeepInfra says 422, Novita says 400, and
+      // both are genuine upstream rejections.
+      if (bKind === "upstream") { if (b.ms !== null) bS.push(b.ms); }
+      else if (bKind === "infra")
         return { value: "probe-failed: " + b.status,
                  raw: { grid, poison: poisonName, provider, aSamples: aRaw, bSamples: bRaw } };
-      if (!b.ok && b.pn && b.ms !== null) bS.push(b.ms);
       if (b.headers && !firstHeaders) firstHeaders = b.headers;
     }
 
