@@ -198,7 +198,18 @@ async function httpGet(lane, pathOrUrl) {
   const base = lane.provider === "custom" ? lane.customBase : p.base;
   if (!base) return { ok: false, status: 0, text: "no base url", json: null };
   try {
-    const url = /^https?:/.test(pathOrUrl) ? pathOrUrl : base.replace(/\/$/, "") + pathOrUrl;
+    // SECURITY: a probe is community code and gets the user's key on this call.
+    // An absolute URL is allowed ONLY when its origin equals the lane's own
+    // endpoint, so a probe can query the provider it is already talking to and
+    // can never send the key to a third host. Relative paths resolve to base.
+    let url;
+    if (/^https?:/.test(pathOrUrl)) {
+      if (new URL(pathOrUrl).origin !== new URL(base).origin)
+        return { ok: false, status: 0, text: "blocked: cross-origin http not allowed", json: null };
+      url = pathOrUrl;
+    } else {
+      url = base.replace(/\/$/, "") + pathOrUrl;
+    }
     const headers = p.anthropic
       ? { "x-api-key": lane.key, "anthropic-version": "2023-06-01",
           "anthropic-dangerous-direct-browser-access": "true" }
