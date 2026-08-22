@@ -1,0 +1,30 @@
+# Automatic gate on every pull request. Runs the FREE checks only:
+# contract conformance + the safety lint. No API key is present in this job,
+# so a malicious PR has no secret to steal. The live behavior benchmark
+# (probe-bench.mjs, which needs a key) is run by a maintainer, never here.
+name: probe-check
+
+on:
+  pull_request:
+    paths:
+      - 'probes/**'
+      - 'engine.js'
+      - 'probe-check.mjs'
+
+# Least privilege: this job only reads the code.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # Pin these to a full commit SHA before you rely on it in production.
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: contract + safety gate
+        run: node probe-check.mjs
