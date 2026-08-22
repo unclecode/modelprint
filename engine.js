@@ -41,12 +41,15 @@ function showCreditsBanner(kind) {
 function ping(event, extra = {}) {
   if (!BACKEND) return;
   try {
+    const body = JSON.stringify({ event, ...extra });
+    if (navigator.sendBeacon) { navigator.sendBeacon(BACKEND + "/t", body); return; }
     fetch(BACKEND + "/t", { method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ event, ...extra }),
-      keepalive: true }).catch(() => {});
+      body, keepalive: true }).catch(() => {});
   } catch { /* never surface */ }
 }
+// presence heartbeat: alive while the tab is open and visible
+setInterval(() => { if (!document.hidden) ping("beat"); }, 45_000);
 
 /* ---------------- providers ---------------- */
 const PROVIDERS = {
@@ -1019,6 +1022,7 @@ window.exportJson = function () {
       })
       .catch(() => { FREE_INFO = null; });
     ping("visit");
+    ping("beat");
   }
   // Cards first, instantly; probes stream in behind them.
   // Lane A: the current mystery model, real OpenRouter, host pre-pinned

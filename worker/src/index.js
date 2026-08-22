@@ -53,6 +53,12 @@ async function handleEvent(request, env) {
   let body;
   try { body = await request.json(); } catch { return json({ error: "bad json" }, 400); }
   const event = String(body.event || "");
+  if (event === "beat") {
+    // presence heartbeat (sendBeacon): alive for 2 minutes, no counters touched
+    const visitor = await visitorId(request);
+    await env.KV.put(`now:${visitor}`, "1", { expirationTtl: 120 });
+    return json({ ok: true });
+  }
   if (!EVENTS.has(event)) return json({ error: "unknown event" }, 400);
 
   const d = day();
@@ -84,13 +90,15 @@ async function handleStats(request, env) {
   for (const k of list.keys) {
     out[k.name.slice(`t:${d}:`.length)] = parseInt((await env.KV.get(k.name)) || "0", 10);
   }
+  // presence: visitors whose heartbeat is younger than 2 minutes
+  const alive = await env.KV.list({ prefix: "now:", limit: 500 });
   // money: today's credited-key spend, total and per model, in dollars
   const spendTotal = parseFloat((await env.KV.get(`g$:${d}`)) || "0");
   const byModel = {};
   const mlist = await env.KV.list({ prefix: `m$:${d}:`, limit: 200 });
   for (const k of mlist.keys)
     byModel[k.name.slice(`m$:${d}:`.length)] = +parseFloat((await env.KV.get(k.name)) || "0").toFixed(6);
-  return json({ day: d, stats: out,
+  return json({ day: d, stats: out, online_now: alive.keys.length,
     spend_today_usd: +spendTotal.toFixed(6), spend_by_model: byModel });
 }
 
