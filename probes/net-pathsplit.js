@@ -1,59 +1,76 @@
 // name:        path split
-// description: splits the measured latency into the router->provider leg and the
-//              client->router leg, then buckets the upstream network floor and the
-//              prefill slope, fingerprinting the REAL provider instead of the edge
+// description: differential RTT between a router-rejected call and an
+//              upstream-rejected call, isolating the router->provider network
+//              leg with no GPU, no queueing and no vantage dependence
 // author:      pjperez
-// version:     1.1.0
-// calls:       1 API call + 1 ledger GET on a lane with no generation ledger (the
-//              probe bails right after the pre-flight); ~6 API calls + ~6 ledger
-//              GETs on OpenRouter, where the ledger works (3 pinned short + 3
-//              pinned long, all max_tokens: 1). Tested on OpenRouter.
+// version:     2.0.0
+// calls:       up to 11 per run: up to 3 cascade probes + 8 measurement calls.
+//              EVERY call is deliberately rejected with max_tokens: 1, so zero
+//              completion tokens are billed and each carries ~2 prompt tokens —
+//              cheaper in tokens than a single normal probe. Bails after 1-3
+//              calls on a lane with no upstream rejection path. Tested on
+//              OpenRouter.
 
 export const meta = {
   id: "net-pathsplit", name: "path split", group: "timing",
-  why: "router-side latency minus moderation is the upstream leg: vantage-independent",
-  long: false, author: "pjperez", version: "1.1.0",
+  why: "router-rejected vs upstream-rejected latency isolates the provider RTT",
+  long: false, author: "pjperez", version: "2.0.0",
 };
 
-// A latency measured in the client is dominated by the client's own distance to
-// the aggregator's edge, so it fingerprints the observer, not the lab.
-// The router's ledger (/api/v1/generation) reports latency, moderation_latency
-// and generation_time as measured ROUTER-SIDE, which splits the path in two:
+// A client-measured latency to an aggregator is dominated by the client's own
+// distance to the aggregator edge, so it fingerprints the observer, not the lab.
+// v1 of this probe took the router's /api/v1/generation ledger at its word.
+// Live measurement killed that premise three ways: the ledger is written
+// ASYNCHRONOUSLY and 404s for the first 4-15 seconds, its `latency` field is
+// wildly noisy (three identical calls: 735ms / 6261ms / 27272ms), and prefill
+// sits so far below that noise floor that 900 extra prompt tokens measured as
+// NEGATIVE time. No amount of bucketing rescues a 26-second spread.
 //
-//   latency - moderation_latency  ~ OpenRouter -> real provider (RTT + prefill)
-//   res.ttftMs - latency          ~ this user -> OpenRouter edge
+// What survives is a differential. Send two calls that are both REJECTED, so
+// neither reaches a GPU and neither can queue behind other users' work:
 //
-// The first leg is identical for every user on earth, so it is a property of the
-// upstream, not of the observer — a legitimate fingerprint. The second is pure
-// vantage and is kept in raw only; it never touches the value, and no code path
-// that reaches a real fingerprint reads ttftMs at all (a healthy ledger alone is
-// sufficient, which matters because probe-bench's ctx supplies ms but no ttftMs).
+//   A arm — frequency_penalty: 9. The router rejects this itself, locally, on
+//           every model. The error body carries metadata.provider_name = null.
+//           Cost = client -> router -> client.
+//   B arm — a payload the router FORWARDS and the real provider rejects at its
+//           own API layer. The error body NAMES metadata.provider_name.
+//           Cost = client -> router -> PROVIDER -> back.
 //
-// Firing the same call at two very different pinned prompt sizes separates the
-// two components of the upstream leg: the SLOPE (us per prompt token) is the
-// accelerator/serving-stack signature, while the INTERCEPT (floor minus
-// slope*tokens) is the network distance class from the router to the provider.
-// Both are snapped into wide bands, since the contract forbids raw ms in a value.
+//   delta = floor(B) - floor(A)  ~  router <-> provider round trip
+//
+// The client's own leg appears in both arms and cancels in the subtraction,
+// which is what makes delta vantage-independent: identical for every user on
+// earth. Calibrated against providers of known geography, from OpenRouter's
+// origin: Together US 193/186ms, DeepInfra US 206ms, Azure 228ms, Moonshot CN
+// 235ms, Z.AI CN 253/255ms, Baidu CN 285ms, Alibaba CN/SG 305/316ms. Clusters
+// sit 60-120ms apart while reruns reproduce within 2-11ms.
 
-const SMALL_PROMPT = "ok";
-// Fixed literal, repeated a fixed number of times: deterministic token count on
-// every run and every tokenizer. Never randomize this.
-const BIG_PROMPT =
-  "The quick brown fox jumps over the lazy dog near the quiet river bank. "
-    .repeat(60) + "ok";
-
-const SHORT_SAMPLES = 3;
-const LONG_SAMPLES = 3;
-
-// Wide, clearly separated bands. Run-to-run jitter is tens of milliseconds at
-// worst after taking a floor, so it cannot walk a lane across a boundary.
-const NET_BANDS = [
-  [20, "up<20ms"], [60, "up20-60ms"], [120, "up60-120ms"],
-  [250, "up120-250ms"], [Infinity, "up>250ms"],
+// No single payload is rejected upstream by every provider — some validate it,
+// some happily burn a GPU on it. So probe a cascade and take the first that the
+// UPSTREAM rejects. Measured grid (UPSTREAM-REJ = rejected, provider named):
+//                  temp2.0        badfmt         toplogprobs25
+//   ox-alpha       UPSTREAM-REJ   accept(gpu)    accept(gpu)
+//   Z.AI           UPSTREAM-REJ   accept(gpu)    accept(gpu)
+//   DeepInfra      accept(gpu)    UPSTREAM-REJ   accept(gpu)
+//   Together       UPSTREAM-REJ   UPSTREAM-REJ   accept(gpu)
+//   Alibaba        UPSTREAM-REJ   UPSTREAM-REJ   UPSTREAM-REJ
+const POISONS = [
+  ["temp2.0", { temperature: 2.0 }],
+  ["badfmt", { response_format: { type: "not_a_real_format" } }],
+  ["toplogprobs25", { logprobs: true, top_logprobs: 25 }],
 ];
-const SLOPE_BANDS = [
-  [25, "pf<25us/tok"], [100, "pf25-100us/tok"], [300, "pf100-300us/tok"],
-  [800, "pf300-800us/tok"], [Infinity, "pf>800us/tok"],
+
+// Always router-rejected, never forwarded (temperature: -1 behaves the same
+// way). That is precisely why it is the baseline arm.
+const BASELINE = { frequency_penalty: 9 };
+
+const PAIRS = 4;
+
+// Boundaries sit >25ms from every observed lane value while run-to-run drift is
+// <=11ms, so a lane cannot walk across a boundary between two runs.
+const RTT_BANDS = [
+  [80, "rtt<80ms"], [150, "rtt80-150ms"], [225, "rtt150-225ms"],
+  [300, "rtt225-300ms"], [450, "rtt300-450ms"], [Infinity, "rtt>450ms"],
 ];
 
 function band(v, bands) {
@@ -61,7 +78,33 @@ function band(v, bands) {
   return bands[bands.length - 1][1];
 }
 
-// Which edge the measurement STARTED from, so the upstream leg has an anchor.
+function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
+
+const floorOf = (xs) => {
+  const ok = xs.filter((v) => typeof v === "number" && isFinite(v));
+  return ok.length ? Math.min(...ok) : null;
+};
+
+// The harness hands back the provider's error body verbatim as a string; some
+// adapters may already have parsed it. Accept either, never throw on garbage.
+function errBody(res) {
+  const e = res && res.error;
+  if (!e) return null;
+  if (typeof e === "object") return e;
+  if (typeof e === "string") { try { return JSON.parse(e); } catch { return null; } }
+  return null;
+}
+
+// Present and non-empty => the REAL provider rejected it, so the packet made the
+// full round trip. Absent/null => the router rejected it locally.
+function providerName(res) {
+  const j = errBody(res);
+  const meta = j && j.error && j.error.metadata;
+  const pn = meta && meta.provider_name;
+  return typeof pn === "string" && pn ? pn : null;
+}
+
+// Which edge the measurement STARTED from, so the RTT has an anchor.
 // net-headerdna only records that cf-ray exists; the colo suffix is the new bit.
 function edgeColo(h) {
   if (!h) return "";
@@ -80,142 +123,87 @@ function edgeColo(h) {
   return "";
 }
 
-function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
-
-const floorOf = (xs) => {
-  const ok = xs.filter((v) => typeof v === "number" && isFinite(v));
-  return ok.length ? Math.min(...ok) : null;
-};
-
-async function sample(ctx, content, kind) {
+async function shot(ctx, extra) {
   const res = await ctx.chat({
-    messages: [{ role: "user", content }], max_tokens: 1,
+    messages: [{ role: "user", content: "ok" }], max_tokens: 1, ...extra,
   });
-  if (!res || !res.ok)
-    return { failed: true, kind, status: res ? res.status : "no-response" };
-  const headers = res.headers || null;
-  const gid = (headers && headers["x-generation-id"]) || res.id || null;
-  let rec = null, recStatus = null;
-  if (gid) {
-    const r = await ctx.http("/api/v1/generation?id=" + encodeURIComponent(gid));
-    recStatus = r ? r.status : null;
-    if (r && r.json && r.json.data) rec = r.json.data;
-  }
-  const lat = rec ? num(rec.latency) : null;
-  const mod = rec ? num(rec.moderation_latency) : null;
-  const upstreamMs = lat === null ? null : lat - (mod === null ? 0 : mod);
-  const ttftMs = num(res.ttftMs);
+  if (!res) return { ok: false, ms: null, pn: null, status: "no-response", body: null };
   return {
-    failed: false, kind, gid, recStatus, rec, headers, upstreamMs, ttftMs,
-    clientLegMs: ttftMs === null || upstreamMs === null ? null : ttftMs - upstreamMs,
-    promptTokens: num(rec && rec.native_tokens_prompt) ??
-      num(res.usage && res.usage.prompt_tokens),
-    generationTimeMs: rec ? num(rec.generation_time) : null,
-    totalMs: num(res.ms),
-  };
-}
-
-function summarize(all, colo, headers) {
-  return {
-    samples: all.map((s) => ({
-      kind: s.kind, gid: s.gid, recStatus: s.recStatus, upstreamMs: s.upstreamMs,
-      ttftMs: s.ttftMs, clientLegMs: s.clientLegMs, totalMs: s.totalMs,
-      promptTokens: s.promptTokens, generationTimeMs: s.generationTimeMs,
-    })),
-    records: all.map((s) => s.rec),
-    // vantage-dependent, therefore never part of the value
-    clientLegFloorMs: floorOf(all.map((s) => s.clientLegMs)),
-    edgeColo: colo || null, headers,
+    ok: res.ok === true, ms: num(res.ms), pn: providerName(res),
+    status: res.status, headers: res.headers || null,
+    body: typeof res.error === "string" ? res.error.slice(0, 300) : res.error || null,
   };
 }
 
 export async function probe(ctx) {
   try {
-    if (typeof ctx.http !== "function") return { value: "harness-lacks-http" };
-
-    // ---- pre-flight: ONE short call decides whether the ledger exists at all.
-    // /generation is an OpenRouter feature; on a direct provider lane ctx.http is
-    // origin-locked to that provider and the GET 404s. Bailing here keeps a
-    // ledger-less lane at a single call instead of burning the whole budget —
-    // including three ~900-token prompts — only to return a sentinel.
-    const first = await sample(ctx, SMALL_PROMPT, "short");
-    if (first.failed) return { value: "probe-failed: " + first.status };
-
-    const preHeaders = first.headers || {};
-    const preRaw = () => summarize([first], edgeColo(preHeaders), preHeaders);
-    if (!first.gid) return { value: "no-generation-record", raw: preRaw() };
-    if (!first.rec)
-      return {
-        value: first.recStatus === 404 ? "record-not-found" : "no-generation-record",
-        raw: preRaw(),
-      };
-    if (first.upstreamMs === null)
-      // The ledger exists but carries no router-side latency: say so, do not guess.
-      return {
-        value: first.ttftMs === null ? "harness-lacks-timing" : "record-lacks-latency",
-        raw: preRaw(),
-      };
-
-    // ---- the ledger works, so the rest of the budget can buy a real fingerprint.
-    const smalls = [first];
-    for (let i = 1; i < SHORT_SAMPLES; i++) {
-      const s = await sample(ctx, SMALL_PROMPT, "short");
-      // A transient failure on a later sample must not flip the whole value to
-      // probe-failed; the floor over the samples that DID land is still honest.
-      if (!s.failed) smalls.push(s);
+    // ---- cascade: find a payload the UPSTREAM rejects, cheapest path first.
+    const grid = [];
+    let poison = null, poisonName = null, provider = null, firstHeaders = null;
+    for (const [name, payload] of POISONS) {
+      const r = await shot(ctx, payload);
+      if (r.headers && !firstHeaders) firstHeaders = r.headers;
+      grid.push({ poison: name, ok: r.ok, status: r.status, providerName: r.pn,
+                  ms: r.ms, body: r.body });
+      if (!r.ok && r.pn) {
+        // The provider named itself in the rejection, so the packet reached it.
+        if (r.ms === null)
+          // engine.js returns ms on the error path; probe-bench's mock ctx does
+          // not. Without it there is nothing to difference — say so, do not fake.
+          return { value: "harness-lacks-timing", raw: { grid, note: "no ms on rejection path" } };
+        poison = payload; poisonName = name; provider = r.pn;
+        break;
+      }
     }
-    const bigs = [];
-    for (let i = 0; i < LONG_SAMPLES; i++) {
-      const s = await sample(ctx, BIG_PROMPT, "long");
-      if (!s.failed) bigs.push(s);
-    }
+    if (!poison)
+      return { value: "no-upstream-reject-path", raw: { grid } };
 
-    const all = smalls.concat(bigs);
-    const headers = (all.find((s) => s.headers && Object.keys(s.headers).length) || {}).headers || {};
-    const colo = edgeColo(headers);
-    const rawBase = summarize(all, colo, headers);
+    // ---- interleave A,B,A,B... so any drift in load or routing hits both arms
+    // equally. Running all A then all B would let a warm-up or a slow minute
+    // land on one arm only and poison the difference.
+    const aS = [], bS = [], aRaw = [], bRaw = [];
+    let baselineForeign = false;
+    for (let i = 0; i < PAIRS; i++) {
+      const a = await shot(ctx, BASELINE);
+      aRaw.push({ ok: a.ok, status: a.status, providerName: a.pn, ms: a.ms });
+      if (a.pn) baselineForeign = true;
+      else if (!a.ok && a.ms !== null) aS.push(a.ms);
 
-    // Minimum-of-K, not the mean, on BOTH prompt sizes: a floor is what strips
-    // queueing and jitter out of a network measurement. The big prompt needs it
-    // as badly as the small one, because it alone sets the slope — a single
-    // +15ms queueing spike across a ~900-token delta moves the slope by roughly
-    // 16us/tok, enough to straddle the 25us/tok boundary and flip the band
-    // between two bench runs. The intercept has no such fragility: smallTok is
-    // ~2 tokens, so slope*smallTok stays well under 1ms and the intercept is
-    // effectively smallFloor, which is already a min-of-3.
-    const smallFloor = floorOf(smalls.map((s) => s.upstreamMs));
-    const bigFloor = floorOf(bigs.map((s) => s.upstreamMs));
-    if (smallFloor === null) return { value: "record-lacks-latency", raw: rawBase };
-
-    const smallTok = floorOf(smalls.map((s) => s.promptTokens));
-    const bigTok = floorOf(bigs.map((s) => s.promptTokens));
-    let slopeUsPerTok = null, interceptMs = smallFloor;
-    if (bigFloor !== null && smallTok !== null && bigTok !== null && bigTok > smallTok) {
-      const perTokMs = (bigFloor - smallFloor) / (bigTok - smallTok);
-      slopeUsPerTok = Math.max(0, perTokMs * 1000);
-      interceptMs = Math.max(0, smallFloor - (slopeUsPerTok / 1000) * smallTok);
+      const b = await shot(ctx, poison);
+      bRaw.push({ ok: b.ok, status: b.status, providerName: b.pn, ms: b.ms });
+      if (!b.ok && b.pn && b.ms !== null) bS.push(b.ms);
+      if (b.headers && !firstHeaders) firstHeaders = b.headers;
     }
 
-    const rec0 = (all.find((s) => s.rec) || {}).rec || {};
-    const parts = [
-      rec0.provider_name || "provider-unknown",
-      rec0.data_region || "global",
-      band(interceptMs, NET_BANDS),
-      slopeUsPerTok === null ? "pf-unknown" : band(slopeUsPerTok, SLOPE_BANDS),
-      colo,
-    ].filter(Boolean);
+    const colo = edgeColo(firstHeaders);
+    const rawBase = { grid, poison: poisonName, provider, aSamples: aRaw,
+                      bSamples: bRaw, edgeColo: colo || null, headers: firstHeaders };
 
+    // The baseline must be a LOCAL rejection. If the router forwarded it, it is
+    // not a baseline at all and the difference would be meaningless.
+    if (baselineForeign)
+      return { value: "baseline-not-local", raw: rawBase };
+    if (!aS.length)
+      return { value: "baseline-not-local", raw: rawBase };
+    // The cascade proved this payload is upstream-rejected; if it stopped being
+    // so mid-measurement the lane is flapping and the delta cannot be trusted.
+    if (!bS.length)
+      return { value: "upstream-reject-unstable", raw: rawBase };
+
+    // Minimum of K on both arms: a floor is what strips queueing and jitter out
+    // of a network measurement. Rejected calls cannot queue behind GPU work, so
+    // the floors converge tightly (reruns reproduced within 2-11ms).
+    const floorA = floorOf(aS), floorB = floorOf(bS);
+    const deltaMs = floorB - floorA;
+
+    // The poison NAME is part of the value: different payloads are validated at
+    // different depths in a provider's stack, so a delta measured with temp2.0
+    // is not comparable to one measured with badfmt.
+    const parts = [provider, poisonName, band(deltaMs, RTT_BANDS), colo].filter(Boolean);
     return {
       value: parts.join(" · "),
-      raw: {
-        ...rawBase,
-        upstreamFloorSmallMs: smallFloor, upstreamFloorLargeMs: bigFloor,
-        shortSamples: smalls.length, longSamples: bigs.length,
-        promptTokensSmall: smallTok, promptTokensLarge: bigTok,
-        slopeUsPerTok: slopeUsPerTok === null ? null : +slopeUsPerTok.toFixed(1),
-        interceptMs: +interceptMs.toFixed(1),
-        provider: rec0.provider_name || null, dataRegion: rec0.data_region || null,
-      },
+      raw: { ...rawBase, floorAMs: +floorA.toFixed(1), floorBMs: +floorB.toFixed(1),
+             deltaMs: +deltaMs.toFixed(1), aUsable: aS.length, bUsable: bS.length },
     };
   } catch (e) {
     return { value: "probe-failed: " + ((e && e.message) || "error") };
