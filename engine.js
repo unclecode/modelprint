@@ -91,10 +91,6 @@ async function chat(lane, payload) {
       if (lane.provider === "openrouter" && lane.pinHost)
         body.provider = { order: [lane.pinHost], allow_fallbacks: false };
     }
-    // Opt-in routing snapshot on every OpenRouter call: names the edge region
-    // and the provider that actually served the request (net-region probe).
-    if (lane.provider === "openrouter") headers["X-OpenRouter-Metadata"] = "enabled";
-
     const r = await fetch(url, { method: "POST", headers, body: JSON.stringify(body),
       signal: AbortSignal.timeout(60_000) });
     const ttftMs = performance.now() - t0;          // response HEADERS arrived
@@ -312,6 +308,8 @@ function demoFamily(model) {
 
 /* ---------------- probe loading ---------------- */
 let PROBES = [];           // [{meta, probe}]
+let SELECTED = new Set();   // probe ids that will run; default is all
+const isOn = (id) => SELECTED.has(id);
 async function loadProbes() {
   // All files in parallel: sequential awaits cost one network round trip
   // per probe and kept the page blank while they queued.
@@ -446,9 +444,10 @@ function laneHtml(lane, index) {
   const note = lane.fetchNote
     ? `<div class="fetchnote ${lane.fetchNote.startsWith("✓") ? "ok" : ""}">${lane.fetchNote}</div>`
     : (lane.provider === "demo" ? `<div class="fetchnote ok">✓ simulated — try the tool without any key</div>` : "");
-  const statusLine = lane.state === "idle" ? `<span class="led"></span>ready`
+  const statusLine = lane.state === "shared" ? `<span class="led"></span>shared snapshot · Run to verify`
+    : lane.state === "idle" ? `<span class="led"></span>ready`
     : lane.state === "running" ? `<span class="led running"></span>${lane.statusText || "starting…"}`
-    : `<span class="led done"></span>done · ${PROBES.length}/${PROBES.length} probes · ${lane.elapsed}s`;
+    : `<span class="led done"></span>done · ${SELECTED.size} probes · ${lane.elapsed}s`;
   return `<div class="lanecell"><div class="lane">
     <span class="chip">MODEL ${letter}</span>
     <button class="close" onclick="removeLane(${lane.id})" title="remove">✕</button>
@@ -545,9 +544,10 @@ window.runLane = async function (id) {
   if (!lane || !laneReady(lane) || lane.state === "running") return;
   lane.state = "running"; lane.results = {}; lane.raw = {};
   const started = Date.now();
-  for (let i = 0; i < PROBES.length; i++) {
-    const { meta, probe } = PROBES[i];
-    lane.statusText = `probe ${i + 1}/${PROBES.length} · ${meta.id}`;
+  const active = PROBES.filter(p => isOn(p.meta.id));
+  for (let i = 0; i < active.length; i++) {
+    const { meta, probe } = active[i];
+    lane.statusText = `probe ${i + 1}/${active.length} · ${meta.id}`;
     render();
     try {
       let out;
@@ -567,6 +567,22 @@ window.runLane = async function (id) {
   lane.elapsed = ((Date.now() - started) / 1000).toFixed(1);
   lane.state = "done";
   render();
+};
+
+/* ---------------- probe selection ---------------- */
+window.toggleProbe = function (id) {
+  if (SELECTED.has(id)) SELECTED.delete(id); else SELECTED.add(id);
+  renderGrid();
+};
+window.toggleGroup = function (group) {
+  const ids = PROBES.filter(p => p.meta.group === group).map(p => p.meta.id);
+  const allOn = ids.every(id => SELECTED.has(id));
+  for (const id of ids) { if (allOn) SELECTED.delete(id); else SELECTED.add(id); }
+  renderGrid();
+};
+window.selectAllProbes = function (on) {
+  SELECTED = on ? new Set(PROBES.map(p => p.meta.id)) : new Set();
+  renderGrid();
 };
 
 /* ---------------- table + verdict ---------------- */
@@ -596,8 +612,13 @@ function renderGrid() {
   for (const { meta } of PROBES) {
     if (meta.group !== lastGroup) {
       lastGroup = meta.group;
-      html += `<tr class="section"><th>${meta.group}</th><td colspan="${cols.length || 1}">${GROUP_NOTES[meta.group] || ""}</td></tr>`;
+      const gids = PROBES.filter(p => p.meta.group === meta.group).map(p => p.meta.id);
+      const gon = gids.filter(id => isOn(id)).length;
+      const mark = gon === gids.length ? "on" : gon === 0 ? "off" : "some";
+      html += `<tr class="section"><th><button class="gtoggle ${mark}" onclick="toggleGroup('${meta.group}')" title="toggle this group">${meta.group}</button></th>`
+        + `<td colspan="${cols.length || 1}">${GROUP_NOTES[meta.group] || ""}</td></tr>`;
     }
+    const on = isOn(meta.id);
     const values = cols.map(l => l.results[meta.id]);
     const present = values.filter(v => v !== undefined);
     // Color by VALUE GROUPS, not all-or-nothing: a cell is green when at
@@ -605,7 +626,15 @@ function renderGrid() {
     // 47 · 47 · 49 reads as two greens and one red, which is the finding.
     const counts = {};
     for (const v of present) counts[String(v)] = (counts[String(v)] || 0) + 1;
-    html += `<tr><th>${meta.name}<span class="why">${meta.why}</span></th>`;
+    // Per-row credit: probes by the house author carry no badge; a community
+    // probe shows a small tag linking to the contributor's GitHub.
+    const HOUSE = "unclecode";
+    const badge = (meta.author && meta.author !== HOUSE)
+      ? ` <a class="cbadge" href="https://github.com/${encodeURIComponent(meta.author)}" title="community probe by ${meta.author}" target="_blank" rel="noopener">community</a>`
+      : "";
+    html += `<tr class="${on ? "" : "prow-off"}"><th>`
+      + `<label class="pcheck"><input type="checkbox" ${on ? "checked" : ""} onchange="toggleProbe('${meta.id}')"><span>${meta.name}</span></label>`
+      + `${badge}<span class="why">${meta.why}</span></th>`;
     cols.forEach((lane, i) => {
       const v = values[i];
       if (v === undefined) {
@@ -624,9 +653,11 @@ function renderGrid() {
 function escapeHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
 function renderVerdict() {
-  const done = lanes.filter(l => l.state === "done");
+  // Include lanes restored from a share link ("shared"), not only fresh runs,
+  // so the match cards appear the moment a shared link opens.
+  const done = lanes.filter(l => l.state === "done" || l.state === "shared");
   if (done.length < 2) { verdictEl.innerHTML = ""; return; }
-  const ids = PROBES.map(p => p.meta.id);
+  const ids = PROBES.map(p => p.meta.id).filter(id => SELECTED.has(id));
   const pairs = [];
   for (let a = 0; a < done.length; a++) for (let b = a + 1; b < done.length; b++) {
     const A = done[a], B = done[b];
@@ -655,6 +686,152 @@ function renderVerdict() {
   verdictEl.innerHTML = html;
 }
 
+
+/* ---------------- share link ----------------
+   The whole comparison lives in the URL hash: which models, on which hosts,
+   which probes were selected, and a snapshot of the results. A viewer who
+   opens the link sees the exact same board and can click Run to REPRODUCE it.
+   Snapshot values are shown labelled "shared, click Run to verify" and are
+   never trusted as fact, because a URL can be edited. Pure client-side. */
+function bytesToB64url(bytes) {
+  let bin = "";
+  for (let i = 0; i < bytes.length; i += 0x8000)
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function b64urlToBytes(str) {
+  const bin = atob(str.replace(/-/g, "+").replace(/_/g, "/"));
+  return Uint8Array.from(bin, c => c.charCodeAt(0));
+}
+// gzip via the browser's native CompressionStream. Values repeat a lot across
+// lanes, so the link stays short even though it carries the full results.
+async function packState(obj) {
+  const json = JSON.stringify(obj);
+  const cs = new CompressionStream("gzip");
+  const w = cs.writable.getWriter();
+  w.write(new TextEncoder().encode(json)); w.close();
+  const buf = new Uint8Array(await new Response(cs.readable).arrayBuffer());
+  return bytesToB64url(buf);
+}
+async function unpackState(b64) {
+  const ds = new DecompressionStream("gzip");
+  const w = ds.writable.getWriter();
+  w.write(b64urlToBytes(b64)); w.close();
+  const buf = await new Response(ds.readable).arrayBuffer();
+  return JSON.parse(new TextDecoder().decode(buf));
+}
+
+window.shareResult = async function () {
+  const order = PROBES.map(p => p.meta.id);
+  let mask = 0n;
+  order.forEach((id, i) => { if (SELECTED.has(id)) mask |= (1n << BigInt(i)); });
+  const done = lanes.filter(l => l.state === "done");
+  const sel = order.filter(id => SELECTED.has(id));
+  // strongest pair, for the headline
+  let vd = null, pairA = "", pairB = "";
+  if (done.length >= 2) {
+    let best = -1;
+    for (let a = 0; a < done.length; a++) for (let b = a + 1; b < done.length; b++) {
+      const hits = sel.filter(k => String(done[a].results[k]) === String(done[b].results[k])).length;
+      if (hits > best) { best = hits; pairA = done[a].model.split("/").pop(); pairB = done[b].model.split("/").pop(); }
+    }
+    if (best >= 0) vd = [best, sel.length];
+  }
+  const payload = {
+    v: 1,
+    l: lanes.filter(l => l.model).map(l => ({
+      p: l.provider, m: l.model, h: l.pinHost || undefined,
+      // full results, kept short per value; gzip shrinks the repetition
+      r: Object.fromEntries(order.filter(id => l.results[id] !== undefined)
+        .map(id => [id, String(l.results[id]).slice(0, 80)])),
+    })),
+    s: mask.toString(36),
+    ...(vd ? { vd } : {}),
+  };
+  const url = location.origin + location.pathname + "#c=" + await packState(payload);
+  const headline = vd ? `${pairA} vs ${pairB}: ${vd[0]}/${vd[1]} probes match` : "model fingerprint comparison";
+  const msg = vd
+    ? `I fingerprinted ${pairA} vs ${pairB}. ${vd[0]} of ${vd[1]} infrastructure probes match. Run it yourself, bring your own key:`
+    : `Fingerprint any model API with infrastructure probes. Run it yourself:`;
+  openShareModal({ url, headline, msg });
+};
+
+function openShareModal({ url, headline, msg }) {
+  const xIntent = "https://twitter.com/intent/tweet?text="
+    + encodeURIComponent(msg) + "&url=" + encodeURIComponent(url);
+  let m = document.getElementById("sharemodal");
+  if (!m) { m = document.createElement("div"); m.id = "sharemodal"; document.body.appendChild(m); }
+  m.innerHTML = `<div class="sm-back" onclick="closeShareModal(event)">
+    <div class="sm-card" onclick="event.stopPropagation()">
+      <button class="sm-x" onclick="closeShareModal()">✕</button>
+      <div class="sm-title">Share this result</div>
+      <div class="sm-headline">${headline}</div>
+      <textarea class="sm-msg" id="sm-msg" rows="3">${msg}</textarea>
+      <div class="sm-link mono">${url}</div>
+      <div class="sm-actions">
+        <a class="sm-x-btn" href="${xIntent}" target="_blank" rel="noopener">Share on X</a>
+        <button class="sm-copy" onclick="copyShareLink('${url.replace(/'/g, "\\'")}')">Copy link</button>
+      </div>
+      <div class="sm-note">The opener sees your result and can Run to reproduce it. Image preview coming soon.</div>
+    </div></div>`;
+  m.style.display = "block";
+}
+window.closeShareModal = function (e) { if (e) e.stopPropagation();
+  const m = document.getElementById("sharemodal"); if (m) m.style.display = "none"; };
+window.copyShareLink = function (url) {
+  const t = document.getElementById("sm-msg");
+  const full = (t ? t.value + "\n" : "") + url;
+  copyText(full, "message + link copied");
+};
+
+// clipboard API exists only on https / localhost; degrade gracefully on http.
+function copyText(text, okMsg) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => toast(okMsg), () => legacyCopy(text, okMsg));
+  } else legacyCopy(text, okMsg);
+}
+function legacyCopy(text, okMsg) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    ok ? toast(okMsg) : prompt("copy this link:", text);
+  } catch { prompt("copy this link:", text); }
+}
+
+async function restoreFromHash() {
+  const m = location.hash.match(/#c=([A-Za-z0-9\-_]+)/);
+  if (!m) return false;
+  let data; try { data = await unpackState(m[1]); } catch { return false; }
+  if (!data || !Array.isArray(data.l)) return false;
+  // rebuild lanes WITH the sharer's results, marked "shared" (Run to verify)
+  lanes = []; laneSeq = 0;
+  for (const L of data.l) {
+    const hasResults = L.r && Object.keys(L.r).length > 0;
+    const lane = { id: ++laneSeq, provider: L.p || "openrouter", model: L.m || "",
+      key: savedKey(L.p || "openrouter"), customBase: "", pinHost: L.h || "",
+      models: PROVIDERS[L.p || "openrouter"]?.models || [],
+      state: hasResults ? "shared" : "idle",
+      results: { ...(L.r || {}) }, raw: {}, shared: hasResults };
+    lanes.push(lane);
+    if (lane.provider === "openrouter") { hydrateModels(lane); if (lane.model) hydrateHosts(lane); }
+  }
+  window.__pendingSel = data.s;
+  window.__sharedVerdict = data.vd || null;
+  return true;
+}
+function applyPendingSelection() {
+  if (!window.__pendingSel) return;
+  const order = PROBES.map(p => p.meta.id);
+  let mask; try { mask = BigInt(parseInt(window.__pendingSel, 36)); } catch { mask = null; }
+  if (mask !== null && mask >= 0n) {
+    SELECTED = new Set(order.filter((_, i) => (mask >> BigInt(i)) & 1n));
+  }
+  window.__pendingSel = null;
+}
+
 /* ---------------- exports ---------------- */
 window.exportMarkdown = function () {
   const done = lanes.filter(l => l.state === "done");
@@ -662,13 +839,13 @@ window.exportMarkdown = function () {
   md += `|---|${done.map(() => "---").join("|")}|\n`;
   for (const { meta } of PROBES)
     md += `| ${meta.name} | ${done.map(l => String(l.results[meta.id] ?? "")).join(" | ")} |\n`;
-  navigator.clipboard.writeText(md).then(() => toast("markdown copied"));
+  copyText(md, "markdown copied");
 };
 window.exportJson = function () {
   const done = lanes.filter(l => l.state === "done");
   const out = done.map(l => ({ provider: l.provider, model: l.model,
     results: l.results, raw: l.raw }));
-  navigator.clipboard.writeText(JSON.stringify(out, null, 2)).then(() => toast("JSON copied"));
+  copyText(JSON.stringify(out, null, 2), "JSON copied");
 };
 
 /* ---------------- boot ---------------- */
@@ -678,11 +855,25 @@ window.exportJson = function () {
   // (it is served by exactly one host, "Stealth"). The visitor adds a key.
   // Lane B: empty, focused — the model YOU suspect goes here.
   // The Demo provider stays one dropdown away for key-less visitors.
-  addLane("openrouter", "stealth/ox-alpha");
-  addLane("openrouter", "");
+  const restored = await restoreFromHash();
   PROBES = await loadProbes();
+  SELECTED = new Set(PROBES.map(p => p.meta.id));
+  if (restored) applyPendingSelection();
   document.getElementById("modebadge").style.display = "";
   document.getElementById("modebadge").textContent = `${PROBES.length} probes loaded`;
+
+  if (restored && lanes.length) {
+    render();
+    if (window.__sharedVerdict) {
+      const [h, t] = window.__sharedVerdict;
+      const a = lanes[0]?.model?.split("/").pop() || "A";
+      const b = lanes[1]?.model?.split("/").pop() || "B";
+      toast(`shared: ${a} vs ${b} was ${h}/${t} match — Run to verify`);
+    }
+  } else {
+    addLane("openrouter", "stealth/ox-alpha");
+    addLane("openrouter", "");
+  }
   render();
   // focus lane B's model picker once its list arrives
   const focusB = setInterval(() => {

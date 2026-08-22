@@ -127,6 +127,47 @@
   tbody th{font-weight:500;font-size:12.5px;color:var(--ink2);background:var(--surface);
     position:sticky;left:0;border-right:1px solid var(--border);z-index:1;white-space:normal}
   tbody th .why{display:block;font-size:10.5px;color:var(--ink3);font-weight:400;margin-top:1px}
+  .cbadge{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.4px;
+    text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:4px;
+    padding:1px 5px;text-decoration:none;vertical-align:middle;margin-left:2px}
+  .cbadge:hover{background:var(--accent);color:var(--accent-ink)}
+  .pcheck{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+  .pcheck input{accent-color:var(--accent);width:13px;height:13px;cursor:pointer}
+  .prow-off{opacity:.4}
+  .prow-off .why{opacity:.7}
+  .gtoggle{font:inherit;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:1px;
+    text-transform:uppercase;color:var(--ink);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:6px}
+  .gtoggle::before{content:"";width:9px;height:9px;border-radius:3px;border:1.5px solid var(--ink3)}
+  .gtoggle.on::before{background:var(--accent);border-color:var(--accent)}
+  .gtoggle.some::before{background:var(--accent);opacity:.45;border-color:var(--accent)}
+  .gtoggle:hover{color:var(--accent)}
+  .probesel{background:var(--surface);border:1px solid var(--border);color:var(--ink2);border-radius:7px;
+    padding:6px 11px;font-size:12px;font-family:"IBM Plex Mono",monospace;cursor:pointer}
+  .probesel:hover{color:var(--ink);border-color:var(--ink3)}
+  /* share modal */
+  #sharemodal{display:none}
+  .sm-back{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;
+    align-items:center;justify-content:center;padding:20px}
+  .sm-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    max-width:460px;width:100%;padding:22px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  .sm-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--ink3);
+    font-size:16px;cursor:pointer}
+  .sm-x:hover{color:var(--ink)}
+  .sm-title{font-size:16px;font-weight:700;margin-bottom:4px}
+  .sm-headline{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--accent);margin-bottom:12px}
+  .sm-msg{width:100%;background:var(--code);border:1px solid var(--border);color:var(--ink);
+    border-radius:8px;padding:9px 11px;font-size:13px;font-family:inherit;resize:vertical;line-height:1.5}
+  .sm-link{margin-top:8px;font-size:11px;color:var(--ink3);background:var(--code);border-radius:7px;
+    padding:7px 9px;word-break:break-all;max-height:52px;overflow-y:auto}
+  .sm-actions{display:flex;gap:8px;margin-top:12px}
+  .sm-x-btn{flex:1;text-align:center;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+    border-radius:8px;padding:9px 0;font-weight:600;font-size:13.5px}
+  .sm-x-btn:hover{filter:brightness(1.08)}
+  .sm-copy{background:var(--surface);border:1px solid var(--border);color:var(--ink2);border-radius:8px;
+    padding:9px 16px;font-size:13px;font-family:"IBM Plex Mono",monospace;cursor:pointer}
+  .sm-copy:hover{color:var(--ink);border-color:var(--ink3)}
+  .sm-note{font-size:11.5px;color:var(--ink3);margin-top:11px;line-height:1.45}
   td{font-family:"IBM Plex Mono",monospace;font-size:12px;white-space:nowrap;transition:background .3s;
     overflow:hidden;text-overflow:ellipsis}
   td .long{white-space:normal;display:block;font-size:11px;line-height:1.45}
@@ -167,7 +208,7 @@
   <header>
     <div class="logo">
       <h1>modelprint<span class="dot">_</span></h1>
-      <span class="ver mono">v0.4.1</span>
+      <span class="ver mono">v0.5.0</span>
       <span class="demo-badge" id="modebadge" style="display:none">demo mode</span>
       <a class="repolink mono" href="https://github.com/unclecode/modelprint">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -190,6 +231,9 @@
       <div class="actions">
         <button onclick="exportMarkdown()">copy as markdown</button>
         <button onclick="exportJson()">copy JSON</button>
+        <button onclick="shareResult()">share</button>
+        <button class="probesel" onclick="selectAllProbes(true)">all</button>
+        <button class="probesel" onclick="selectAllProbes(false)">none</button>
         <button class="runbtn" id="runall" onclick="runAll()"
           style="width:auto;margin:0;padding:7px 22px;font-size:13px">Run all models</button>
       </div>
