@@ -14,6 +14,7 @@ export const REGISTRY = [
   "net-region.js",
   "net-genrecord.js",
   "net-headerdna.js",
+  "net-pathsplit.js",
   "cap-contextceiling.js",
   "lp-geometry.js",
 ];
