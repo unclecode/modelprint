@@ -3,33 +3,37 @@
 //              client->router leg, then buckets the upstream network floor and the
 //              prefill slope, fingerprinting the REAL provider instead of the edge
 // author:      pjperez
-// version:     1.0.0
-// calls:       ~4 API calls per run, tested on OpenRouter (3 pinned short calls +
-//              1 pinned long call, all max_tokens: 1), plus one authenticated GET
-//              to the generation ledger per call.
+// version:     1.1.0
+// calls:       1 API call + 1 ledger GET on a lane with no generation ledger (the
+//              probe bails right after the pre-flight); ~6 API calls + ~6 ledger
+//              GETs on OpenRouter, where the ledger works (3 pinned short + 3
+//              pinned long, all max_tokens: 1). Tested on OpenRouter.
 
 export const meta = {
   id: "net-pathsplit", name: "path split", group: "timing",
   why: "router-side latency minus moderation is the upstream leg: vantage-independent",
-  long: false, author: "pjperez", version: "1.0.0",
+  long: false, author: "pjperez", version: "1.1.0",
 };
 
 // A latency measured in the client is dominated by the client's own distance to
-// the aggregator's edge, so it says nothing about who runs the weights. The
-// router's ledger (/api/v1/generation) reports latency, moderation_latency and
-// generation_time as measured ROUTER-SIDE, which splits the path in two:
+// the aggregator's edge, so it fingerprints the observer, not the lab.
+// The router's ledger (/api/v1/generation) reports latency, moderation_latency
+// and generation_time as measured ROUTER-SIDE, which splits the path in two:
 //
 //   latency - moderation_latency  ~ OpenRouter -> real provider (RTT + prefill)
 //   res.ttftMs - latency          ~ this user -> OpenRouter edge
 //
 // The first leg is identical for every user on earth, so it is a property of the
 // upstream, not of the observer — a legitimate fingerprint. The second is pure
-// vantage and is kept in raw only. Firing the same call at two very different
-// pinned prompt sizes separates the two components of the upstream leg: the
-// SLOPE (us per prompt token) is the accelerator/serving-stack signature, while
-// the INTERCEPT (floor minus slope*tokens) is the network distance class from
-// the router to the provider. Both are snapped into wide bands, since the
-// contract forbids raw milliseconds in a value.
+// vantage and is kept in raw only; it never touches the value, and no code path
+// that reaches a real fingerprint reads ttftMs at all (a healthy ledger alone is
+// sufficient, which matters because probe-bench's ctx supplies ms but no ttftMs).
+//
+// Firing the same call at two very different pinned prompt sizes separates the
+// two components of the upstream leg: the SLOPE (us per prompt token) is the
+// accelerator/serving-stack signature, while the INTERCEPT (floor minus
+// slope*tokens) is the network distance class from the router to the provider.
+// Both are snapped into wide bands, since the contract forbids raw ms in a value.
 
 const SMALL_PROMPT = "ok";
 // Fixed literal, repeated a fixed number of times: deterministic token count on
@@ -37,6 +41,9 @@ const SMALL_PROMPT = "ok";
 const BIG_PROMPT =
   "The quick brown fox jumps over the lazy dog near the quiet river bank. "
     .repeat(60) + "ok";
+
+const SHORT_SAMPLES = 3;
+const LONG_SAMPLES = 3;
 
 // Wide, clearly separated bands. Run-to-run jitter is tens of milliseconds at
 // worst after taking a floor, so it cannot walk a lane across a boundary.
@@ -75,12 +82,17 @@ function edgeColo(h) {
 
 function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
 
-async function sample(ctx, content) {
+const floorOf = (xs) => {
+  const ok = xs.filter((v) => typeof v === "number" && isFinite(v));
+  return ok.length ? Math.min(...ok) : null;
+};
+
+async function sample(ctx, content, kind) {
   const res = await ctx.chat({
     messages: [{ role: "user", content }], max_tokens: 1,
   });
   if (!res || !res.ok)
-    return { failed: true, status: res ? res.status : "no-response" };
+    return { failed: true, kind, status: res ? res.status : "no-response" };
   const headers = res.headers || null;
   const gid = (headers && headers["x-generation-id"]) || res.id || null;
   let rec = null, recStatus = null;
@@ -94,7 +106,7 @@ async function sample(ctx, content) {
   const upstreamMs = lat === null ? null : lat - (mod === null ? 0 : mod);
   const ttftMs = num(res.ttftMs);
   return {
-    failed: false, gid, recStatus, rec, headers, upstreamMs, ttftMs,
+    failed: false, kind, gid, recStatus, rec, headers, upstreamMs, ttftMs,
     clientLegMs: ttftMs === null || upstreamMs === null ? null : ttftMs - upstreamMs,
     promptTokens: num(rec && rec.native_tokens_prompt) ??
       num(res.usage && res.usage.prompt_tokens),
@@ -103,64 +115,83 @@ async function sample(ctx, content) {
   };
 }
 
-const floorOf = (xs) => {
-  const ok = xs.filter((v) => typeof v === "number" && isFinite(v));
-  return ok.length ? Math.min(...ok) : null;
-};
+function summarize(all, colo, headers) {
+  return {
+    samples: all.map((s) => ({
+      kind: s.kind, gid: s.gid, recStatus: s.recStatus, upstreamMs: s.upstreamMs,
+      ttftMs: s.ttftMs, clientLegMs: s.clientLegMs, totalMs: s.totalMs,
+      promptTokens: s.promptTokens, generationTimeMs: s.generationTimeMs,
+    })),
+    records: all.map((s) => s.rec),
+    // vantage-dependent, therefore never part of the value
+    clientLegFloorMs: floorOf(all.map((s) => s.clientLegMs)),
+    edgeColo: colo || null, headers,
+  };
+}
 
 export async function probe(ctx) {
   try {
     if (typeof ctx.http !== "function") return { value: "harness-lacks-http" };
 
-    const smalls = [];
-    for (let i = 0; i < 3; i++) {
-      const s = await sample(ctx, SMALL_PROMPT);
-      if (s.failed) return { value: "probe-failed: " + s.status };
-      smalls.push(s);
-    }
-    const big = await sample(ctx, BIG_PROMPT);
-    if (big.failed) return { value: "probe-failed: " + big.status };
+    // ---- pre-flight: ONE short call decides whether the ledger exists at all.
+    // /generation is an OpenRouter feature; on a direct provider lane ctx.http is
+    // origin-locked to that provider and the GET 404s. Bailing here keeps a
+    // ledger-less lane at a single call instead of burning the whole budget —
+    // including three ~900-token prompts — only to return a sentinel.
+    const first = await sample(ctx, SMALL_PROMPT, "short");
+    if (first.failed) return { value: "probe-failed: " + first.status };
 
-    const all = smalls.concat([big]);
+    const preHeaders = first.headers || {};
+    const preRaw = () => summarize([first], edgeColo(preHeaders), preHeaders);
+    if (!first.gid) return { value: "no-generation-record", raw: preRaw() };
+    if (!first.rec)
+      return {
+        value: first.recStatus === 404 ? "record-not-found" : "no-generation-record",
+        raw: preRaw(),
+      };
+    if (first.upstreamMs === null)
+      // The ledger exists but carries no router-side latency: say so, do not guess.
+      return {
+        value: first.ttftMs === null ? "harness-lacks-timing" : "record-lacks-latency",
+        raw: preRaw(),
+      };
+
+    // ---- the ledger works, so the rest of the budget can buy a real fingerprint.
+    const smalls = [first];
+    for (let i = 1; i < SHORT_SAMPLES; i++) {
+      const s = await sample(ctx, SMALL_PROMPT, "short");
+      // A transient failure on a later sample must not flip the whole value to
+      // probe-failed; the floor over the samples that DID land is still honest.
+      if (!s.failed) smalls.push(s);
+    }
+    const bigs = [];
+    for (let i = 0; i < LONG_SAMPLES; i++) {
+      const s = await sample(ctx, BIG_PROMPT, "long");
+      if (!s.failed) bigs.push(s);
+    }
+
+    const all = smalls.concat(bigs);
     const headers = (all.find((s) => s.headers && Object.keys(s.headers).length) || {}).headers || {};
     const colo = edgeColo(headers);
-    const rawBase = {
-      samples: all.map((s) => ({
-        gid: s.gid, recStatus: s.recStatus, upstreamMs: s.upstreamMs,
-        ttftMs: s.ttftMs, clientLegMs: s.clientLegMs, totalMs: s.totalMs,
-        promptTokens: s.promptTokens, generationTimeMs: s.generationTimeMs,
-      })),
-      records: all.map((s) => s.rec),
-      // vantage-dependent, therefore never part of the value
-      clientLegFloorMs: floorOf(all.map((s) => s.clientLegMs)),
-      edgeColo: colo || null, headers,
-    };
+    const rawBase = summarize(all, colo, headers);
 
-    if (!all.some((s) => s.gid))
-      return { value: "no-generation-record", raw: rawBase };
-    if (!all.some((s) => s.rec))
-      return {
-        value: all.some((s) => s.recStatus === 404) ? "record-not-found"
-          : "no-generation-record",
-        raw: rawBase,
-      };
-
+    // Minimum-of-K, not the mean, on BOTH prompt sizes: a floor is what strips
+    // queueing and jitter out of a network measurement. The big prompt needs it
+    // as badly as the small one, because it alone sets the slope — a single
+    // +15ms queueing spike across a ~900-token delta moves the slope by roughly
+    // 16us/tok, enough to straddle the 25us/tok boundary and flip the band
+    // between two bench runs. The intercept has no such fragility: smallTok is
+    // ~2 tokens, so slope*smallTok stays well under 1ms and the intercept is
+    // effectively smallFloor, which is already a min-of-3.
     const smallFloor = floorOf(smalls.map((s) => s.upstreamMs));
-    const bigUp = big.upstreamMs;
-    if (smallFloor === null) {
-      // The ledger exists but carries no router-side latency: say so, do not guess.
-      const clientOnly = floorOf(all.map((s) => s.ttftMs));
-      return {
-        value: clientOnly === null ? "harness-lacks-timing" : "record-lacks-latency",
-        raw: rawBase,
-      };
-    }
+    const bigFloor = floorOf(bigs.map((s) => s.upstreamMs));
+    if (smallFloor === null) return { value: "record-lacks-latency", raw: rawBase };
 
     const smallTok = floorOf(smalls.map((s) => s.promptTokens));
-    const bigTok = big.promptTokens;
+    const bigTok = floorOf(bigs.map((s) => s.promptTokens));
     let slopeUsPerTok = null, interceptMs = smallFloor;
-    if (bigUp !== null && smallTok !== null && bigTok !== null && bigTok > smallTok) {
-      const perTokMs = (bigUp - smallFloor) / (bigTok - smallTok);
+    if (bigFloor !== null && smallTok !== null && bigTok !== null && bigTok > smallTok) {
+      const perTokMs = (bigFloor - smallFloor) / (bigTok - smallTok);
       slopeUsPerTok = Math.max(0, perTokMs * 1000);
       interceptMs = Math.max(0, smallFloor - (slopeUsPerTok / 1000) * smallTok);
     }
@@ -178,7 +209,8 @@ export async function probe(ctx) {
       value: parts.join(" · "),
       raw: {
         ...rawBase,
-        upstreamFloorSmallMs: smallFloor, upstreamLargeMs: bigUp,
+        upstreamFloorSmallMs: smallFloor, upstreamFloorLargeMs: bigFloor,
+        shortSamples: smalls.length, longSamples: bigs.length,
         promptTokensSmall: smallTok, promptTokensLarge: bigTok,
         slopeUsPerTok: slopeUsPerTok === null ? null : +slopeUsPerTok.toFixed(1),
         interceptMs: +interceptMs.toFixed(1),
