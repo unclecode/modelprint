@@ -1,34 +1,42 @@
 // name:        path split
-// description: differential RTT between a router-rejected call and an
-//              upstream-rejected call, isolating the router->provider network
-//              leg with no GPU, no queueing and no vantage dependence
+// description: which upstream provider answers a lane and which payload it
+//              refuses, plus a GPU-free router->provider RTT measurement in raw
 // author:      pjperez
-// version:     2.2.0
-// calls:       up to 23 per run: up to 3 cascade probes + 20 measurement calls
-//              (10 interleaved A/B pairs). EVERY call is deliberately rejected
+// version:     3.0.0
+// calls:       up to 13 per run: up to 3 cascade probes + 10 measurement calls
+//              (5 interleaved A/B pairs). EVERY call is deliberately rejected
 //              with max_tokens: 1, so ZERO completion tokens are billed and each
 //              carries ~2 prompt tokens — the whole probe costs nothing in
-//              tokens despite the call count, and finishes in ~3s. Bails after 1
-//              call on an auth/credit/throttle failure, and after 1-3 on a lane
-//              with no upstream rejection path. Tested on OpenRouter.
+//              tokens, and finishes in ~2s. Bails after 1 call on an
+//              auth/credit/throttle failure, and after 1-3 on a lane with no
+//              upstream rejection path. Tested on OpenRouter.
 
 export const meta = {
   id: "net-pathsplit", name: "path split", group: "timing",
-  why: "router-rejected vs upstream-rejected latency isolates the provider RTT",
-  long: false, author: "pjperez", version: "2.2.0",
+  why: "names the upstream provider and the payload it refuses; RTT lives in raw",
+  long: false, author: "pjperez", version: "3.0.0",
 };
 
-// A client-measured latency to an aggregator is dominated by the client's own
-// distance to the aggregator edge, so it fingerprints the observer, not the lab.
-// v1 of this probe took the router's /api/v1/generation ledger at its word.
-// Live measurement killed that premise three ways: the ledger is written
-// ASYNCHRONOUSLY and 404s for the first 4-15 seconds, its `latency` field is
-// wildly noisy (three identical calls: 735ms / 6261ms / 27272ms), and prefill
-// sits so far below that noise floor that 900 extra prompt tokens measured as
-// NEGATIVE time. No amount of bucketing rescues a 26-second spread.
+// WHAT THE VALUE IS. Two things that are stable for a given lane: which
+// upstream provider actually answers, and which payload that provider refuses.
+// The second is a real stack signature — providers validate different
+// parameters at different depths, and the cascade grid below shows ox-alpha and
+// Z.AI refusing temperature 2.0 while DeepInfra happily burns a GPU on it and
+// refuses a bad response_format instead.
 //
-// What survives is a differential. Send two calls that are both REJECTED, so
-// neither reaches a GPU and neither can queue behind other users' work:
+// WHAT THE VALUE IS NOT. The RTT measurement and the edge colo are deliberately
+// kept OUT of the value and reported in raw:
+//   - a timing band can flip between two runs of the SAME model, and the
+//     comparison table would then show a difference that is not there;
+//   - the colo describes the VISITOR, not the model, and value strings travel
+//     into public share links.
+// The numbers are still in the JSON export for anyone doing the analysis.
+//
+// HOW THE TIMING IN raw IS MEASURED. A client-measured latency to an aggregator
+// is dominated by the client's own distance to the aggregator edge, so it
+// fingerprints the observer, not the lab. Send two calls that are both
+// REJECTED, so neither reaches a GPU and neither can queue behind other users'
+// work:
 //
 //   A arm — frequency_penalty: 9. The router rejects this itself, locally, on
 //           every model. The error body carries metadata.provider_name = null.
@@ -39,12 +47,24 @@ export const meta = {
 //
 //   delta = floor(B) - floor(A)  ~  router <-> provider round trip
 //
-// The client's own leg appears in both arms and cancels in the subtraction,
-// which is what makes delta vantage-independent: identical for every user on
-// earth. Calibrated against providers of known geography, from OpenRouter's
-// origin: Together US 193/186ms, DeepInfra US 206ms, Azure 228ms, Moonshot CN
-// 235ms, Z.AI CN 253/255ms, Baidu CN 285ms, Alibaba CN/SG 305/316ms. Clusters
-// sit 60-120ms apart while reruns reproduce within 2-11ms.
+// The client's own leg appears in both arms and cancels in the subtraction, so
+// delta is vantage-independent. Calibrated against providers of known geography
+// from OpenRouter's origin, with a fixed poison and 12 pairs: BaseTen US
+// 159-167ms, ox-alpha 179-189ms, Z.AI CN 236-243ms, Alibaba CN/SG 296-308ms.
+//
+// The delta is an UPPER BOUND on network RTT, not pure distance: it includes
+// however long the upstream takes to validate and refuse the request. Some
+// providers' rejection paths are queue-bound rather than distance-bound
+// (Together measured 986ms with a 2089ms spread; Modal floored at 398ms against
+// a second-lowest of 888ms). raw carries secondLowestBMs and bSpreadMs so that
+// case is visible instead of being mistaken for distance.
+//
+// v1 of this probe used the router's /api/v1/generation ledger instead. Live
+// measurement killed that premise three ways: the ledger is written
+// ASYNCHRONOUSLY and 404s for the first 7-15 seconds, its `latency` field is
+// wildly noisy (three identical calls: 735ms / 6261ms / 27272ms), and prefill
+// sits so far below that noise floor that 900 extra prompt tokens measured as
+// NEGATIVE time.
 
 // No single payload is rejected upstream by every provider — some validate it,
 // some happily burn a GPU on it. So probe a cascade and take the first that the
@@ -65,36 +85,13 @@ const POISONS = [
 // way). That is precisely why it is the baseline arm.
 const BASELINE = { frequency_penalty: 9 };
 
-// Measured, not guessed. At 4 pairs the Together lane produced deltas of
-// 166 / 110 / 103 ms across three runs — a 63ms spread that straddles the
-// 150ms boundary and reports UNSTABLE. Its B samples were 633,407,207,212:
-// four draws simply never reached the true floor. At 10 pairs the same lane
-// draws 134-193 and yields 100 / 102 / 104 (4ms spread). Every lane tested
-// tightened to <=4ms at 10 pairs (ox-alpha 1ms, Novita 1ms, DeepInfra 4ms),
-// which is what the bucket boundaries assume. The extra calls are free: every
-// one is rejected, so no completion tokens are ever billed.
-const PAIRS = 10;
-
-// Boundaries sit in the MIDDLE of the gaps between observed lane clusters, so
-// ordinary jitter cannot walk a lane across one. Measured deltas (min-of-10,
-// three repeats each): Together 100-114 | ox-alpha 183-196 | DeepInfra 185-203
-// | Novita 226-246 | Z.AI 236-251 | Baidu ~285 | Alibaba 300-325.
-//
-// The first boundary set placed cuts at 225 and 300. Live runs showed both were
-// unsafe: Novita drew 226 against the 225 cut (1ms of margin) and Alibaba
-// straddled 300 outright, flipping bucket between two runs and reporting
-// UNSTABLE. Re-centring to 215 and 270 restores >=11ms of margin on every
-// observed lane while keeping the discrimination that matters — ox-alpha and
-// DeepInfra land in one bucket, Novita and Z.AI in the next.
-const RTT_BANDS = [
-  [80, "rtt<80ms"], [150, "rtt80-150ms"], [215, "rtt150-215ms"],
-  [270, "rtt215-270ms"], [400, "rtt270-400ms"], [Infinity, "rtt>400ms"],
-];
-
-function band(v, bands) {
-  for (const [hi, label] of bands) if (v < hi) return label;
-  return bands[bands.length - 1][1];
-}
+// The floor of K interleaved pairs. K=5 keeps the whole probe to at most 13
+// calls, so it cannot trip a rate limit and break the probes that run after it
+// in the same lane. Earlier revisions used K=10 because the delta was bucketed
+// into the value and needed millisecond-scale precision; now that the timing
+// lives only in raw, a coarser floor is enough, and raw carries the
+// second-lowest sample and the spread so a reader can judge its quality.
+const PAIRS = 5;
 
 function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
 
@@ -248,7 +245,13 @@ export async function probe(ctx) {
     }
 
     const colo = edgeColo(firstHeaders);
-    const rawBase = { grid, poison: poisonName, provider, aSamples: aRaw,
+    // Which providers actually answered the MEASUREMENT calls, not just the
+    // cascade probe. On an unpinned lane the router can spread calls across
+    // hosts, which would let the label name one provider while the timings came
+    // from another. Distinct names here mean the lane is not a single target.
+    const bProviders = [...new Set(bRaw.map((s) => s.providerName).filter(Boolean))];
+    const rawBase = { grid, poison: poisonName, provider,
+                      measuredProviders: bProviders, aSamples: aRaw,
                       bSamples: bRaw, edgeColo: colo || null, headers: firstHeaders };
 
     // The baseline must be a LOCAL rejection. If the router forwarded it, it is
@@ -261,21 +264,42 @@ export async function probe(ctx) {
     // so mid-measurement the lane is flapping and the delta cannot be trusted.
     if (!bS.length)
       return { value: "upstream-reject-unstable", raw: rawBase };
+    // Same rule the tokenizer probes use: a router spreading calls across hosts
+    // is reported as unstable rather than as a fingerprint of whichever host
+    // happened to answer first.
+    if (bProviders.length > 1)
+      return { value: "router-spread-unstable", raw: rawBase };
 
     // Minimum of K on both arms: a floor is what strips queueing and jitter out
-    // of a network measurement. Rejected calls cannot queue behind GPU work, so
-    // the floors converge tightly (reruns reproduced within 2-11ms).
+    // of a network measurement. Rejected calls cannot queue behind GPU work.
     const floorA = floorOf(aS), floorB = floorOf(bS);
     const deltaMs = floorB - floorA;
+    // B traverses a strict superset of A's path, so a non-positive delta is
+    // physically impossible and means the measurement is invalid rather than
+    // fast. Never publish it as a number, not even in raw.
+    const deltaValid = deltaMs > 0;
+    // Second-lowest B sample: if it sits far above the floor, the floor was a
+    // lucky draw and this provider's rejection path is queue-bound rather than
+    // distance-bound. Lets a reader judge the timing instead of trusting it.
+    const sortedB = bS.slice().sort((x, y) => x - y);
+    const secondB = sortedB.length > 1 ? sortedB[1] : null;
 
-    // The poison NAME is part of the value: different payloads are validated at
-    // different depths in a provider's stack, so a delta measured with temp2.0
-    // is not comparable to one measured with badfmt.
-    const parts = [provider, poisonName, band(deltaMs, RTT_BANDS), colo].filter(Boolean);
+    // VALUE carries only what is stable and comparable: which provider answered
+    // and which payload it refused. The timing does NOT go in, because a band
+    // can flip between runs on the same model and the table would then show a
+    // false difference. The edge colo does not go in either: it describes the
+    // VISITOR, not the model, and value strings end up in public share links.
+    // Both live in raw, where the JSON export keeps them for analysis.
+    const parts = [provider, poisonName].filter(Boolean);
     return {
       value: parts.join(" · "),
       raw: { ...rawBase, floorAMs: +floorA.toFixed(1), floorBMs: +floorB.toFixed(1),
-             deltaMs: +deltaMs.toFixed(1), aUsable: aS.length, bUsable: bS.length },
+             deltaMs: deltaValid ? +deltaMs.toFixed(1) : null,
+             deltaNote: deltaValid ? null : "non-positive-delta-unstable",
+             secondLowestBMs: secondB === null ? null : +secondB.toFixed(1),
+             bSpreadMs: sortedB.length > 1
+               ? +(sortedB[sortedB.length - 1] - sortedB[0]).toFixed(1) : null,
+             aUsable: aS.length, bUsable: bS.length },
     };
   } catch (e) {
     return { value: "probe-failed: " + ((e && e.message) || "error") };
