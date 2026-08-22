@@ -63,6 +63,8 @@ async function handleEvent(request, env) {
 
   const d = day();
   await count(env.KV, `t:${d}:${event}`);
+  if (event === "run" || event === "visit")
+    await count(env.KV, `total:${event}`, 3650);   // all-time, ~10y ttl
 
   if (event === "visit") {
     // uniques: first visit of this visitor today bumps the uniques counter
@@ -98,7 +100,10 @@ async function handleStats(request, env) {
   const mlist = await env.KV.list({ prefix: `m$:${d}:`, limit: 200 });
   for (const k of mlist.keys)
     byModel[k.name.slice(`m$:${d}:`.length)] = +parseFloat((await env.KV.get(k.name)) || "0").toFixed(6);
+  const totalRuns = parseInt((await env.KV.get("total:run")) || "0", 10);
+  const totalVisits = parseInt((await env.KV.get("total:visit")) || "0", 10);
   return json({ day: d, stats: out, online_now: alive.keys.length,
+    total_runs: totalRuns, total_visits: totalVisits,
     spend_today_usd: +spendTotal.toFixed(6), spend_by_model: byModel });
 }
 
