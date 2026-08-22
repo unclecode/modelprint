@@ -3,6 +3,26 @@
 
 import { REGISTRY } from "./probes/index.js";
 
+/* The key-credits backend (worker/). When an OpenRouter lane has NO key, the
+   page runs through this proxy on the house budget: model whitelist, daily
+   visitor cap, daily global cap, all enforced server-side. Empty string
+   disables the free path entirely (the page then requires a key, as before),
+   so a backend outage can never break the tool. */
+const BACKEND = "https://modelprint-api.unclecode.workers.dev";
+let FREE_INFO = null;   // filled from /proxy/status at boot when BACKEND is set
+
+/* Anonymous usage counters (no cookies, no ids stored in the browser).
+   Fire-and-forget: telemetry must never slow or break the tool. */
+function ping(event, extra = {}) {
+  if (!BACKEND) return;
+  try {
+    fetch(BACKEND + "/t", { method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ event, ...extra }),
+      keepalive: true }).catch(() => {});
+  } catch { /* never surface */ }
+}
+
 /* ---------------- providers ---------------- */
 const PROVIDERS = {
   demo:      { label: "Demo (no key needed)", keyHint: "", base: null,
@@ -70,6 +90,28 @@ function pickHeaders(r) {
 async function chat(lane, payload) {
   const p = PROVIDERS[lane.provider];
   const base = lane.provider === "custom" ? lane.customBase : p.base;
+  // keyless OpenRouter lane + live backend = the free-credits path
+  if (lane.provider === "openrouter" && !lane.key && BACKEND && FREE_INFO) {
+    try {
+      const r = await fetch(BACKEND + "/proxy/chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ model: lane.model, ...payload }),
+        signal: AbortSignal.timeout(60_000),
+      });
+      const text = await r.text();
+      lane.freeUsed = r.headers.get("x-modelprint-calls-used") || lane.freeUsed;
+      if (!r.ok) return { ok: false, status: r.status, error: text };
+      const d = JSON.parse(text);
+      const choice = (d.choices || [])[0] || {};
+      return { ok: true, status: r.status,
+        usage: { prompt_tokens: d.usage?.prompt_tokens, completion_tokens: d.usage?.completion_tokens },
+        finish: choice.native_finish_reason || choice.finish_reason,
+        text: choice.message?.content || "" };
+    } catch (e) {
+      return { ok: false, status: 0, error: "free-credits backend: " + e.message };
+    }
+  }
   const t0 = performance.now();
   try {
     let url, headers, body;
@@ -340,6 +382,7 @@ function toast(msg) {
 window.toast = toast;
 
 window.addLane = function (provider, model, scroll) {
+  if (!provider) ping("lane_added");         // only user clicks, not boot lanes
   const prov = provider || "openrouter";     // every new card starts on OpenRouter
   const lane = { id: ++laneSeq, provider: prov, model: model || "",
     key: savedKey(prov), customBase: "", pinHost: "", models: PROVIDERS[prov].models,
@@ -431,6 +474,11 @@ function laneHtml(lane, index) {
   const keyField = lane.provider === "demo" ? "" :
     `<label>api key</label><input type="password" id="key-${lane.id}" placeholder="${p.keyHint}" class="mono"
        value="${lane.key}" oninput="setKey(${lane.id}, this.value)">`;
+  const freeNote = (lane.provider === "openrouter" && !lane.key && BACKEND && FREE_INFO)
+    ? (FREE_INFO.free_models.includes(lane.model)
+        ? `<div class="fetchnote ok">✓ no key needed: runs on free credits${lane.freeUsed ? ` · ${lane.freeUsed}/${FREE_INFO.visitor_limit} today` : ""}</div>`
+        : (lane.model ? `<div class="fetchnote">this model needs your own key; free credits cover the cheap tier</div>` : ""))
+    : "";
   const pinField = lane.provider !== "openrouter" ? "" :
     (lane.hosts?.length
       ? `<label>pin host (optional)</label>
@@ -458,6 +506,7 @@ function laneHtml(lane, index) {
     ${modelField}
     ${note}
     ${keyField}
+    ${freeNote}
     ${pinField}
     <div class="status">${statusLine}</div>
   </div></div>`;
@@ -525,7 +574,10 @@ document.addEventListener("mousedown", (e) => {
 
 /* ---------------- running ---------------- */
 function laneReady(lane) {
-  return lane.model && (lane.provider === "demo" || lane.key || lane.provider === "custom");
+  if (!lane.model) return false;
+  if (lane.provider === "openrouter" && !lane.key && BACKEND && FREE_INFO)
+    return FREE_INFO.free_models.includes(lane.model);
+  return lane.provider === "demo" || !!lane.key || lane.provider === "custom";
 }
 
 window.runAll = async function () {
@@ -533,6 +585,11 @@ window.runAll = async function () {
   if (!ready.length) { toast("configure at least one model first"); return; }
   const btn = document.getElementById("runall");
   btn.disabled = true;
+  ping("run", {
+    provider: ready[0]?.provider,
+    keyless: ready.every(l => !l.key),
+    models: ready.map(l => l.model),
+  });
   window.scrollTo({ left: 0, behavior: "smooth" });
   document.querySelector(".tablewrap")?.scrollIntoView({ behavior: "smooth", block: "start" });
   await Promise.all(ready.map(l => runLane(l.id)));
@@ -552,7 +609,7 @@ window.runLane = async function (id) {
     try {
       let out;
       if (lane.provider === "demo") {
-        await new Promise(r => setTimeout(r, 300 + Math.random() * 450));
+        await new Promise(r => setTimeout(r, 60 + Math.random() * 80));
         out = { value: DEMO_DB[demoFamily(lane.model)][meta.id] };
       } else {
         out = await probe({ chat: (payload) => chat(lane, payload),
@@ -722,6 +779,10 @@ async function unpackState(b64) {
 }
 
 window.shareResult = async function () {
+  if (!lanes.some(l => l.state === "done" || l.state === "shared")) {
+    toast("run a comparison first, then share it");
+    return;
+  }
   const order = PROBES.map(p => p.meta.id);
   let mask = 0n;
   order.forEach((id, i) => { if (SELECTED.has(id)) mask |= (1n << BigInt(i)); });
@@ -748,16 +809,30 @@ window.shareResult = async function () {
     s: mask.toString(36),
     ...(vd ? { vd } : {}),
   };
-  const url = location.origin + location.pathname + "#c=" + await packState(payload);
   const headline = vd ? `${pairA} vs ${pairB}: ${vd[0]}/${vd[1]} probes match` : "model fingerprint comparison";
   const msg = vd
     ? `I fingerprinted ${pairA} vs ${pairB}. ${vd[0]} of ${vd[1]} infrastructure probes match. Run it yourself, bring your own key:`
     : `Fingerprint any model API with infrastructure probes. Run it yourself:`;
+  // the modal opens NOW, in its loading state; the link fills in when ready
+  openShareModal({ url: null, headline, msg });
+  const packed = await packState(payload);
+  let url = window.__shareMemo?.packed === packed ? window.__shareMemo.url : null;
+  if (!url) {
+    try {
+      const r = await fetch(BACKEND + "/s", { method: "POST",
+        headers: { "content-type": "text/plain" }, body: packed,
+        signal: AbortSignal.timeout(5000) });
+      if (r.ok) url = location.origin + location.pathname + "#s=" + (await r.json()).id;
+    } catch { /* backend down: long link below */ }
+    if (!url) url = location.origin + location.pathname + "#c=" + packed;
+    window.__shareMemo = { packed, url };
+  }
   openShareModal({ url, headline, msg });
 };
 
 function openShareModal({ url, headline, msg }) {
-  const xIntent = "https://twitter.com/intent/tweet?text="
+  const loading = !url;
+  const xIntent = loading ? "#" : "https://twitter.com/intent/tweet?text="
     + encodeURIComponent(msg) + "&url=" + encodeURIComponent(url);
   let m = document.getElementById("sharemodal");
   if (!m) { m = document.createElement("div"); m.id = "sharemodal"; document.body.appendChild(m); }
@@ -767,10 +842,10 @@ function openShareModal({ url, headline, msg }) {
       <div class="sm-title">Share this result</div>
       <div class="sm-headline">${headline}</div>
       <textarea class="sm-msg" id="sm-msg" rows="3">${msg}</textarea>
-      <div class="sm-link mono">${url}</div>
+      <div class="sm-link mono${loading ? " sm-loading" : ""}">${loading ? "creating link…" : url}</div>
       <div class="sm-actions">
-        <a class="sm-x-btn" href="${xIntent}" target="_blank" rel="noopener">Share on X</a>
-        <button class="sm-copy" onclick="copyShareLink('${url.replace(/'/g, "\\'")}')">Copy link</button>
+        <a class="sm-x-btn${loading ? " sm-off" : ""}" href="${xIntent}" ${loading ? "" : 'target="_blank" rel="noopener"'}>Share on X</a>
+        <button class="sm-copy" ${loading ? "disabled" : ""} onclick="copyShareLink('${loading ? "" : url.replace(/'/g, "\\'")}')">Copy link</button>
       </div>
       <div class="sm-note">The opener sees your result and can Run to reproduce it. Image preview coming soon.</div>
     </div></div>`;
@@ -802,9 +877,22 @@ function legacyCopy(text, okMsg) {
 }
 
 async function restoreFromHash() {
+  const short = location.hash.match(/#s=([a-z2-9]{6})/);
+  if (short) {
+    try {
+      const r = await fetch(BACKEND + "/s/" + short[1], { signal: AbortSignal.timeout(6000) });
+      if (r.ok) return await restorePacked(await r.text());
+    } catch { /* fall through: nothing to restore */ }
+  }
   const m = location.hash.match(/#c=([A-Za-z0-9\-_]+)/);
   if (!m) return false;
-  let data; try { data = await unpackState(m[1]); } catch { return false; }
+  return restorePacked(m[1]);
+}
+
+/* Rebuild the board from a packed share state (from a #c= hash or a short
+   link's stored body). Same restore either way. */
+async function restorePacked(packed) {
+  let data; try { data = await unpackState(packed); } catch { return false; }
   if (!data || !Array.isArray(data.l)) return false;
   // rebuild lanes WITH the sharer's results, marked "shared" (Run to verify)
   lanes = []; laneSeq = 0;
@@ -820,6 +908,12 @@ async function restoreFromHash() {
   }
   window.__pendingSel = data.s;
   window.__sharedVerdict = data.vd || null;
+  // land the opener on the VERDICT cards, the bottom line of the result
+  setTimeout(() => {
+    const verdict = document.getElementById("verdict");
+    (verdict?.innerHTML ? verdict : document.querySelector(".tablewrap"))
+      ?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, 600);
   return true;
 }
 function applyPendingSelection() {
@@ -850,6 +944,16 @@ window.exportJson = function () {
 
 /* ---------------- boot ---------------- */
 (async function boot() {
+  if (BACKEND) {
+    fetch(BACKEND + "/proxy/status", { signal: AbortSignal.timeout(6000) })
+      .then(r => r.ok ? r.json() : null)
+      .then(info => {
+        FREE_INFO = (info && info.enabled && Array.isArray(info.free_models)) ? info : null;
+        render();
+      })
+      .catch(() => { FREE_INFO = null; });
+    ping("visit");
+  }
   // Cards first, instantly; probes stream in behind them.
   // Lane A: the current mystery model, real OpenRouter, host pre-pinned
   // (it is served by exactly one host, "Stealth"). The visitor adds a key.
@@ -875,14 +979,17 @@ window.exportJson = function () {
     addLane("openrouter", "");
   }
   render();
-  // focus lane B's model picker once its list arrives
-  const focusB = setInterval(() => {
-    const cells = document.querySelectorAll(".lanecell");
-    if (cells.length >= 2) {
-      const control = cells[1].querySelector("select:nth-of-type(2), input.mono, select");
-      const modelSelect = cells[1].querySelectorAll("select")[1] || cells[1].querySelector("input.mono");
-      if (modelSelect) { modelSelect.focus(); clearInterval(focusB); }
-    }
-  }, 400);
-  setTimeout(() => clearInterval(focusB), 6000);
+  // focus lane B's model picker once its list arrives — but ONLY on a fresh
+  // visit. A share-link opener is here to READ a result; stealing focus
+  // would also yank the viewport back up to the cards.
+  if (!restored) {
+    const focusB = setInterval(() => {
+      const cells = document.querySelectorAll(".lanecell");
+      if (cells.length >= 2) {
+        const modelSelect = cells[1].querySelectorAll("select")[1] || cells[1].querySelector("input.mono");
+        if (modelSelect) { modelSelect.focus(); clearInterval(focusB); }
+      }
+    }, 400);
+    setTimeout(() => clearInterval(focusB), 6000);
+  }
 })();

@@ -1,0 +1,11 @@
+name = "modelprint-api"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+# KV: budget counters (visitor + global) and short-link state
+kv_namespaces = [
+  { binding = "KV", id = "105ddd6b16ee413bbe5e7452c9d46fe7" }
+]
+
+# Secrets (set via `wrangler secret put`):
+#   OPENROUTER_KEY  - the credited key for the free path
