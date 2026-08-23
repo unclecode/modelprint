@@ -740,12 +740,12 @@ const GROUP_NOTES = {
   tokenizer: "same text in, token count out — tokenizers are unique per lab",
   errors: "invalid requests return the lab's own validation prose",
   shape: "field vocabulary and finish behaviour",
-  network: "routing metadata, generation records and headers name the host that served you",
-  capability: "hard ceilings: context length and knowledge cutoff date the checkpoint",
+  network: "routing metadata, generation records and headers identify the serving route",
+  capability: "the accepted context-window bucket helps date the model variant",
   leak: "the injected wrapper prompt unmasks whoever is wrapping your traffic",
   reasoning: "thinking overhead and its parameter validation differ per lab",
   logits: "top-logprob geometry survives API truncation; δ≈0.32 is universal, deviations are personal",
-  timing: "streaming chunk pacing fingerprints the serving stack",
+  timing: "upstream refusal paths identify the provider; round-trip timing stays in raw",
   behavior: "answer distributions on trivial choices are stable per trained model",
 };
 

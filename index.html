@@ -274,26 +274,27 @@
     <summary>What each probe does, and why personality tests are excluded</summary>
     <p><b>tokenizer counts</b> — the same text goes to each model; the API's own
     <b>usage.prompt_tokens</b> comes back. Tokenizers are built per lab and almost never match
-    across labs. Five texts (English, Chinese, code, emoji, empty) give five independent readings.</p>
-    <p><b>template offset</b> — an empty prompt against a one-word prompt reveals how many hidden
-    tokens the serving template adds. A constant +75 offset was one of the clues the community used
-    on Ox Alpha.</p>
-    <p><b>error taxonomy</b> — deliberately invalid parameters (temperature 2.5, negative
-    max_tokens) return validation prose written by the lab's own engineers, often with numeric
+    across labs. Four pinned texts (English, Chinese, code and emoji), each normalized against a
+    one-character baseline, give four independent readings.</p>
+    <p><b>template offset</b> — a repeated one-character prompt and a pinned eight-word prompt expose
+    the serving-template overhead and visible-text delta. A constant +75 offset was one of the clues
+    the community used on Ox Alpha.</p>
+    <p><b>error taxonomy</b> — edge and oversized parameters (temperature 2.0 and
+    max_tokens 10<sup>9</sup>) return validation prose written by the lab's own engineers, often with numeric
     codes. GLM's content filter answers with code 1301; that code appearing behind a stealth model
     ended the mystery for many.</p>
-    <p><b>network forensics</b> — three probes read the delivery chain itself: the router's
+    <p><b>network forensics</b> — four probes read the delivery chain itself: the router's
     opt-in metadata snapshot names the edge region and provider that served each call; the
     <b>/generation</b> ledger repeats that plus native token counts; and response-header families
     (<b>cf-ray</b>, <b>x-amzn-requestid</b>, <b>openai-processing-ms</b>) fingerprint the serving
-    stack the way nmap fingerprints a web server.</p>
-    <p><b>capability ceilings</b> — a bisected padding ladder finds the exact context ceiling
-    (1,048,576 vs 262,144 dates the variant instantly), and date-recall questions binary-search
-    the training cutoff. Hard numbers beat vibes.</p>
-    <p><b>deep signals</b> — the one-token battery samples "pick a random number/color/coin"
-    cells whose modal answers are stable per trained model (arXiv:2607.10252); logprob geometry
-    reads δ≈0.32 gap structure where exposed; reasoning overhead, wrapper-leak hashes and stream
-    cadence buckets corroborate the rest.</p>
+    stack the way nmap fingerprints a web server; path split records which upstream provider
+    receives and refuses a payload.</p>
+    <p><b>capability ceiling</b> — a tokenizer-calibrated, bisected padding ladder finds the accepted
+    context-window bucket, distinguishing 64k, 128k, 200k and 256k-class variants.</p>
+    <p><b>deep signal</b> — logprob geometry reads the normalized third-gap δ where top logprobs are
+    exposed, and degrades honestly when the endpoint does not support them.</p>
+    <p><b>held for follow-up</b> — cutoff dating, wrapper leak, reasoning trace, stream cadence and
+    the one-token battery are not in the approved registry yet.</p>
     <p><b>Why no censorship or personality probes:</b> the community ran both on Ox Alpha and got
     contradictory verdicts from the same model on the same day. Behaviour bends to a system prompt;
     tokenizers and error handlers do not. This tool fingerprints the plumbing only.</p>
