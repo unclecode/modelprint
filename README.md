@@ -43,13 +43,16 @@ lab's best is 2 of 4.
 
 ## The probes
 
+The approved registry currently contains 15 probes. These are the probes the
+page loads and compares:
+
 | probe | what it reads | why it identifies a lab |
 | --- | --- | --- |
 | english pangram | `usage.prompt_tokens` for a pinned text | tokenizers are built per lab |
 | chinese paragraph | same, CJK text | CJK segmentation differs most |
 | code snippet | same, source code | indentation and symbol handling |
 | emoji + rare unicode | same, hard codepoints | byte-fallback behaviour |
-| template offset | tokens added around an empty prompt | the serving template's size |
+| template offset | prompt-token overhead across two pinned short prompts | the serving template's size |
 | temperature: 2.0 | the validation prose, verbatim | written by the lab's engineers |
 | max_tokens: 10^9 | the refusal message | it names the real output limit |
 | error code family | numeric vs string vs typed errors | GLM's 1301 code gave Ox away |
@@ -63,13 +66,15 @@ lab's best is 2 of 4.
 | generation record | OpenRouter's `/generation` ledger for one call id | provider name, data region and NATIVE token counts, straight from the router's books |
 | header dna | response header families (`cf-ray`, `x-amzn-requestid`, `openai-processing-ms`…) and the response-id prefix | serving stacks expose different headers; Bedrock ≠ Vertex ≠ first-party |
 | path split | which upstream provider answers, and which payload it refuses — timing kept in the JSON export | providers validate different parameters at different depths; the raw record also carries a GPU-free router→PROVIDER round trip, since both calls are refused and your own leg cancels out of the difference |
-| context ceiling | bisected maximum accepted prompt size | 1,048,576 vs 262,144 vs 131,072 — exact ceilings date the variant |
-| cutoff dating | binary-searched recall of pinned event dates | training data has a hard edge; weights do not lie |
-| wrapper leak | extracted hidden system prompt (length + hash) | routers and labs inject wrappers; their wording unmasks the host |
-| reasoning trace | invalid-`reasoning_effort` prose + thinking-token overhead on a fixed puzzle | labs validate parameters in their own words and budget thinking differently |
+| context ceiling | bisected accepted prompt-size bucket | 64k, 128k, 200k and 256k+ window classes help date the variant |
 | logprob geometry | normalized 3rd top-logprob gap δ on pinned continuations | EVT predicts δ≈0.32 universally; deviations flag quantized or substituted weights |
-| stream cadence | bucketed TTFT / chunk gap / chunk size of a streamed reply | vLLM, TGI and first-party stacks pace chunks differently |
-| one-token battery | modal answer to "random number / color / coin" cells | per arXiv:2607.10252 these biases are model-deep and stable across providers |
+
+### Held for follow-up
+
+Five proposals from the original community batch are not in the approved
+registry yet: cutoff dating, wrapper leak, reasoning trace, stream cadence,
+and the one-token battery. They remain follow-up ideas until they pass the
+project's security and determinism gates.
 
 Telemetry probes degrade honestly when a harness lacks the signal
 (`harness-lacks-http`, `headers-hidden-by-cors`, `logprobs-unsupported`) —

@@ -1,12 +1,12 @@
 // name:        context ceiling
-// description: bisect the maximum accepted prompt size; exact ceilings are
-//              published per model and almost never collide across families
+// description: bisect the accepted prompt-size bucket; window classes help
+//              distinguish model variants without probing all the way to 1M
 // author:      ItIsCuthNotCup
 // version:     1.0.0
 
 export const meta = {
   id: "cap-contextceiling", name: "context ceiling", group: "capability",
-  why: "1,048,576 vs 262,144 vs 131,072 — the ceiling dates the variant",
+  why: "64k, 128k, 200k and 256k+ window classes help date the variant",
   long: false, author: "ItIsCuthNotCup", version: "1.0.0",
 };
 
