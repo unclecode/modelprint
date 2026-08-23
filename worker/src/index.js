@@ -44,7 +44,41 @@ async function visitorId(request) {
 async function count(kv, key, ttlDays = 90) {
   const v = parseInt((await kv.get(key)) || "0", 10) + 1;
   await kv.put(key, String(v), { expirationTtl: 60 * 60 * 24 * ttlDays });
+  await bumpSummary(kv, key, v);
   return v;
+}
+
+/* THE SUMMARY.
+ *
+ * /stats used to LIST the store three times per call to rebuild the day's
+ * picture. The dashboard called it every 60 seconds, which spent about 3,600
+ * list operations a day against a free limit of 1,000, and the endpoint then
+ * failed with 500 for the rest of the day.
+ *
+ * Now every counter write also folds itself into one small summary object,
+ * and /stats reads that single object. Zero lists, one read. */
+const SUMMARY_KEY = () => `summary:${day()}`;
+
+async function readSummary(kv) {
+  return (await kv.get(SUMMARY_KEY(), "json")) || { events: {}, models: {}, spend: 0, spendByModel: {} };
+}
+
+async function bumpSummary(kv, key, value) {
+  const d = day();
+  const prefix = `t:${d}:`;
+  if (!key.startsWith(prefix)) return;
+  const name = key.slice(prefix.length);
+  const sum = await readSummary(kv);
+  if (name.startsWith("model:")) sum.models[name.slice(6)] = value;
+  else sum.events[name] = value;
+  await kv.put(SUMMARY_KEY(), JSON.stringify(sum), { expirationTtl: 60 * 60 * 24 * 90 });
+}
+
+async function bumpSummarySpend(kv, model, usd) {
+  const sum = await readSummary(kv);
+  sum.spend = +((sum.spend || 0) + usd).toFixed(8);
+  sum.spendByModel[model] = +((sum.spendByModel[model] || 0) + usd).toFixed(8);
+  await kv.put(SUMMARY_KEY(), JSON.stringify(sum), { expirationTtl: 60 * 60 * 24 * 90 });
 }
 
 /* ---- telemetry ---- */
@@ -54,9 +88,16 @@ async function handleEvent(request, env) {
   try { body = await request.json(); } catch { return json({ error: "bad json" }, 400); }
   const event = String(body.event || "");
   if (event === "beat") {
-    // presence heartbeat (sendBeacon): alive for 2 minutes, no counters touched
+    // Presence used to be one key per visitor plus a LIST to count them.
+    // It is now a single roster object of {visitorId: lastSeenMs}, pruned on
+    // write, so counting who is here costs one read instead of a listing.
     const visitor = await visitorId(request);
-    await env.KV.put(`now:${visitor}`, "1", { expirationTtl: 120 });
+    const now = Date.now();
+    let roster = {};
+    try { roster = (await env.KV.get("presence", "json")) || {}; } catch {}
+    roster[visitor] = now;
+    for (const [k, t] of Object.entries(roster)) if (now - t > 120_000) delete roster[k];
+    await env.KV.put("presence", JSON.stringify(roster), { expirationTtl: 600 });
     return json({ ok: true });
   }
   if (!EVENTS.has(event)) return json({ error: "unknown event" }, 400);
@@ -87,24 +128,23 @@ async function handleEvent(request, env) {
 async function handleStats(request, env) {
   const url = new URL(request.url);
   const d = url.searchParams.get("day") || day();
-  const list = await env.KV.list({ prefix: `t:${d}:`, limit: 1000 });
-  const out = {};
-  for (const k of list.keys) {
-    out[k.name.slice(`t:${d}:`.length)] = parseInt((await env.KV.get(k.name)) || "0", 10);
-  }
-  // presence: visitors whose heartbeat is younger than 2 minutes
-  const alive = await env.KV.list({ prefix: "now:", limit: 500 });
-  // money: today's credited-key spend, total and per model, in dollars
-  const spendTotal = parseFloat((await env.KV.get(`g$:${d}`)) || "0");
+  // Reads only. No list operations, so the daily free limit cannot be hit.
+  const [sum, rosterRaw, totalRunsRaw, totalVisitsRaw] = await Promise.all([
+    readSummary(env.KV),
+    env.KV.get("presence", "json"),
+    env.KV.get("total:run"),
+    env.KV.get("total:visit"),
+  ]);
+  const out = { ...sum.events };
+  for (const [m, v] of Object.entries(sum.models || {})) out["model:" + m] = v;
+  const now = Date.now();
+  const online = Object.values(rosterRaw || {}).filter(t => now - t <= 120_000).length;
   const byModel = {};
-  const mlist = await env.KV.list({ prefix: `m$:${d}:`, limit: 200 });
-  for (const k of mlist.keys)
-    byModel[k.name.slice(`m$:${d}:`.length)] = +parseFloat((await env.KV.get(k.name)) || "0").toFixed(6);
-  const totalRuns = parseInt((await env.KV.get("total:run")) || "0", 10);
-  const totalVisits = parseInt((await env.KV.get("total:visit")) || "0", 10);
-  return json({ day: d, stats: out, online_now: alive.keys.length,
-    total_runs: totalRuns, total_visits: totalVisits,
-    spend_today_usd: +spendTotal.toFixed(6), spend_by_model: byModel });
+  for (const [m, v] of Object.entries(sum.spendByModel || {})) byModel[m] = +v.toFixed(6);
+  return json({ day: d, stats: out, online_now: online,
+    total_runs: parseInt(totalRunsRaw || "0", 10),
+    total_visits: parseInt(totalVisitsRaw || "0", 10),
+    spend_today_usd: +(sum.spend || 0).toFixed(6), spend_by_model: byModel });
 }
 
 /* ---- short links ---- */
@@ -280,6 +320,7 @@ async function handleProxyChat(request, env, ctx) {
       addSpend(env.KV, `v$:${visitor}:${d}`, cost, 2),
       addSpend(env.KV, `g$:${d}`, cost),
       addSpend(env.KV, `m$:${d}:${model.slice(0, 60)}`, cost),
+      bumpSummarySpend(env.KV, model.slice(0, 60), cost),
     ]));
   }
   return new Response(text, {

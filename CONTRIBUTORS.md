@@ -18,6 +18,13 @@ Found and fixed a bug that stopped `net-genrecord` from ever returning a
 record, and wrote `net-pathsplit`, which measures the network distance to the
 real upstream provider behind a router using two deliberately rejected calls.
 
+**[@toby-bridges](https://github.com/toby-bridges)** —
+[#4](https://github.com/unclecode/modelprint/pull/4).
+Caught the public copy drifting from the code: five tokenizer texts that were
+really four, a streaming probe described but never shipped, exact context
+ceilings the capped ladder never measures, and ten community probes presented
+as shipped when five were held.
+
 ## Want your name here?
 
 Copy [`probes/_template.js`](probes/_template.js), keep the header comment,

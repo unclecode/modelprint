@@ -4,6 +4,17 @@ All notable changes to modelprint. Newest first.
 Versions follow [semantic versioning](https://semver.org): the middle number
 moves when the tool gains something, the last when it only fixes things.
 
+## [0.7.4] - 2026-08-23
+
+### Fixed
+- Public copy that no longer matched the code, by
+  [@toby-bridges](https://github.com/toby-bridges) (#4): the page said five
+  tokenizer texts when there are four, described a streaming-pacing probe that
+  was never shipped, and promised exact context ceilings such as 1,048,576
+  when the ladder stops at 256k on purpose and reports window buckets. The
+  README also presented all ten community probes as shipped when five were
+  held for follow-up.
+
 ## [0.7.3] - 2026-08-23
 
 ### Fixed
