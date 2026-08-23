@@ -2,6 +2,7 @@
    Design contract with probes/: see probes/_template.js. */
 
 import { REGISTRY } from "./probes/index.js";
+import { isBusy } from "./probes/_failure.js";
 
 /* The key-credits backend (worker/). When an OpenRouter lane has NO key, the
    page runs through this proxy on the house budget: model whitelist, daily
@@ -625,6 +626,26 @@ function laneReady(lane) {
   return lane.provider === "demo" || !!lane.key || lane.provider === "custom";
 }
 
+/* While a lane is running, its status line is rebuilt every 3 seconds so a
+   long wait on ONE call still tells the visitor the model is busy. */
+let WAIT_TICKER = null;
+function startWaitTicker() {
+  if (WAIT_TICKER) return;
+  WAIT_TICKER = setInterval(() => {
+    const running = lanes.filter(l => l.state === "running");
+    if (!running.length) { clearInterval(WAIT_TICKER); WAIT_TICKER = null; return; }
+    let changed = false;
+    for (const lane of running) {
+      if (!lane.probeStartedAt) continue;
+      const waited = Math.round((Date.now() - lane.probeStartedAt) / 1000);
+      const next = lane.probeLabel + (waited > 20
+        ? ` · waiting ${waited}s, this model is busy` : "");
+      if (next !== lane.statusText) { lane.statusText = next; changed = true; }
+    }
+    if (changed) render();
+  }, 3000);
+}
+
 window.runAll = async function () {
   const ready = lanes.filter(laneReady);
   if (!ready.length) {
@@ -639,6 +660,7 @@ window.runAll = async function () {
   }
   const btn = document.getElementById("runall");
   btn.disabled = true;
+  startWaitTicker();
   ping("run", {
     provider: ready[0]?.provider,
     keyless: ready.every(l => !l.key),
@@ -670,7 +692,12 @@ window.runLane = async function (id) {
   const active = PROBES.filter(p => isOn(p.meta.id));
   for (let i = 0; i < active.length; i++) {
     const { meta, probe } = active[i];
-    lane.statusText = `probe ${i + 1}/${active.length} · ${meta.id}`;
+    // A provider under load can take minutes ON A SINGLE CALL. The status is
+    // therefore rebuilt by a ticker (see startWaitTicker) rather than only
+    // between probes, so a lane stuck on one slow call still reports itself.
+    lane.probeLabel = `probe ${i + 1}/${active.length} · ${meta.id}`;
+    lane.probeStartedAt = Date.now();
+    lane.statusText = lane.probeLabel;
     render();
     try {
       let out;
@@ -747,8 +774,13 @@ function renderGrid() {
     // Color by VALUE GROUPS, not all-or-nothing: a cell is green when at
     // least one other lane shares its value, red when it stands alone.
     // 47 · 47 · 49 reads as two greens and one red, which is the finding.
+    // "busy" answers describe the provider's load, not the model, so they
+    // must never make two lanes look equal or different.
     const counts = {};
-    for (const v of present) counts[String(v)] = (counts[String(v)] || 0) + 1;
+    for (const v of present) {
+      if (isBusy(v)) continue;
+      counts[String(v)] = (counts[String(v)] || 0) + 1;
+    }
     // Per-row credit: probes by the house author carry no badge; a community
     // probe shows a small tag linking to the contributor's GitHub.
     const HOUSE = "unclecode";
@@ -763,7 +795,8 @@ function renderGrid() {
       if (v === undefined) {
         html += `<td class="pending">${lane.state === "running" ? '<span class="spin"></span>' : "·"}</td>`;
       } else {
-        const cls = present.length > 1 ? (counts[String(v)] > 1 ? "match" : "diff") : "";
+        const cls = isBusy(v) ? "busy"
+          : present.length > 1 ? (counts[String(v)] > 1 ? "match" : "diff") : "";
         html += `<td class="${cls}">${meta.long ? `<span class="long">${escapeHtml(String(v))}</span>`
           : `<span class="tick">${escapeHtml(String(v))}</span>`}</td>`;
       }
@@ -784,21 +817,25 @@ function renderVerdict() {
   const pairs = [];
   for (let a = 0; a < done.length; a++) for (let b = a + 1; b < done.length; b++) {
     const A = done[a], B = done[b];
-    const hits = ids.filter(k => String(A.results[k]) === String(B.results[k])).length;
-    pairs.push({ A, B, hits });
+    // A busy provider must not inflate or deflate a verdict: those probes are
+    // dropped from BOTH the hits and the total the score is measured against.
+    const usable = ids.filter(k => !isBusy(A.results[k]) && !isBusy(B.results[k]));
+    const hits = usable.filter(k => String(A.results[k]) === String(B.results[k])).length;
+    pairs.push({ A, B, hits, total: usable.length, skipped: ids.length - usable.length });
   }
   pairs.sort((x, y) => y.hits - x.hits);
   const shown = pairs.slice(0, 8);
-  let html = shown.map(({ A, B, hits }) => {
-    const pct = Math.round(100 * hits / ids.length);
-    const hot = hits >= ids.length - 1;
+  let html = shown.map(({ A, B, hits, total, skipped }) => {
+    const pct = total ? Math.round(100 * hits / total) : 0;
+    const hot = total > 0 && hits >= total - 1;
     const read = hot
       ? "Same tokenizer, same error prose, same template offset. These endpoints run the same family."
       : hits <= 2 ? "Different plumbing on almost every probe. Unrelated stacks."
       : "Mixed signals. Trust the tokenizer rows most: matching normalized counts on all four texts is hard to fake across labs.";
     return `<div class="vcard ${hot ? "hot" : ""}">
       <div class="pair">${A.model.split("/").pop()} ↔ ${B.model.split("/").pop()}</div>
-      <div class="score">${hits} / ${ids.length} match</div>
+      <div class="score">${hits} / ${total} match</div>
+      ${skipped ? `<div class="skipnote">${skipped} probe${skipped > 1 ? "s" : ""} skipped: model was busy</div>` : ""}
       <div class="read">${read}</div>
       <div class="meter"><i style="width:${pct}%"></i></div>
     </div>`;
@@ -860,7 +897,8 @@ window.shareResult = async function () {
   if (done.length >= 2) {
     let best = -1;
     for (let a = 0; a < done.length; a++) for (let b = a + 1; b < done.length; b++) {
-      const hits = sel.filter(k => String(done[a].results[k]) === String(done[b].results[k])).length;
+      const hits = sel.filter(k => !isBusy(done[a].results[k]) && !isBusy(done[b].results[k])
+        && String(done[a].results[k]) === String(done[b].results[k])).length;
       if (hits > best) { best = hits; pairA = done[a].model.split("/").pop(); pairB = done[b].model.split("/").pop(); }
     }
     if (best >= 0) vd = [best, sel.length];

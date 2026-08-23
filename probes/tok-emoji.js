@@ -3,6 +3,8 @@
 // author:      unclecode
 // version:     1.0.0
 
+import { describeFailure } from "./_failure.js";
+
 export const meta = {
   id: "tok-emoji", name: "emoji + rare unicode", group: "tokenizer",
   why: "byte-fallback behaviour",
@@ -20,8 +22,13 @@ export async function probe(ctx) {
   const a = await ctx.chat({ messages: [{ role: "user", content: TEXT }], max_tokens: 1 });
   const b = await ctx.chat({ messages: [{ role: "user", content: TEXT }], max_tokens: 1 });
   const base = await ctx.chat({ messages: [{ role: "user", content: "a" }], max_tokens: 1 });
-  if (!a.ok || !b.ok || !base.ok)
-    return { value: "probe-failed: " + (a.status || b.status || base.status) };
+  if (!a.ok || !b.ok || !base.ok) {
+    // Name the call that ACTUALLY failed. Picking the first truthy status
+    // printed "probe-failed: 200" when call one succeeded and a later one
+    // timed out, which hides the real cause.
+    const bad = [a, b, base].find(r => !r.ok);
+    return { value: describeFailure(bad), raw: { status: bad.status, error: bad.error } };
+  }
   if (a.usage.prompt_tokens !== b.usage.prompt_tokens)
     return { value: "unstable (multi-host routing)",
              raw: { first: a.usage.prompt_tokens, second: b.usage.prompt_tokens } };

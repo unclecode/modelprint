@@ -106,7 +106,12 @@ export async function probe(ctx) {
 
 Copy [`probes/_template.js`](probes/_template.js), keep the rules in its
 header (deterministic value, never throw, no timestamps), open a pull
-request. Approved probes are one line in [`probes/index.js`](probes/index.js).
+request. Approved probes are one line in [`probes/index.js`](probes/index.js),
+and your name goes in [CONTRIBUTORS.md](CONTRIBUTORS.md) and on the page.
+
+Thanks to [@ItIsCuthNotCup](https://github.com/ItIsCuthNotCup) and
+[@pjperez](https://github.com/pjperez), who wrote probes and fixed bugs in
+the first days.
 
 ## Honest limits
 
