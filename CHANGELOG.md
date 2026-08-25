@@ -4,6 +4,40 @@ All notable changes to modelprint. Newest first.
 Versions follow [semantic versioning](https://semver.org): the middle number
 moves when the tool gains something, the last when it only fixes things.
 
+## [0.8.0] - 2026-08-25
+
+### Added
+- **The fingerprint history.** 21 models are fingerprinted every day, each one
+  locked to a single named provider, and a new version is recorded only when a
+  value changes. The page shows a forward window of 90 days: a square lights up
+  only on the day something changed, and today's column is marked. Every
+  fingerprint version has its own page with all values, which ones moved, how
+  long it was live, and a link to the commit that recorded it. The page never
+  says why something changed, only what changed.
+- **A probes page**, generated from the probe files themselves, so it cannot
+  drift from the code. All 15 probes in 7 groups, with the contributor credited
+  on every community probe.
+- One navigation across the whole site: compare, history, probes.
+- The daily run as a scheduled job, and automatic publishing on every push.
+
+### Fixed
+- **Four ways a value could look like a change when nothing changed**, all
+  found by running the same models twice and demanding zero differences:
+  a per-call ending word stored as if it described the endpoint; the word
+  "unstable" stored as a measurement when it means the provider pin did not
+  hold; an internal time-limit message stored as a measurement; and missing
+  token counts stored as NaN. All four are now recorded as unavailable and
+  left out of every comparison.
+- Hosts that answer but hide their token counts now report "usage not
+  reported" instead of a number that is not a number.
+- Two more probes named the wrong call when reporting a failure.
+
+### Changed
+- Every tracked model is pinned to one provider. Without pinning the router
+  sends each run to a different company, and the same model returns different
+  numbers. Measured: the same model gave 49 then 43 on two runs minutes apart,
+  because two different providers answered.
+
 ## [0.7.4] - 2026-08-23
 
 ### Fixed

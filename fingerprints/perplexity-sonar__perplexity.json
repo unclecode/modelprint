@@ -1,0 +1,56 @@
+{
+ "model": "perplexity/sonar",
+ "host": "Perplexity",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "err-temperature": "{\"error\":{\"message\":\"max_tokens must be at least 16\",\"type\":\"invalid_request\",\"code\":400,\"param\":\"max_tokens\"}}\n",
+    "err-maxtokens": "router-reported limit: 127072 tokens",
+    "err-code-family": "numeric-code · type:invalid_request · param-field",
+    "finish-vocab": "stop",
+    "net-headerdna": "cf-ray · server:cloudflare",
+    "net-pathsplit": "Perplexity · temp2.0"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "probe-failed: 400"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "probe-failed: 400"
+    },
+    {
+     "probe": "tok-code",
+     "why": "probe-failed: 400"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "probe-failed: 400"
+    },
+    {
+     "probe": "template-offset",
+     "why": "probe-failed: 400"
+    },
+    {
+     "probe": "net-region",
+     "why": "probe-failed: 400"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "probe-failed: 400"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "probe-failed: 400"
+    }
+   ],
+   "moved": []
+  }
+ ]
+}

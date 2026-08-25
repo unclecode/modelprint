@@ -1,0 +1,36 @@
+{
+ "model": "openai/gpt-5.6-luna",
+ "host": "OpenAI",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "tok-chinese": "68",
+    "tok-code": "60",
+    "tok-emoji": "91",
+    "template-offset": "+7 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1050000 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "completed · max_output_tokens",
+    "net-region": "KUL · OpenAI · direct · attempt-2",
+    "net-genrecord": "OpenAI · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "OpenAI · toplogprobs25",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "usage not reported"
+    }
+   ],
+   "moved": []
+  }
+ ]
+}

@@ -1,0 +1,59 @@
+{
+ "model": "x-ai/grok-4.6",
+ "host": "xAI",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "tok-english": "48",
+    "tok-chinese": "59",
+    "tok-code": "65",
+    "tok-emoji": "53",
+    "template-offset": "+207 (delta 7)"
+   },
+   "unavailable": [
+    {
+     "probe": "err-temperature",
+     "why": "model budget spent"
+    },
+    {
+     "probe": "err-maxtokens",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "err-code-family",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "finish-vocab",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-region",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-headerdna",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-pathsplit",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "time budget spent"
+    }
+   ],
+   "moved": []
+  }
+ ]
+}

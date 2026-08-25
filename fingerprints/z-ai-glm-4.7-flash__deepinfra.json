@@ -1,0 +1,31 @@
+{
+ "model": "z-ai/glm-4.7-flash",
+ "host": "DeepInfra",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "56",
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+6 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 202752 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · DeepInfra · direct",
+    "net-genrecord": "DeepInfra · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "DeepInfra · badfmt",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": []
+  }
+ ]
+}

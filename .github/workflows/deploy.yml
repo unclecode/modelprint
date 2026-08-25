@@ -1,0 +1,53 @@
+# Publish the site to Cloudflare Pages on every push to main.
+#
+# Before this existed, every deploy was a command run by hand. That would have
+# broken the daily fingerprint job: the job commits new fingerprints to the
+# repository, and without this the live site would never show them.
+#
+# It needs two secrets: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: collect exactly what the site needs
+        run: |
+          mkdir -p site/probes site/history site/fingerprints
+          cp index.html engine.js site/
+          cp probes/*.js            site/probes/
+          cp history/*.html         site/history/
+          cp fingerprints/*.json    site/fingerprints/
+          echo "files to publish: $(find site -type f | wc -l)"
+
+      - name: publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=modelprint --branch=main
+
+      - name: prove the live site answers
+        run: |
+          sleep 20
+          for i in $(seq 1 10); do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" https://modelprint.ai/)
+            HIST=$(curl -s -o /dev/null -w "%{http_code}" https://modelprint.ai/history/)
+            echo "attempt $i: home $CODE, history $HIST"
+            [ "$CODE" = "200" ] && [ "$HIST" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "the live site did not answer 200 after the deploy"
+          exit 1

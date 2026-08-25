@@ -113,12 +113,12 @@ version, then confirm the engine really changed:
 
 ```bash
 for i in $(seq 1 12); do
-  LIVE=$(curl -s https://unclecode.github.io/modelprint/index.html | grep -o 'v0\.[0-9.]*' | head -1)
+  LIVE=$(curl -s https://modelprint.ai/index.html | grep -o 'v0\.[0-9.]*' | head -1)
   [ "$LIVE" = "v0.8.0" ] && break
   sleep 10
 done
 echo "live: $LIVE"
-curl -s "https://unclecode.github.io/modelprint/probes/index.js" | grep -c '\.js"'
+curl -s "https://modelprint.ai/probes/index.js" | grep -c '\.js"'
 ```
 
 If the live version does not match after two minutes, say so plainly. Do not

@@ -1,0 +1,35 @@
+{
+ "model": "anthropic/claude-opus-5",
+ "host": "Anthropic",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "tok-english": "79",
+    "tok-chinese": "97",
+    "tok-emoji": "119",
+    "template-offset": "+7 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1000000 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "end_turn · max_tokens",
+    "net-region": "KUL · Anthropic · direct · attempt-2",
+    "net-genrecord": "Anthropic · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-code",
+     "why": "usage not reported"
+    }
+   ],
+   "moved": []
+  }
+ ]
+}

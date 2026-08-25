@@ -190,7 +190,7 @@ async function handleShareGet(id, env) {
 const FREE_TIER_MAX_PROMPT_PRICE = 1.5 / 1_000_000; // $1.50 per million tokens
 const CATALOG_TTL = 60 * 60;                        // seconds
 const VISITOR_DAILY_USD = 0.05;    // ~6 glm-5.3 runs or ~50 flash-tier runs    // ~30 flash-tier runs
-const GLOBAL_DAILY_USD = 3.00;     // the whole world's ceiling per day
+const GLOBAL_DAILY_USD = 25.00;    // raised for the Hacker News launch day
 const MAX_TOKENS_CLAMP = 2048;     // the only real cost lever in a probe call
 
 async function spend(kv, key) {
@@ -304,7 +304,7 @@ async function handleProxyChat(request, env, ctx) {
     headers: {
       "content-type": "application/json",
       Authorization: `Bearer ${env.OPENROUTER_KEY}`,
-      "HTTP-Referer": "https://unclecode.github.io/modelprint/",
+      "HTTP-Referer": "https://modelprint.ai/",
       "X-Title": "modelprint free credits",
     },
     body: JSON.stringify(payload),

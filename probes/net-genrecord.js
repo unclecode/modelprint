@@ -2,12 +2,12 @@
 // description: OpenRouter's /generation endpoint names the serving provider,
 //              its data region and the NATIVE token counts for one call
 // author:      ItIsCuthNotCup
-// version:     1.2.0
+// version:     1.3.0
 
 export const meta = {
   id: "net-genrecord", name: "generation record", group: "network",
-  why: "the router's own ledger: provider_name + data_region + native tokens",
-  long: false, author: "ItIsCuthNotCup", version: "1.2.0",
+  why: "the router's own ledger names the provider and the data region",
+  long: false, author: "ItIsCuthNotCup", version: "1.3.0",
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -97,10 +97,14 @@ export async function probe(ctx) {
                     timedOut, budgetMs: LEDGER_BUDGET_MS } };
   // Deterministic fields only in the value; latency/cost stay in raw.
   return {
-    value: [d.provider_name, d.data_region || "global",
-            d.native_finish_reason || d.finish_reason || ""]
+    // The finish reason belongs to ONE call, not to the endpoint. It reads
+    // "stop" when the model finished a sentence and "length" when the same
+    // call hit the token cap, so putting it in the value made the fingerprint
+    // change between two identical runs. It stays in raw.
+    value: [d.provider_name, d.data_region || "global"]
       .filter(Boolean).join(" · "),
-    raw: { native_tokens_prompt: d.native_tokens_prompt,
+    raw: { finish_reason: d.native_finish_reason || d.finish_reason || null,
+           native_tokens_prompt: d.native_tokens_prompt,
            native_tokens_completion: d.native_tokens_completion,
            native_tokens_reasoning: d.native_tokens_reasoning,
            latency: d.latency, generation_time: d.generation_time,

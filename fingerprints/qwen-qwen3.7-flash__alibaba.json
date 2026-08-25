@@ -1,0 +1,31 @@
+{
+ "model": "qwen/qwen3.7-flash",
+ "host": "Alibaba",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "51",
+    "tok-code": "63",
+    "tok-emoji": "92",
+    "template-offset": "+11 (delta 7)",
+    "err-temperature": "data: {\"error\":{\"code\":\"invalid_parameter_error\",\"param\":null,\"message\":\"Temperature should be in [0.0, 2.0)\",\"type\":\"invalid_request_error\"},\"id\":\"…\"}\n\n",
+    "err-maxtokens": "router-reported limit: 1000000 tokens",
+    "err-code-family": "opaque-text",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · Alibaba · direct",
+    "net-genrecord": "Alibaba · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "Alibaba · temp2.0",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": []
+  }
+ ]
+}

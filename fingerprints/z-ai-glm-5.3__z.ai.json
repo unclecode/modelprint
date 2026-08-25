@@ -1,0 +1,31 @@
+{
+ "model": "z-ai/glm-5.3",
+ "host": "Z.AI",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "56",
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "{\"error\":{\"code\":\"1210\",\"message\":\"The temperature parameter is illegal.：限制数值范围[0,1]\"}}",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "numeric-code",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · Z.AI · direct",
+    "net-genrecord": "Z.AI · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "Z.AI · temp2.0",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": []
+  }
+ ]
+}

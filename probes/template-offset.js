@@ -3,6 +3,8 @@
 // author:      unclecode
 // version:     1.0.0
 
+import { describeFailure, usageMissing, USAGE_NOT_REPORTED } from "./_failure.js";
+
 export const meta = {
   id: "template-offset", name: "template offset", group: "tokenizer",
   why: "hidden system-template tokens",
@@ -19,7 +21,16 @@ export async function probe(ctx) {
   const a1 = await ctx.chat({ messages: [{ role: "user", content: "a" }], max_tokens: 1 });
   const a2 = await ctx.chat({ messages: [{ role: "user", content: "a" }], max_tokens: 1 });
   const b  = await ctx.chat({ messages: [{ role: "user", content: "a b c d e f g h" }], max_tokens: 1 });
-  if (!a1.ok || !a2.ok || !b.ok) return { value: "probe-failed: " + (a1.status || a2.status || b.status) };
+  if (!a1.ok || !a2.ok || !b.ok) {
+    // Name the call that ACTUALLY failed. Picking the first truthy status
+    // printed "probe-failed: 200" when call one succeeded and a later one
+    // was refused, which hides the real cause.
+    const bad = [a1, a2, b].find(r => !r.ok);
+    return { value: describeFailure(bad), raw: { status: bad.status, error: bad.error } };
+  }
+  if (usageMissing(a1, a2, b))
+    return { value: USAGE_NOT_REPORTED,
+             raw: { note: "this host answers 200 but does not report token counts" } };
   if (a1.usage.prompt_tokens !== a2.usage.prompt_tokens)
     return { value: "unstable (multi-host routing)",
              raw: { first: a1.usage.prompt_tokens, second: a2.usage.prompt_tokens } };

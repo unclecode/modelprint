@@ -1,0 +1,63 @@
+# The daily fingerprint run.
+#
+# Every day it probes each tracked model on its pinned provider, and commits a
+# new fingerprint version ONLY when a value changed. The commit history is the
+# timeline, which is the point: it is public, dated, and cannot be quietly
+# rewritten.
+#
+# It needs one secret: OPENROUTER_API_KEY.
+name: fingerprint
+
+on:
+  schedule:
+    # 03:17 UTC every day. Not on the hour, because every scheduled job in the
+    # world fires on the hour and GitHub delays the crowd.
+    - cron: "17 3 * * *"
+  workflow_dispatch:      # so it can also be run by hand from the Actions tab
+
+# The job writes files back into the repository, so it needs write permission.
+permissions:
+  contents: write
+
+concurrency:
+  group: fingerprint
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: probe every tracked model
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          # A machine nobody is waiting for can afford real patience. A busy
+          # provider is retried instead of being recorded as a change.
+          BUDGET_MS: "300000"
+        run: node collect.mjs
+
+      - name: commit only if something actually changed
+        run: |
+          git config user.name  "modelprint-bot"
+          git config user.email "bot@modelprint.ai"
+          git add fingerprints/
+          if git diff --cached --quiet; then
+            echo "no fingerprint changed today, nothing to commit"
+            exit 0
+          fi
+          # Name the models that moved, so the commit message is the news.
+          MOVED=$(git diff --cached --name-only fingerprints/ \
+                  | grep -v 'index.json' | sed 's|fingerprints/||;s|\.json$||' \
+                  | tr '\n' ' ')
+          if [ -z "$MOVED" ]; then
+            git commit -m "fingerprints: $(date -u +%Y-%m-%d) run, dates extended"
+          else
+            git commit -m "fingerprints: $(date -u +%Y-%m-%d) — changed: $MOVED"
+          fi
+          git push

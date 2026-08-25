@@ -1,0 +1,362 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>modelprint · probes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#fbfaf8; --surface:#fff; --surface2:#f4f2ee; --border:#e3dfd8;
+  --ink:#1a1a18; --ink2:#4a4843; --ink3:#8a867e; --ink4:#b3aea5;
+  --accent:#0d7a68; --accent-ink:#fff;
+  --quiet:#dcd7ce;          /* measured, nothing moved */
+  --quiet-edge:#cbc4b8;
+  --empty-edge:#c9c2b6;     /* day with no measurement */
+  --mark:#0d7a68;           /* the day it changed */
+  --mark-glow:rgba(13,122,104,.22);
+  --untracked:#f6f4f1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1211; --surface:#141918; --surface2:#1a201f; --border:#252d2b;
+  --ink:#e6ebe9; --ink2:#a8b2af; --ink3:#6f7a77; --ink4:#4d5754;
+  --accent:#2ea78f; --accent-ink:#08110e;
+  --quiet:#2c3835; --quiet-edge:#38443f; --empty-edge:#425651;
+  --mark:#2ea78f; --mark-glow:rgba(46,167,143,.25);
+  --untracked:#131817;
+}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{padding:20px clamp(14px,3vw,40px) 70px;max-width:1720px;margin:0 auto}
+
+/* ---- top bar, condensed ---- */
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:600;letter-spacing:-.3px}
+h1 .dot{color:var(--accent)}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink3)}
+nav{margin-left:auto;display:flex;gap:5px}
+nav a{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink2);text-decoration:none;
+  border:1px solid var(--border);border-radius:6px;padding:3px 9px}
+nav a{cursor:pointer}
+nav a.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+.strip{display:flex;align-items:center;gap:7px 22px;flex-wrap:wrap;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink3);
+  padding:9px 14px;background:var(--surface);border:1px solid var(--border);
+  border-radius:9px;margin-bottom:12px}
+.strip b{color:var(--ink);font-weight:600;font-size:13.5px}
+.strip .sep{color:var(--ink4)}
+.note{font-size:12.5px;color:var(--ink3);margin-bottom:18px;max-width:78ch}
+.note b{color:var(--ink2);font-weight:500}
+
+/* ---- recent changes: compact ---- */
+.feedwrap{margin-bottom:22px}
+.feedhead{display:flex;align-items:baseline;gap:10px;margin-bottom:7px}
+.feedhead h2{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:1px;
+  text-transform:uppercase;color:var(--ink3);font-weight:600}
+.feedhead a{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  color:var(--accent);text-decoration:none}
+.feed{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.chg{background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:9px 12px;cursor:pointer;flex:0 0 auto;min-width:186px}
+.chg:hover{background:var(--surface2)}
+.chg .m{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.chg .m .prov{color:var(--ink3);font-weight:400}
+.chg .line2{display:flex;align-items:baseline;gap:8px;margin-top:3px}
+.chg .n{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent);white-space:nowrap}
+.chg .when{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);white-space:nowrap}
+
+/* ---- the grid ---- */
+.gridcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:12px 0 12px 0;overflow:hidden}
+.gridscroll{overflow-x:auto;padding:0 14px}
+.gridhead{display:flex;align-items:center;padding:0 14px 8px}
+.gridhead h2{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:1px;
+  text-transform:uppercase;color:var(--ink3);font-weight:600}
+.gridhead .lg{margin-left:auto;display:flex;gap:14px;align-items:center;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3)}
+.gridhead .lg i{display:inline-block;width:9px;height:9px;border-radius:2px;
+  vertical-align:-1px;margin-right:5px;box-sizing:border-box}
+.wbtn{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
+  text-decoration:none;border:1px solid var(--border);border-radius:5px;padding:2px 7px;margin-left:4px}
+.wbtn.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+table.g{border-collapse:separate;border-spacing:0;width:100%;min-width:max-content}
+table.g th.nm{position:sticky;left:0;z-index:2;background:var(--surface);
+  text-align:left;font-weight:400;font-family:"IBM Plex Mono",monospace;font-size:12px;
+  color:var(--ink);padding:0 14px 0 0;white-space:nowrap}
+table.g th.nm .prov{color:var(--ink3)}
+table.g th.nm .host{color:var(--ink4);font-size:10.5px;margin-left:5px}
+table.g td{padding:0}
+table.g tr:hover th.nm{color:var(--accent)}
+.d{width:9px;height:9px;margin:1.5px;border-radius:2px;background:var(--quiet);
+  box-shadow:inset 0 0 0 1px var(--quiet-edge)}
+.d.mk.first{background:var(--mark);opacity:.62}
+.d.mk{background:var(--mark);box-shadow:0 0 0 2px var(--mark-glow);cursor:pointer;position:relative}
+.d.mk:hover{transform:scale(1.35)}
+/* no measurement: the day has not happened, or the model was not tracked yet.
+   dashed outline, no fill, so empty time reads as empty and never competes
+   with the days that carry a value. */
+.d.un{background:transparent;box-shadow:none;border:1px dashed var(--empty-edge)}
+/* the seam between one 90-day window and the next */
+.d.seam{margin-left:9px;position:relative}
+.d.seam:before{content:"";position:absolute;left:-6px;top:-3px;bottom:-3px;
+  width:1px;background:var(--border)}
+.wlabel{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink4);
+  text-align:left;padding-bottom:5px;white-space:nowrap}
+.months td{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink4);
+  padding-bottom:5px;white-space:nowrap}
+.age{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
+  padding-left:14px;white-space:nowrap;text-align:right}
+.age b{color:var(--ink2)}
+.age.fresh b{color:var(--accent)}
+
+/* ---- hover preview ---- */
+#pop{position:fixed;z-index:50;display:none;background:var(--surface);border:1px solid var(--border);
+  border-radius:9px;padding:11px 13px;box-shadow:0 10px 30px rgba(0,0,0,.22);max-width:330px}
+#pop .pm{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;margin-bottom:2px}
+#pop .pw{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink3);margin-bottom:8px}
+#pop .pd{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink2);
+  display:flex;justify-content:space-between;gap:12px;padding:2px 0}
+#pop .pd .k{color:var(--ink3)}
+#pop .pd .ar{color:var(--accent)}
+#pop .go{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--accent)}
+.foot{margin-top:26px;font-size:11.5px;color:var(--ink3);font-family:"IBM Plex Mono",monospace}
+.foot a{color:var(--accent)}
+@media(max-width:700px){
+  .feed{grid-template-columns:1fr}
+  table.g th.nm{font-size:11px;padding-right:10px}
+}
+</style>
+<style>
+.gsec{margin-bottom:30px}
+.gsec h2{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:1px;
+  text-transform:uppercase;color:var(--ink3);font-weight:600;margin-bottom:4px}
+.gdesc{font-size:13px;color:var(--ink3);max-width:76ch;margin-bottom:12px}
+.plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+.ptop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.pname{font-family:"IBM Plex Mono",monospace;font-size:13.5px;font-weight:600}
+.pid{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink4);margin-left:auto}
+.cbadge{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--accent);
+  border:1px solid var(--accent);border-radius:4px;padding:1px 6px;text-decoration:none}
+.pwhy{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink2);margin-bottom:6px}
+.pdesc{font-size:12.5px;color:var(--ink3);line-height:1.45}
+.pfoot{display:flex;align-items:baseline;gap:10px;margin-top:9px;padding-top:8px;
+  border-top:1px solid var(--border);font-family:"IBM Plex Mono",monospace;font-size:11px}
+.pfoot a{color:var(--accent);text-decoration:none}
+.pv{margin-left:auto;color:var(--ink4)}
+</style></head><body>
+<div class="page">
+<div class="top">
+  <h1>modelprint<span class="dot">_</span></h1><span class="tag">probes</span>
+  <nav>
+    <a href="../index.html">compare</a>
+    <a href="index.html">history</a>
+    <a href="probes.html" class="on">probes</a>
+  </nav>
+</div>
+<div class="strip">
+  <span><b>15</b> probes</span><span class="sep">·</span>
+  <span><b>6</b> from contributors</span><span class="sep">·</span>
+  <span><b>7</b> groups</span><span class="sep">·</span>
+  <span>every probe is one file, reviewed before it merges</span>
+</div>
+<p class="note">A probe asks a model something a serving stack cannot easily fake, and records the
+answer as a plain value. Two endpoints that return the same values are running the same thing.
+Every probe is one small file. Anyone can write one, and an accepted probe is credited here and
+in the repository.</p>
+
+<div class="gsec">
+  <h2>tokenizer</h2><p class="gdesc">How many tokens a fixed text costs. Different labs train different tokenizers, and the count is very hard to fake.</p>
+  <div class="plist">
+    <div class="pcard">
+      <div class="ptop"><span class="pname">english pangram</span>
+        <span class="pid">tok-english</span></div>
+      <div class="pwhy">prompt_tokens for a fixed 212-char text</div>
+      <div class="pdesc">prompt_tokens for a fixed English text; tokenizers are unique per lab</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/tok-english.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">chinese paragraph</span>
+        <span class="pid">tok-chinese</span></div>
+      <div class="pwhy">CJK segmentation differs most between labs</div>
+      <div class="pdesc">prompt_tokens for fixed CJK text; segmentation differs most between labs</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/tok-chinese.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">code snippet</span>
+        <span class="pid">tok-code</span></div>
+      <div class="pwhy">indentation + symbol handling</div>
+      <div class="pdesc">prompt_tokens for fixed source code; indentation and symbol handling vary</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/tok-code.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">emoji + rare unicode</span>
+        <span class="pid">tok-emoji</span></div>
+      <div class="pwhy">byte-fallback behaviour</div>
+      <div class="pdesc">prompt_tokens for emoji and rare codepoints; byte-fallback behaviour differs</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/tok-emoji.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">template offset</span>
+        <span class="pid">template-offset</span></div>
+      <div class="pwhy">hidden system-template tokens</div>
+      <div class="pdesc">hidden serving-template tokens, from two prompts of known size difference</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/template-offset.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gsec">
+  <h2>errors</h2><p class="gdesc">The exact wording and shape of validation errors. This prose is written by the lab's own engineers, not by a router.</p>
+  <div class="plist">
+    <div class="pcard">
+      <div class="ptop"><span class="pname">temperature: 2.0</span>
+        <span class="pid">err-temperature</span></div>
+      <div class="pwhy">edge value passes gateways; a lab with a lower ceiling answers in its own words</div>
+      <div class="pdesc">send temperature 2.0; gateways accept it and forward, labs with a lower ceiling answer with their OWN validation prose (the AllThingsIntel trick)</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/err-temperature.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">max_tokens: 10^9</span>
+        <span class="pid">err-maxtokens</span></div>
+      <div class="pwhy">the refusal names the lab's real output limit</div>
+      <div class="pdesc">ask for a billion output tokens; the refusal names the lab's real limit, and that number is vendor DNA (a gateway forwards this, unlike -1)</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/err-maxtokens.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">error code family</span>
+        <span class="pid">err-code-family</span></div>
+      <div class="pwhy">numeric codes are vendor DNA (GLM's 1301 gave Ox away)</div>
+      <div class="pdesc">the SHAPE of error responses: numeric code families vs string codes vs typed objects</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/err-code-family.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gsec">
+  <h2>shape</h2><p class="gdesc">The vocabulary a model uses to say why it stopped.</p>
+  <div class="plist">
+    <div class="pcard">
+      <div class="ptop"><span class="pname">finish vocabulary</span>
+        <span class="pid">finish-vocab</span></div>
+      <div class="pwhy">finish_reason values the endpoint emits</div>
+      <div class="pdesc">which finish_reason value a forced cut-off produces; vocabularies differ per lab</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/finish-vocab.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gsec">
+  <h2>network</h2><p class="gdesc">What the routing layer and the response headers reveal about who served the call.</p>
+  <div class="plist">
+    <div class="pcard">
+      <div class="ptop"><span class="pname">router region</span><a class="cbadge" href="https://github.com/ItIsCuthNotCup" target="_blank" rel="noopener">ItIsCuthNotCup</a>
+        <span class="pid">net-region</span></div>
+      <div class="pwhy">the routing layer names its region and the provider that answered</div>
+      <div class="pdesc">which edge region and which provider actually served each call, from the router's own opt-in metadata snapshot</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/net-region.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">generation record</span><a class="cbadge" href="https://github.com/ItIsCuthNotCup" target="_blank" rel="noopener">ItIsCuthNotCup</a>
+        <span class="pid">net-genrecord</span></div>
+      <div class="pwhy">the router's own ledger: provider_name + data_region + native tokens</div>
+      <div class="pdesc">OpenRouter's /generation endpoint names the serving provider, its data region and the NATIVE token counts for one call</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/net-genrecord.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.2.0</span>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptop"><span class="pname">header dna</span><a class="cbadge" href="https://github.com/ItIsCuthNotCup" target="_blank" rel="noopener">ItIsCuthNotCup</a>
+        <span class="pid">net-headerdna</span></div>
+      <div class="pwhy">header presence/format is stack DNA (Bedrock, Vertex, Cloudflare…)</div>
+      <div class="pdesc">which response headers exist and in what format — serving stacks expose different header families, and CORS hides the rest</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/net-headerdna.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gsec">
+  <h2>timing</h2><p class="gdesc">Where the real upstream provider sits, measured through refusal paths rather than through a GPU.</p>
+  <div class="plist">
+    <div class="pcard">
+      <div class="ptop"><span class="pname">path split</span><a class="cbadge" href="https://github.com/pjperez" target="_blank" rel="noopener">pjperez</a>
+        <span class="pid">net-pathsplit</span></div>
+      <div class="pwhy">names the upstream provider and the payload it refuses; RTT lives in raw</div>
+      <div class="pdesc">which upstream provider answers a lane and which payload it refuses, plus a GPU-free router->provider RTT measurement in raw</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/net-pathsplit.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v3.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gsec">
+  <h2>capability</h2><p class="gdesc">Hard ceilings such as the largest prompt a host will accept.</p>
+  <div class="plist">
+    <div class="pcard">
+      <div class="ptop"><span class="pname">context ceiling</span><a class="cbadge" href="https://github.com/ItIsCuthNotCup" target="_blank" rel="noopener">ItIsCuthNotCup</a>
+        <span class="pid">cap-contextceiling</span></div>
+      <div class="pwhy">64k, 128k, 200k and 256k+ window classes help date the variant</div>
+      <div class="pdesc">bisect the accepted prompt-size bucket; window classes help distinguish model variants without probing all the way to 1M</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/cap-contextceiling.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gsec">
+  <h2>logits</h2><p class="gdesc">The shape of the probability numbers, when a host exposes them.</p>
+  <div class="plist">
+    <div class="pcard">
+      <div class="ptop"><span class="pname">logprob geometry</span><a class="cbadge" href="https://github.com/ItIsCuthNotCup" target="_blank" rel="noopener">ItIsCuthNotCup</a>
+        <span class="pid">lp-geometry</span></div>
+      <div class="pwhy">δ_norm ≈ 0.32 is universal; the residual spread is a personal signature</div>
+      <div class="pdesc">the normalized 3rd top-logprob gap on pinned continuations. EVT predicts δ≈0.318 for Gumbel-class models; deviations and gap vectors are model-specific (fallrisk.ai protocol)</div>
+      <div class="pfoot">
+        <a href="https://github.com/unclecode/modelprint/blob/main/probes/lp-geometry.js" target="_blank" rel="noopener">read the code</a>
+        <span class="pv">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="foot">
+  want to write one? read
+  <a href="https://github.com/unclecode/modelprint/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
+  · every probe passes a security check and a repeatability check before it merges
+</div>
+</div>
+</body></html>

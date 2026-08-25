@@ -5,7 +5,7 @@ One page that answers one question: **who is really behind that API?**
 Run infrastructure probes against any OpenAI-compatible endpoint and compare
 the fingerprints, side by side. Plumbing does not lie; personality does.
 
-**Try it: [unclecode.github.io/modelprint](https://unclecode.github.io/modelprint/)**
+**Try it: [modelprint.ai](https://modelprint.ai/)**
 No install, no build, no server. Your API keys stay in your browser tab; every
 call goes from your browser straight to the provider.
 

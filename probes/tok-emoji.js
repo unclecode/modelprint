@@ -3,7 +3,7 @@
 // author:      unclecode
 // version:     1.0.0
 
-import { describeFailure } from "./_failure.js";
+import { describeFailure, usageMissing, USAGE_NOT_REPORTED } from "./_failure.js";
 
 export const meta = {
   id: "tok-emoji", name: "emoji + rare unicode", group: "tokenizer",
@@ -29,6 +29,9 @@ export async function probe(ctx) {
     const bad = [a, b, base].find(r => !r.ok);
     return { value: describeFailure(bad), raw: { status: bad.status, error: bad.error } };
   }
+  if (usageMissing(a, b, base))
+    return { value: USAGE_NOT_REPORTED,
+             raw: { note: "this host answers 200 but does not report token counts" } };
   if (a.usage.prompt_tokens !== b.usage.prompt_tokens)
     return { value: "unstable (multi-host routing)",
              raw: { first: a.usage.prompt_tokens, second: b.usage.prompt_tokens } };

@@ -1,0 +1,337 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>modelprint · history</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#fbfaf8; --surface:#fff; --surface2:#f4f2ee; --border:#e3dfd8;
+  --ink:#1a1a18; --ink2:#4a4843; --ink3:#8a867e; --ink4:#b3aea5;
+  --accent:#0d7a68; --accent-ink:#fff;
+  --quiet:#dcd7ce;          /* measured, nothing moved */
+  --quiet-edge:#cbc4b8;
+  --empty-edge:#c9c2b6;     /* day with no measurement */
+  --mark:#0d7a68;           /* the day it changed */
+  --mark-glow:rgba(13,122,104,.22);
+  --untracked:#f6f4f1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1211; --surface:#141918; --surface2:#1a201f; --border:#252d2b;
+  --ink:#e6ebe9; --ink2:#a8b2af; --ink3:#6f7a77; --ink4:#4d5754;
+  --accent:#2ea78f; --accent-ink:#08110e;
+  --quiet:#2c3835; --quiet-edge:#38443f; --empty-edge:#425651;
+  --mark:#2ea78f; --mark-glow:rgba(46,167,143,.25);
+  --untracked:#131817;
+}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.page{padding:20px clamp(14px,3vw,40px) 70px;max-width:1720px;margin:0 auto}
+
+/* ---- top bar, condensed ---- */
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:600;letter-spacing:-.3px}
+h1 .dot{color:var(--accent)}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink3)}
+nav{margin-left:auto;display:flex;gap:5px}
+nav a{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink2);text-decoration:none;
+  border:1px solid var(--border);border-radius:6px;padding:3px 9px}
+nav a{cursor:pointer}
+nav a.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+.strip{display:flex;align-items:center;gap:7px 22px;flex-wrap:wrap;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink3);
+  padding:9px 14px;background:var(--surface);border:1px solid var(--border);
+  border-radius:9px;margin-bottom:12px}
+.strip b{color:var(--ink);font-weight:600;font-size:13.5px}
+.strip .sep{color:var(--ink4)}
+.note{font-size:12.5px;color:var(--ink3);margin-bottom:18px;max-width:78ch}
+.note b{color:var(--ink2);font-weight:500}
+
+/* ---- recent changes: compact ---- */
+.feedwrap{margin-bottom:22px}
+.feedhead{display:flex;align-items:baseline;gap:10px;margin-bottom:7px}
+.feedhead h2{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:1px;
+  text-transform:uppercase;color:var(--ink3);font-weight:600}
+.feedhead a{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  color:var(--accent);text-decoration:none}
+.feed{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.chg{background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:9px 12px;cursor:pointer;flex:0 0 auto;min-width:186px}
+.chg:hover{background:var(--surface2)}
+.chg .m{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.chg .m .prov{color:var(--ink3);font-weight:400}
+.chg .line2{display:flex;align-items:baseline;gap:8px;margin-top:3px}
+.chg .n{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent);white-space:nowrap}
+.chg .when{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);white-space:nowrap}
+
+/* ---- the grid ---- */
+.gridcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:12px 0 12px 0;overflow:hidden}
+.gridscroll{overflow-x:auto;padding:0 14px}
+.gridhead{display:flex;align-items:center;padding:0 14px 8px}
+.gridhead h2{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:1px;
+  text-transform:uppercase;color:var(--ink3);font-weight:600}
+.gridhead .lg{margin-left:auto;display:flex;gap:14px;align-items:center;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3)}
+.gridhead .lg i{display:inline-block;width:9px;height:9px;border-radius:2px;
+  vertical-align:-1px;margin-right:5px;box-sizing:border-box}
+.wbtn{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
+  text-decoration:none;border:1px solid var(--border);border-radius:5px;padding:2px 7px;margin-left:4px}
+.wbtn.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+table.g{border-collapse:separate;border-spacing:0;width:100%;min-width:max-content}
+table.g th.nm{position:sticky;left:0;z-index:2;background:var(--surface);
+  text-align:left;font-weight:400;font-family:"IBM Plex Mono",monospace;font-size:12px;
+  color:var(--ink);padding:0 14px 0 0;white-space:nowrap}
+table.g th.nm .prov{color:var(--ink3)}
+table.g th.nm .host{color:var(--ink4);font-size:10.5px;margin-left:5px}
+table.g td{padding:0}
+table.g tr:hover th.nm{color:var(--accent)}
+.d{width:9px;height:9px;margin:1.5px;border-radius:2px;background:var(--quiet);
+  box-shadow:inset 0 0 0 1px var(--quiet-edge)}
+.d.mk.first{background:var(--mark);opacity:.62}
+.d.mk{background:var(--mark);box-shadow:0 0 0 2px var(--mark-glow);cursor:pointer;position:relative}
+.d.mk:hover{transform:scale(1.35)}
+/* no measurement: the day has not happened, or the model was not tracked yet.
+   dashed outline, no fill, so empty time reads as empty and never competes
+   with the days that carry a value. */
+.d.un{background:transparent;box-shadow:none;border:1px dashed var(--empty-edge)}
+/* the seam between one 90-day window and the next */
+.todaycol{position:relative}
+.todaycol:before{content:"";position:absolute;left:50%;transform:translateX(-50%);
+  top:-4px;bottom:-4px;width:1px;background:var(--accent);opacity:.45}
+.todaylabel{font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+  color:var(--accent);font-weight:600;white-space:nowrap;text-align:center}
+.d.seam{margin-left:9px;position:relative}
+.d.seam:before{content:"";position:absolute;left:-6px;top:-3px;bottom:-3px;
+  width:1px;background:var(--border)}
+/* A date label is wider than a square. If it sits in the cell normally it
+   stretches its own column and pushes the squares apart, which looked like a
+   gap in the calendar. The label is lifted out of the layout instead: the
+   cell keeps a square's width, and the text floats above it. */
+.wlabel{padding:0 0 6px 0;height:16px;position:relative;vertical-align:bottom}
+.wlabel span{position:absolute;left:0;top:0;line-height:10px;
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink4);white-space:nowrap}
+.wlabel.todaylabel span{color:var(--accent);font-weight:600;left:50%;transform:translateX(-50%)}
+.months td{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink4);
+  padding-bottom:5px;white-space:nowrap}
+.age{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);
+  padding-left:14px;white-space:nowrap;text-align:right}
+.age b{color:var(--ink2)}
+.age.fresh b{color:var(--accent)}
+
+/* ---- hover preview ---- */
+#pop{position:fixed;z-index:50;display:none;background:var(--surface);border:1px solid var(--border);
+  border-radius:9px;padding:11px 13px;box-shadow:0 10px 30px rgba(0,0,0,.22);max-width:330px}
+#pop .pm{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;margin-bottom:2px}
+#pop .pw{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink3);margin-bottom:8px}
+#pop .pd{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink2);
+  display:flex;justify-content:space-between;gap:12px;padding:2px 0}
+#pop .pd .k{color:var(--ink3)}
+#pop .pd .ar{color:var(--accent)}
+#pop .go{margin-top:9px;padding-top:8px;border-top:1px solid var(--border);
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--accent)}
+.foot{margin-top:26px;font-size:11.5px;color:var(--ink3);font-family:"IBM Plex Mono",monospace}
+.foot a{color:var(--accent)}
+@media(max-width:700px){
+  .feed{grid-template-columns:1fr}
+  table.g th.nm{font-size:11px;padding-right:10px}
+}
+</style></head><body>
+<div class="page">
+
+<div class="top">
+  <h1>modelprint<span class="dot">_</span></h1><span class="tag">history</span>
+  <nav>
+    <a href="../index.html">compare</a>
+    <a href="index.html" class="on">history</a>
+    <a href="probes.html">probes</a>
+  </nav>
+</div>
+
+<div class="strip" id="strip"></div>
+
+<p class="note">Every model is fingerprinted once a day, per host. One square is one day, and the
+window runs forward 90 days from 21 August 2026. <b>A square lights up only on the day a value
+changed.</b> Dashed squares are days with no measurement, either because the day has not arrived
+or the model was not tracked yet. When a window fills, the next one is added beside it and you can
+scroll back. This page records what changed, never why.</p>
+
+<div class="feedwrap">
+  <div class="feedhead"><h2>changed recently</h2><a href="#" id="feedcount">…</a></div>
+  <div class="feed" id="feed"></div>
+</div>
+
+<div class="gridcard">
+  <div class="gridhead"><h2 id="gtitle">window 1 · 21 Aug → 19 Nov 2026</h2>
+    <div class="lg">
+      <span><i style="background:var(--quiet);box-shadow:inset 0 0 0 1px var(--quiet-edge)"></i>same</span>
+      <span><i style="background:var(--mark)"></i>changed</span>
+      <span><i style="border:1px dashed var(--empty-edge);background:transparent"></i>no measurement</span>
+    </div>
+  </div>
+  <div class="gridscroll"><table class="g" id="g"></table></div>
+</div>
+
+<div class="foot">
+  daily runs and raw data on
+  <a href="https://github.com/unclecode/modelprint">github.com/unclecode/modelprint</a>
+  · every version is a commit · <a href="#">request a model</a>
+</div>
+</div>
+<div id="pop"></div>
+
+<script type="module">
+const DATA = "../fingerprints/";
+const WINDOW = 90;
+const $ = id => document.getElementById(id);
+
+const idx = await fetch(DATA + "index.json?t=" + Date.now()).then(r => r.json());
+const START = new Date(idx.window_start + "T00:00:00Z");
+const TODAY = new Date(idx.generated + "T00:00:00Z");
+const dayIndex = d => Math.round((d - START) / 86400000);
+const CURRENT_DAY = dayIndex(TODAY);
+const dateAt = i => { const d = new Date(START); d.setUTCDate(d.getUTCDate() + i); return d; };
+const iso = d => d.toISOString().slice(0, 10);
+const pretty = ds => new Date(ds + "T00:00:00Z").toLocaleDateString("en",
+  { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+const shortName = m => m.split("/").pop();
+
+/* ---------- the strip ---------- */
+const totalChanges = idx.models.reduce((a, m) => a + m.versions.length - 1, 0);
+const everChanged = idx.models.filter(m => m.versions.length > 1).length;
+$("strip").innerHTML =
+  `<span><b>${new Set(idx.models.map(m => m.model)).size}</b> models</span><span class="sep">·</span>` +
+  `<span><b>${idx.models.length}</b> model + host pairs</span><span class="sep">·</span>` +
+  `<span><b>${totalChanges}</b> change${totalChanges === 1 ? "" : "s"} recorded</span><span class="sep">·</span>` +
+  `<span><b>${everChanged}</b> model${everChanged === 1 ? "" : "s"} ever changed</span><span class="sep">·</span>` +
+  `<span>day <b>${CURRENT_DAY + 1}</b> of tracking · last run <b>${idx.generated}</b></span>`;
+
+/* ---------- the change feed ---------- */
+const events = [];
+for (const m of idx.models) {
+  for (const v of m.versions) {
+    events.push({ m, v, day: dayIndex(new Date(v.first_seen + "T00:00:00Z")) });
+  }
+}
+events.sort((a, b) => b.day - a.day);
+$("feed").innerHTML = events.slice(0, 12).map(({ m, v }) => {
+  const [prov, ...rest] = m.model.split("/");
+  const what = v.v === 1 ? "v1 baseline"
+    : `${v.moved} probe${v.moved === 1 ? "" : "s"} moved`;
+  const ago = CURRENT_DAY - dayIndex(new Date(v.first_seen + "T00:00:00Z"));
+  return `<div class="chg" onclick="location.href='version.html?f=${m.file}&v=${v.v}'">
+    <span class="m"><span class="prov">${prov}/</span>${rest.join("/")}</span>
+    <span class="line2"><span class="n">${what}</span>
+      <span class="when">${ago === 0 ? "today" : ago + "d ago"}</span></span></div>`;
+}).join("");
+$("feedcount").textContent = `all ${events.length} entries →`;
+
+/* ---------- the grid ---------- */
+function render() {
+  const windows = Math.floor(CURRENT_DAY / WINDOW) + 1;
+  const cols = windows * WINDOW;
+  $("gtitle").textContent = windows === 1
+    ? `window 1 · ${iso(START)} → ${iso(dateAt(WINDOW - 1))}`
+    : `${windows} windows · ${iso(START)} → ${iso(dateAt(cols - 1))}`;
+
+  let html = "<tr class='months'><td></td>";
+  for (let i = 0; i < cols; i++) {
+    const seam = i > 0 && i % WINDOW === 0;
+    const d = dateAt(i);
+    const isToday = i === CURRENT_DAY;
+    const label = isToday ? "today"
+      : seam ? `window ${i / WINDOW + 1}`
+      : (i === 0 ? d.toLocaleString("en", { day: "numeric", month: "short", timeZone: "UTC" })
+                 : (d.getUTCDate() === 1 ? d.toLocaleString("en", { month: "short", timeZone: "UTC" }) : ""));
+    html += `<td class="wlabel ${isToday ? "todaylabel" : ""}"${seam ? ' style="padding-left:9px"' : ""}>` +
+      (label ? `<span>${label}</span>` : "") + `</td>`;
+  }
+  html += "<td></td></tr>";
+
+  for (const m of idx.models) {
+    const [prov, ...rest] = m.model.split("/");
+    const since = dayIndex(new Date(m.first_tracked + "T00:00:00Z"));
+    // day -> version that starts that day
+    const startsOn = {};
+    for (const v of m.versions) startsOn[dayIndex(new Date(v.first_seen + "T00:00:00Z"))] = v;
+    html += `<tr><th class="nm"><span class="prov">${prov}/</span>${rest.join("/")}` +
+      (m.host ? `<span class="host">${m.host}</span>` : "") + `</th>`;
+    let running = 0;
+    for (let i = 0; i < cols; i++) {
+      const seam = (i > 0 && i % WINDOW === 0 ? " seam" : "")
+        + (i === CURRENT_DAY ? " todaycol" : "");
+      const ds = iso(dateAt(i));
+      const future = i > CURRENT_DAY;
+      if (startsOn[i]) running = startsOn[i].v;
+      if (i < since || future) {
+        html += `<td><div class="d un${seam}" data-f="${m.file}" data-n="${shortName(m.model)}"
+          data-s="${future ? "future" : "before"}" data-d="${ds}"></div></td>`;
+      } else if (startsOn[i]) {
+        const cls = startsOn[i].v === 1 ? "d mk first" : "d mk";
+        html += `<td><div class="${cls}${seam}" data-f="${m.file}" data-n="${shortName(m.model)}"
+          data-s="${startsOn[i].v === 1 ? "first" : "changed"}" data-d="${ds}"
+          data-v="${startsOn[i].v}" data-moved="${startsOn[i].moved}"></div></td>`;
+      } else {
+        html += `<td><div class="d${seam}" data-f="${m.file}" data-n="${shortName(m.model)}"
+          data-s="same" data-d="${ds}" data-v="${running}"></div></td>`;
+      }
+    }
+    const lastV = m.versions[m.versions.length - 1];
+    const daysSame = CURRENT_DAY - dayIndex(new Date(lastV.first_seen + "T00:00:00Z"));
+    html += `<td class="age">${daysSame === 0 ? "<b>new</b>" : `<b>${daysSame}d</b> same`}</td></tr>`;
+  }
+  $("g").innerHTML = html;
+  const sc = document.querySelector(".gridscroll");
+  sc.scrollLeft = sc.scrollWidth;
+}
+render();
+
+/* ---------- hover card ---------- */
+const pop = $("pop");
+const detailCache = {};
+async function loadDetail(file) {
+  if (!detailCache[file]) detailCache[file] = await fetch(DATA + file).then(r => r.json());
+  return detailCache[file];
+}
+$("g").addEventListener("mouseover", async e => {
+  const el = e.target.closest(".d"); if (!el || !el.dataset.d) return;
+  el.style.cursor = el.dataset.v ? "pointer" : "default";
+  const { n, s, d, v, f } = el.dataset;
+  let body;
+  if (s === "future") {
+    body = `<div class="pm">${n}</div><div class="pw">${pretty(d)}</div>
+      <div class="pd"><span class="k">this day has not arrived yet</span></div>`;
+  } else if (s === "before") {
+    body = `<div class="pm">${n}</div><div class="pw">${pretty(d)}</div>
+      <div class="pd"><span class="k">not tracked on this day</span></div>`;
+  } else if (s === "same") {
+    body = `<div class="pm">${n} · v${v}</div><div class="pw">${pretty(d)}</div>
+      <div class="pd"><span class="k">measured · nothing changed</span></div>
+      <div class="go">click to open v${v} →</div>`;
+  } else if (s === "first") {
+    body = `<div class="pm">${n} · v1</div><div class="pw">${pretty(d)} · first fingerprint recorded</div>
+      <div class="pd"><span class="k">the baseline for this endpoint</span></div>
+      <div class="go">click to open v1 →</div>`;
+  } else {
+    const rec = await loadDetail(f);
+    const ver = rec.versions.find(x => x.v === +v);
+    const rows = (ver?.moved || []).map(mv =>
+      `<div class="pd"><span class="k">${mv.probe}</span><span>${mv.from}<span class="ar"> → </span><b>${mv.to}</b></span></div>`).join("");
+    body = `<div class="pm">${n} · v${v}</div><div class="pw">${pretty(d)} · fingerprint changed</div>
+      ${rows}<div class="go">click to open v${v} →</div>`;
+  }
+  pop.innerHTML = body;
+  const r = el.getBoundingClientRect();
+  pop.style.display = "block";
+  const w = pop.offsetWidth;
+  pop.style.left = Math.min(Math.max(8, r.left - w / 2 + 5), innerWidth - w - 8) + "px";
+  pop.style.top = (r.bottom + 10 + pop.offsetHeight > innerHeight
+    ? r.top - pop.offsetHeight - 10 : r.bottom + 10) + "px";
+});
+$("g").addEventListener("mouseout", e => { if (e.target.closest(".d")) pop.style.display = "none"; });
+$("g").addEventListener("click", e => {
+  const el = e.target.closest(".d"); if (!el || !el.dataset.v) return;
+  location.href = `version.html?f=${el.dataset.f}&v=${el.dataset.v}`;
+});
+</script></body></html>

@@ -1,0 +1,90 @@
+{
+ "window_start": "2026-08-21",
+ "note": "The models tracked daily. Every model is PINNED to one provider, because different providers of the same model wrap it in different serving templates and produce different token counts. Without pinning, the router picks a different provider each run and the tool would report changes that never happened. The pinned provider is shown on the page. Requests to add a model come as GitHub issues; the maintainer decides.",
+ "models": [
+  {
+   "model": "stealth/ox-alpha",
+   "host": "Stealth"
+  },
+  {
+   "model": "z-ai/glm-5.3",
+   "host": "Z.AI"
+  },
+  {
+   "model": "z-ai/glm-4.7-flash",
+   "host": "DeepInfra"
+  },
+  {
+   "model": "deepseek/deepseek-v4-flash",
+   "host": "SiliconFlow"
+  },
+  {
+   "model": "deepseek/deepseek-v4-pro",
+   "host": "GMICloud"
+  },
+  {
+   "model": "anthropic/claude-opus-5",
+   "host": "Anthropic"
+  },
+  {
+   "model": "anthropic/claude-sonnet-5",
+   "host": "Anthropic"
+  },
+  {
+   "model": "anthropic/claude-haiku-4.5",
+   "host": "Anthropic"
+  },
+  {
+   "model": "openai/gpt-5.6-sol",
+   "host": "OpenAI"
+  },
+  {
+   "model": "openai/gpt-5.6-luna",
+   "host": "OpenAI"
+  },
+  {
+   "model": "openai/gpt-5.6-terra",
+   "host": "OpenAI"
+  },
+  {
+   "model": "google/gemini-3.7-flash",
+   "host": "Google AI Studio"
+  },
+  {
+   "model": "google/gemma-3-27b-it",
+   "host": "DeepInfra"
+  },
+  {
+   "model": "moonshotai/kimi-k3",
+   "host": "DigitalOcean"
+  },
+  {
+   "model": "qwen/qwen3.8-27b",
+   "host": "Chutes"
+  },
+  {
+   "model": "qwen/qwen3.7-flash",
+   "host": "Alibaba"
+  },
+  {
+   "model": "qwen/qwen3-235b-a22b-2507",
+   "host": "Alibaba"
+  },
+  {
+   "model": "x-ai/grok-4.6",
+   "host": "xAI"
+  },
+  {
+   "model": "minimax/minimax-m3",
+   "host": "AtlasCloud"
+  },
+  {
+   "model": "perplexity/sonar",
+   "host": "Perplexity"
+  },
+  {
+   "model": "nousresearch/hermes-4-405b",
+   "host": "Nebius"
+  }
+ ]
+}

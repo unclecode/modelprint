@@ -1,0 +1,300 @@
+{
+ "window_start": "2026-08-21",
+ "generated": "2026-08-25",
+ "models": [
+  {
+   "file": "anthropic-claude-haiku-4.5__anthropic.json",
+   "model": "anthropic/claude-haiku-4.5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-opus-5__anthropic.json",
+   "model": "anthropic/claude-opus-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-sonnet-5__anthropic.json",
+   "model": "anthropic/claude-sonnet-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
+   "model": "deepseek/deepseek-v4-flash",
+   "host": "SiliconFlow",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "deepseek-deepseek-v4-pro__gmicloud.json",
+   "model": "deepseek/deepseek-v4-pro",
+   "host": "GMICloud",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "google-gemini-3.7-flash__google-ai-studio.json",
+   "model": "google/gemini-3.7-flash",
+   "host": "Google AI Studio",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "google-gemma-3-27b-it__deepinfra.json",
+   "model": "google/gemma-3-27b-it",
+   "host": "DeepInfra",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "minimax-minimax-m3__atlascloud.json",
+   "model": "minimax/minimax-m3",
+   "host": "AtlasCloud",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "moonshotai-kimi-k3__digitalocean.json",
+   "model": "moonshotai/kimi-k3",
+   "host": "DigitalOcean",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "nousresearch-hermes-4-405b__nebius.json",
+   "model": "nousresearch/hermes-4-405b",
+   "host": "Nebius",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "openai-gpt-5.6-luna__openai.json",
+   "model": "openai/gpt-5.6-luna",
+   "host": "OpenAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "openai-gpt-5.6-sol__openai.json",
+   "model": "openai/gpt-5.6-sol",
+   "host": "OpenAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "openai-gpt-5.6-terra__openai.json",
+   "model": "openai/gpt-5.6-terra",
+   "host": "OpenAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "perplexity-sonar__perplexity.json",
+   "model": "perplexity/sonar",
+   "host": "Perplexity",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "qwen-qwen3-235b-a22b-2507__alibaba.json",
+   "model": "qwen/qwen3-235b-a22b-2507",
+   "host": "Alibaba",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "qwen-qwen3.7-flash__alibaba.json",
+   "model": "qwen/qwen3.7-flash",
+   "host": "Alibaba",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "qwen-qwen3.8-27b__chutes.json",
+   "model": "qwen/qwen3.8-27b",
+   "host": "Chutes",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "stealth-ox-alpha__stealth.json",
+   "model": "stealth/ox-alpha",
+   "host": "Stealth",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "x-ai-grok-4.6__xai.json",
+   "model": "x-ai/grok-4.6",
+   "host": "xAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "z-ai-glm-4.7-flash__deepinfra.json",
+   "model": "z-ai/glm-4.7-flash",
+   "host": "DeepInfra",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "z-ai-glm-5.3__z.ai.json",
+   "model": "z-ai/glm-5.3",
+   "host": "Z.AI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    }
+   ]
+  }
+ ]
+}

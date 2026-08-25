@@ -31,3 +31,13 @@ export function isBusy(value) {
   return typeof value === "string" &&
     /^(model busy|model overloaded|model timed out|model too slow|network error)/.test(value);
 }
+
+/* Some hosts answer 200 but leave the token counts out of the reply. The
+ * probes then did arithmetic on "undefined" and recorded NaN, which looked
+ * like a real value and would compare as a change tomorrow. This names the
+ * situation instead. */
+export function usageMissing(...responses) {
+  return responses.some(r => typeof r?.usage?.prompt_tokens !== "number"
+                          || !Number.isFinite(r.usage.prompt_tokens));
+}
+export const USAGE_NOT_REPORTED = "usage not reported";

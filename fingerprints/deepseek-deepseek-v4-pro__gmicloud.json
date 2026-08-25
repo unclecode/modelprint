@@ -1,0 +1,31 @@
+{
+ "model": "deepseek/deepseek-v4-pro",
+ "host": "GMICloud",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "tok-english": "49",
+    "tok-chinese": "53",
+    "tok-code": "62",
+    "tok-emoji": "83",
+    "template-offset": "+84 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · GMICloud · direct",
+    "net-genrecord": "GMICloud · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "GMICloud · badfmt",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": []
+  }
+ ]
+}

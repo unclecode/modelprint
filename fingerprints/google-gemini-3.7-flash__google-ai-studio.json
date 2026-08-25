@@ -1,0 +1,47 @@
+{
+ "model": "google/gemini-3.7-flash",
+ "host": "Google AI Studio",
+ "first_tracked": "2026-08-25",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-25",
+   "last_seen": "2026-08-25",
+   "probe_set": "0.7.4",
+   "values": {
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "STOP · MAX_TOKENS",
+    "net-region": "KUL · Google AI Studio · direct",
+    "net-genrecord": "Google AI Studio · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-code",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "template-offset",
+     "why": "usage not reported"
+    }
+   ],
+   "moved": []
+  }
+ ]
+}

@@ -4,3 +4,8 @@ nohup.out
 # local blueprints and handoffs, not for the public repo
 .context/
 worker/.dev.vars
+
+# local only, never shipped
+mockups/
+.wrangler/
+node_modules/

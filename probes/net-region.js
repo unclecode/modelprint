@@ -4,6 +4,8 @@
 // author:      ItIsCuthNotCup
 // version:     1.0.0
 
+import { describeFailure } from "./_failure.js";
+
 export const meta = {
   id: "net-region", name: "router region", group: "network",
   why: "the routing layer names its region and the provider that answered",
@@ -19,7 +21,7 @@ export async function probe(ctx) {
   const res = await ctx.chat({
     messages: [{ role: "user", content: "hi" }], max_tokens: 1,
   });
-  if (!res.ok) return { value: "probe-failed: " + res.status };
+  if (!res.ok) return { value: describeFailure(res), raw: { status: res.status } };
   const m = res.metadata;
   if (!m) return { value: res.status === 200 ? "no-router-metadata" : "no-router-metadata",
                    raw: { id: res.id } };
