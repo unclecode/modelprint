@@ -61,6 +61,41 @@
      "to": "no-upstream-reject-path"
     }
    ]
+  },
+  {
+   "v": 3,
+   "first_seen": "2026-08-26",
+   "last_seen": "2026-08-26",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "49",
+    "tok-chinese": "-26",
+    "tok-code": "62",
+    "tok-emoji": "83",
+    "template-offset": "+84 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "SEA · GMICloud · direct",
+    "net-genrecord": "GMICloud · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "GMICloud · badfmt",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-chinese",
+     "why": "unstable (multi-host routing)"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "net-pathsplit",
+     "from": "no-upstream-reject-path",
+     "to": "GMICloud · badfmt"
+    }
+   ]
   }
  ]
 }

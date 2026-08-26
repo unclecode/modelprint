@@ -1,49 +1,7 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-08-25",
+ "generated": "2026-08-26",
  "models": [
-  {
-   "file": "anthropic-claude-haiku-4.5__anthropic.json",
-   "model": "anthropic/claude-haiku-4.5",
-   "host": "Anthropic",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    }
-   ]
-  },
-  {
-   "file": "anthropic-claude-opus-5__anthropic.json",
-   "model": "anthropic/claude-opus-5",
-   "host": "Anthropic",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    }
-   ]
-  },
-  {
-   "file": "anthropic-claude-sonnet-5__anthropic.json",
-   "model": "anthropic/claude-sonnet-5",
-   "host": "Anthropic",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    }
-   ]
-  },
   {
    "file": "deepseek-deepseek-v4-flash__siliconflow.json",
    "model": "deepseek/deepseek-v4-flash",
@@ -55,6 +13,12 @@
      "first_seen": "2026-08-25",
      "last_seen": "2026-08-25",
      "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-26",
+     "last_seen": "2026-08-26",
+     "moved": 1
     }
    ]
   },
@@ -75,6 +39,54 @@
      "first_seen": "2026-08-25",
      "last_seen": "2026-08-25",
      "moved": 2
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-26",
+     "last_seen": "2026-08-26",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-haiku-4.5__anthropic.json",
+   "model": "anthropic/claude-haiku-4.5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-opus-5__anthropic.json",
+   "model": "anthropic/claude-opus-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
+     "moved": 0
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-sonnet-5__anthropic.json",
+   "model": "anthropic/claude-sonnet-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
+     "moved": 0
     }
    ]
   },
@@ -87,7 +99,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -101,7 +113,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -115,7 +127,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -129,7 +141,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -143,7 +155,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -157,7 +169,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -171,7 +183,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -185,7 +197,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -199,7 +211,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -213,7 +225,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -227,7 +239,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -241,7 +253,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -255,7 +267,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -269,7 +281,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -283,7 +295,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]
@@ -297,7 +309,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
+     "last_seen": "2026-08-26",
      "moved": 0
     }
    ]

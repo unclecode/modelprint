@@ -26,6 +26,73 @@
    },
    "unavailable": [],
    "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-08-26",
+   "last_seen": "2026-08-26",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "49",
+    "tok-chinese": "53",
+    "tok-code": "62",
+    "tok-emoji": "83",
+    "template-offset": "+84 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · SiliconFlow · direct",
+    "net-genrecord": "SiliconFlow · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "SiliconFlow · badfmt",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "err-temperature",
+     "why": "model budget spent"
+    },
+    {
+     "probe": "err-maxtokens",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "err-code-family",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "finish-vocab",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-region",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-headerdna",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-pathsplit",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "time budget spent"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "template-offset",
+     "from": "+5 (delta 7)",
+     "to": "+84 (delta 7)"
+    }
+   ]
   }
  ]
 }
