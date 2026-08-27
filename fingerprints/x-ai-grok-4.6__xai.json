@@ -6,14 +6,17 @@
   {
    "v": 1,
    "first_seen": "2026-08-25",
-   "last_seen": "2026-08-26",
+   "last_seen": "2026-08-27",
    "probe_set": "0.7.4",
    "values": {
     "tok-english": "48",
     "tok-chinese": "59",
     "tok-code": "65",
     "tok-emoji": "53",
-    "template-offset": "+207 (delta 7)"
+    "template-offset": "+207 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 500000 tokens",
+    "err-code-family": "opaque-text"
    },
    "unavailable": [
     {

@@ -26,6 +26,93 @@
    },
    "unavailable": [],
    "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-08-27",
+   "last_seen": "2026-08-27",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "56",
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+88 (delta 7)",
+    "err-temperature": "Thank you for participating in the Stealth Ox Alpha testing period. This model was ZAI's GLM-5.3 Flash. Use it now: https://openrouter.ai/z-ai/glm-5.3-flash · code 404",
+    "err-maxtokens": "router-validated (no upstream signal)",
+    "err-code-family": "numeric-code",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · Stealth · direct",
+    "net-genrecord": "Stealth · global",
+    "net-headerdna": "cf-ray · server:cloudflare",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-code",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "template-offset",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "finish-vocab",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-region",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "probe-failed: 404"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-temperature",
+     "from": "ERROR",
+     "to": "Thank you for participating in the Stealth Ox Alpha testing period. This model was ZAI's GLM-5.3 Flash. Use it now: https://openrouter.ai/z-ai/glm-5.3-flash · code 404"
+    },
+    {
+     "probe": "err-maxtokens",
+     "from": "router-reported limit: 1048576 tokens",
+     "to": "router-validated (no upstream signal)"
+    },
+    {
+     "probe": "err-code-family",
+     "from": "opaque (host hides errors)",
+     "to": "numeric-code"
+    },
+    {
+     "probe": "net-headerdna",
+     "from": "cf-ray · server:cloudflare · id:gen-",
+     "to": "cf-ray · server:cloudflare"
+    },
+    {
+     "probe": "net-pathsplit",
+     "from": "Stealth · temp2.0",
+     "to": "no-upstream-reject-path"
+    }
+   ]
   }
  ]
 }
