@@ -1,7 +1,53 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-08-27",
+ "generated": "2026-08-28",
  "models": [
+  {
+   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
+   "model": "deepseek/deepseek-v4-flash",
+   "host": "SiliconFlow",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-26",
+     "last_seen": "2026-08-27",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-28",
+     "last_seen": "2026-08-28",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "google-gemma-3-27b-it__deepinfra.json",
+   "model": "google/gemma-3-27b-it",
+   "host": "DeepInfra",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-27",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-28",
+     "last_seen": "2026-08-28",
+     "moved": 2
+    }
+   ]
+  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -29,7 +75,7 @@
     {
      "v": 4,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 1
     }
    ]
@@ -49,28 +95,8 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 5
-    }
-   ]
-  },
-  {
-   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
-   "model": "deepseek/deepseek-v4-flash",
-   "host": "SiliconFlow",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-26",
-     "last_seen": "2026-08-27",
-     "moved": 1
     }
    ]
   },
@@ -83,7 +109,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -97,7 +123,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -111,7 +137,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -125,21 +151,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
-     "moved": 0
-    }
-   ]
-  },
-  {
-   "file": "google-gemma-3-27b-it__deepinfra.json",
-   "model": "google/gemma-3-27b-it",
-   "host": "DeepInfra",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -153,7 +165,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -167,7 +179,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -181,7 +193,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -195,7 +207,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -209,7 +221,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -223,7 +235,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -237,7 +249,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -251,7 +263,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -265,7 +277,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -279,7 +291,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -293,7 +305,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -307,7 +319,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]
@@ -321,7 +333,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
+     "last_seen": "2026-08-28",
      "moved": 0
     }
    ]

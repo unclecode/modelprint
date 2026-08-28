@@ -26,6 +26,54 @@
    },
    "unavailable": [],
    "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-08-28",
+   "last_seen": "2026-08-28",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "44",
+    "tok-chinese": "57",
+    "tok-code": "68",
+    "tok-emoji": "73",
+    "template-offset": "+10 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 131072 tokens",
+    "err-code-family": "opaque-text",
+    "finish-vocab": "stop · length",
+    "net-region": "SJC · DeepInfra · direct",
+    "net-genrecord": "DeepInfra · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "DeepInfra · badfmt",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-chinese",
+     "why": "model busy (rate limited)"
+    },
+    {
+     "probe": "tok-code",
+     "why": "model busy (rate limited)"
+    },
+    {
+     "probe": "err-temperature",
+     "why": "busy after retries"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-maxtokens",
+     "from": "router-validated (no upstream signal)",
+     "to": "router-reported limit: 131072 tokens"
+    },
+    {
+     "probe": "err-code-family",
+     "from": "no upstream error (accepts 2.0)",
+     "to": "opaque-text"
+    }
+   ]
   }
  ]
 }

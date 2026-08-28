@@ -93,6 +93,36 @@
      "to": "+84 (delta 7)"
     }
    ]
+  },
+  {
+   "v": 3,
+   "first_seen": "2026-08-28",
+   "last_seen": "2026-08-28",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "49",
+    "tok-chinese": "53",
+    "tok-code": "62",
+    "tok-emoji": "83",
+    "template-offset": "+84 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · stop",
+    "net-region": "SJC · SiliconFlow · direct",
+    "net-genrecord": "SiliconFlow · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "SiliconFlow · badfmt",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "finish-vocab",
+     "from": "stop · length",
+     "to": "stop · stop"
+    }
+   ]
   }
  ]
 }
