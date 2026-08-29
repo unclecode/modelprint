@@ -74,6 +74,36 @@
      "to": "opaque-text"
     }
    ]
+  },
+  {
+   "v": 3,
+   "first_seen": "2026-08-29",
+   "last_seen": "2026-08-29",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "44",
+    "tok-chinese": "57",
+    "tok-code": "68",
+    "tok-emoji": "73",
+    "template-offset": "+10 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 131072 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "MSP · DeepInfra · direct",
+    "net-genrecord": "DeepInfra · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "DeepInfra · badfmt",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "err-code-family",
+     "from": "opaque-text",
+     "to": "no upstream error (accepts 2.0)"
+    }
+   ]
   }
  ]
 }

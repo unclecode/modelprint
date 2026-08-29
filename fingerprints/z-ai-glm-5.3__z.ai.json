@@ -26,6 +26,41 @@
    },
    "unavailable": [],
    "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-08-29",
+   "last_seen": "2026-08-29",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "56",
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "{\"error\":{\"code\":\"1210\",\"message\":\"The temperature parameter is illegal.：限制数值范围[0,1]\"}}",
+    "err-maxtokens": "router-validated (no upstream signal)",
+    "err-code-family": "numeric-code",
+    "finish-vocab": "stop · length",
+    "net-region": "MSP · Z.AI · direct",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "Z.AI · temp2.0",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "err-maxtokens",
+     "from": "router-reported limit: 1048576 tokens",
+     "to": "router-validated (no upstream signal)"
+    },
+    {
+     "probe": "net-genrecord",
+     "from": "Z.AI · global",
+     "to": "record-not-found"
+    }
+   ]
   }
  ]
 }

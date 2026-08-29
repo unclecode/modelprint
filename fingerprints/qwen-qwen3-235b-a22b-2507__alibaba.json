@@ -26,6 +26,36 @@
    },
    "unavailable": [],
    "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-08-29",
+   "last_seen": "2026-08-29",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "58",
+    "tok-code": "60",
+    "tok-emoji": "57",
+    "template-offset": "+9 (delta 7)",
+    "err-temperature": "data: {\"error\":{\"code\":\"invalid_parameter_error\",\"param\":null,\"message\":\"'temperature' must be Float\",\"type\":\"invalid_request_error\"},\"id\":\"…\"}\n\n",
+    "err-maxtokens": "router-validated (no upstream signal)",
+    "err-code-family": "opaque-text",
+    "finish-vocab": "stop · length",
+    "net-region": "MSP · Alibaba · direct",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "Alibaba · temp2.0",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "net-genrecord",
+     "from": "Alibaba · global",
+     "to": "record-not-found"
+    }
+   ]
   }
  ]
 }
