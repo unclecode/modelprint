@@ -1,6 +1,6 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-08-29",
+ "generated": "2026-08-30",
  "models": [
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
@@ -37,6 +37,84 @@
      "first_seen": "2026-08-29",
      "last_seen": "2026-08-29",
      "moved": 2
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-08-30",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "qwen-qwen3-235b-a22b-2507__alibaba.json",
+   "model": "qwen/qwen3-235b-a22b-2507",
+   "host": "Alibaba",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-28",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-29",
+     "last_seen": "2026-08-29",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-08-30",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "z-ai-glm-4.7-flash__deepinfra.json",
+   "model": "z-ai/glm-4.7-flash",
+   "host": "DeepInfra",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-29",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-08-30",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "z-ai-glm-5.3__z.ai.json",
+   "model": "z-ai/glm-5.3",
+   "host": "Z.AI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-28",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-29",
+     "last_seen": "2026-08-29",
+     "moved": 2
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-08-30",
+     "moved": 1
     }
    ]
   },
@@ -61,48 +139,8 @@
     {
      "v": 3,
      "first_seen": "2026-08-29",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "qwen-qwen3-235b-a22b-2507__alibaba.json",
-   "model": "qwen/qwen3-235b-a22b-2507",
-   "host": "Alibaba",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-28",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-29",
-     "last_seen": "2026-08-29",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "z-ai-glm-5.3__z.ai.json",
-   "model": "z-ai/glm-5.3",
-   "host": "Z.AI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-28",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-29",
-     "last_seen": "2026-08-29",
-     "moved": 2
     }
    ]
   },
@@ -127,7 +165,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-28",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 1
     }
    ]
@@ -147,7 +185,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 5
     }
    ]
@@ -161,7 +199,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -175,7 +213,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -189,7 +227,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -203,7 +241,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -217,7 +255,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -231,7 +269,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -245,7 +283,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -259,7 +297,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -273,7 +311,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -287,7 +325,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -301,7 +339,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -315,7 +353,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -329,7 +367,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
@@ -343,21 +381,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
-     "moved": 0
-    }
-   ]
-  },
-  {
-   "file": "z-ai-glm-4.7-flash__deepinfra.json",
-   "model": "z-ai/glm-4.7-flash",
-   "host": "DeepInfra",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
+     "last_seen": "2026-08-30",
      "moved": 0
     }
    ]
