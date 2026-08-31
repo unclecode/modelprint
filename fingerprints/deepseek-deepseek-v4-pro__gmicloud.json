@@ -174,7 +174,7 @@
   {
    "v": 6,
    "first_seen": "2026-08-30",
-   "last_seen": "2026-08-30",
+   "last_seen": "2026-08-31",
    "probe_set": "0.8.0",
    "values": {
     "tok-english": "49",
@@ -190,7 +190,8 @@
     "net-genrecord": "record-not-found",
     "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
     "net-pathsplit": "GMICloud · badfmt",
-    "lp-geometry": "logprobs-unsupported"
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">200k ≤256k"
    },
    "unavailable": [],
    "moved": [

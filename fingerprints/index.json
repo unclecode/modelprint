@@ -1,7 +1,33 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-08-30",
+ "generated": "2026-08-31",
  "models": [
+  {
+   "file": "z-ai-glm-4.7-flash__deepinfra.json",
+   "model": "z-ai/glm-4.7-flash",
+   "host": "DeepInfra",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-29",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-08-30",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-31",
+     "last_seen": "2026-08-31",
+     "moved": 1
+    }
+   ]
+  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -41,7 +67,7 @@
     {
      "v": 6,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 1
     }
    ]
@@ -67,27 +93,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-08-30",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "z-ai-glm-4.7-flash__deepinfra.json",
-   "model": "z-ai/glm-4.7-flash",
-   "host": "DeepInfra",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-30",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 1
     }
    ]
@@ -113,7 +119,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 1
     }
    ]
@@ -139,7 +145,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-29",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 1
     }
    ]
@@ -165,7 +171,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-28",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 1
     }
    ]
@@ -185,7 +191,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 5
     }
    ]
@@ -199,7 +205,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -213,7 +219,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -227,7 +233,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -241,7 +247,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -255,7 +261,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -269,7 +275,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -283,7 +289,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -297,7 +303,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -311,7 +317,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -325,7 +331,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -339,7 +345,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -353,7 +359,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -367,7 +373,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]
@@ -381,7 +387,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-08-30",
+     "last_seen": "2026-08-31",
      "moved": 0
     }
    ]

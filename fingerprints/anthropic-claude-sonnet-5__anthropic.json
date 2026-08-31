@@ -6,7 +6,7 @@
   {
    "v": 1,
    "first_seen": "2026-08-25",
-   "last_seen": "2026-08-30",
+   "last_seen": "2026-08-31",
    "probe_set": "0.7.4",
    "values": {
     "tok-english": "79",
@@ -22,7 +22,8 @@
     "net-genrecord": "Anthropic · global",
     "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
     "net-pathsplit": "no-upstream-reject-path",
-    "lp-geometry": "logprobs-unsupported"
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">32k ≤64k"
    },
    "unavailable": [],
    "moved": []
