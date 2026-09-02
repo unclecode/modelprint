@@ -70,6 +70,41 @@
      "to": "record-not-found"
     }
    ]
+  },
+  {
+   "v": 3,
+   "first_seen": "2026-09-02",
+   "last_seen": "2026-09-02",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "79",
+    "tok-chinese": "97",
+    "tok-emoji": "119",
+    "template-offset": "+7 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1000000 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "max_tokens",
+    "net-region": "MSP · Anthropic · direct · attempt-2",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": "≥256k (ladder-top)"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-code",
+     "why": "usage not reported"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "finish-vocab",
+     "from": "end_turn · max_tokens",
+     "to": "max_tokens"
+    }
+   ]
   }
  ]
 }
