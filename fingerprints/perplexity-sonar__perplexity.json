@@ -6,7 +6,7 @@
   {
    "v": 1,
    "first_seen": "2026-08-25",
-   "last_seen": "2026-09-02",
+   "last_seen": "2026-09-03",
    "probe_set": "0.7.4",
    "values": {
     "err-temperature": "{\"error\":{\"message\":\"max_tokens must be at least 16\",\"type\":\"invalid_request\",\"code\":400,\"param\":\"max_tokens\"}}\n",

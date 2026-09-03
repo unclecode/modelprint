@@ -277,6 +277,52 @@
      "to": "GMICloud · badfmt"
     }
    ]
+  },
+  {
+   "v": 9,
+   "first_seen": "2026-09-03",
+   "last_seen": "2026-09-03",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "49",
+    "tok-chinese": "-26",
+    "tok-code": "62",
+    "tok-emoji": "4",
+    "template-offset": "+5 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "IAD · GMICloud · direct",
+    "net-genrecord": "GMICloud · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "GMICloud · badfmt",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">200k ≤256k"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-code",
+     "why": "unstable (multi-host routing)"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "tok-chinese",
+     "from": "53",
+     "to": "-26"
+    },
+    {
+     "probe": "tok-emoji",
+     "from": "83",
+     "to": "4"
+    },
+    {
+     "probe": "template-offset",
+     "from": "+84 (delta 7)",
+     "to": "+5 (delta 7)"
+    }
+   ]
   }
  ]
 }
