@@ -57,6 +57,43 @@
     }
    ],
    "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-09-04",
+   "last_seen": "2026-09-04",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "48",
+    "tok-chinese": "59",
+    "tok-code": "65",
+    "tok-emoji": "53",
+    "template-offset": "+207 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 500000 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "completed · max_output_tokens",
+    "net-region": "SEA · xAI · direct",
+    "net-genrecord": "xAI · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-"
+   },
+   "unavailable": [
+    {
+     "probe": "net-pathsplit",
+     "why": "probe-failed: 429"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "time budget spent"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-code-family",
+     "from": "opaque-text",
+     "to": "no upstream error (accepts 2.0)"
+    }
+   ]
   }
  ]
 }
