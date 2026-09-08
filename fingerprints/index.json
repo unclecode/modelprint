@@ -1,27 +1,7 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-09-07",
+ "generated": "2026-09-08",
  "models": [
-  {
-   "file": "anthropic-claude-sonnet-5__anthropic.json",
-   "model": "anthropic/claude-sonnet-5",
-   "host": "Anthropic",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-06",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-07",
-     "last_seen": "2026-09-07",
-     "moved": 1
-    }
-   ]
-  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -93,31 +73,31 @@
      "first_seen": "2026-09-07",
      "last_seen": "2026-09-07",
      "moved": 3
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-08",
+     "moved": 2
     }
    ]
   },
   {
-   "file": "x-ai-grok-4.6__xai.json",
-   "model": "x-ai/grok-4.6",
-   "host": "xAI",
+   "file": "minimax-minimax-m3__atlascloud.json",
+   "model": "minimax/minimax-m3",
+   "host": "AtlasCloud",
    "first_tracked": "2026-08-25",
    "versions": [
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-03",
+     "last_seen": "2026-09-07",
      "moved": 0
     },
     {
      "v": 2,
-     "first_seen": "2026-09-04",
-     "last_seen": "2026-09-04",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-05",
-     "last_seen": "2026-09-07",
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-08",
      "moved": 1
     }
    ]
@@ -144,6 +124,58 @@
      "v": 3,
      "first_seen": "2026-09-04",
      "last_seen": "2026-09-07",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-08",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-sonnet-5__anthropic.json",
+   "model": "anthropic/claude-sonnet-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-06",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "x-ai-grok-4.6__xai.json",
+   "model": "x-ai/grok-4.6",
+   "host": "xAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-03",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-04",
+     "last_seen": "2026-09-04",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-05",
+     "last_seen": "2026-09-08",
      "moved": 1
     }
    ]
@@ -175,7 +207,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-03",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 2
     }
    ]
@@ -207,7 +239,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-02",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 1
     }
    ]
@@ -245,7 +277,7 @@
     {
      "v": 5,
      "first_seen": "2026-09-02",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 1
     }
    ]
@@ -277,7 +309,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-02",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 3
     }
    ]
@@ -303,7 +335,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 1
     }
    ]
@@ -329,7 +361,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-29",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 1
     }
    ]
@@ -349,7 +381,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 5
     }
    ]
@@ -363,7 +395,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -377,21 +409,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
-     "moved": 0
-    }
-   ]
-  },
-  {
-   "file": "minimax-minimax-m3__atlascloud.json",
-   "model": "minimax/minimax-m3",
-   "host": "AtlasCloud",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -405,7 +423,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -419,7 +437,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -433,7 +451,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -447,7 +465,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -461,7 +479,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -475,7 +493,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
@@ -489,7 +507,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
+     "last_seen": "2026-09-08",
      "moved": 0
     }
    ]
