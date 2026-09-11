@@ -1,6 +1,6 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-09-10",
+ "generated": "2026-09-11",
  "models": [
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
@@ -91,6 +91,12 @@
      "first_seen": "2026-09-10",
      "last_seen": "2026-09-10",
      "moved": 2
+    },
+    {
+     "v": 15,
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
+     "moved": 4
     }
    ]
   },
@@ -123,154 +129,52 @@
      "first_seen": "2026-09-10",
      "last_seen": "2026-09-10",
      "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
+     "moved": 2
     }
    ]
   },
   {
-   "file": "openai-gpt-5.6-terra__openai.json",
-   "model": "openai/gpt-5.6-terra",
+   "file": "openai-gpt-5.6-luna__openai.json",
+   "model": "openai/gpt-5.6-luna",
    "host": "OpenAI",
    "first_tracked": "2026-08-25",
    "versions": [
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-02",
+     "last_seen": "2026-09-10",
      "moved": 0
     },
     {
      "v": 2,
-     "first_seen": "2026-09-03",
-     "last_seen": "2026-09-03",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-04",
-     "last_seen": "2026-09-07",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-08",
-     "last_seen": "2026-09-09",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-10",
-     "last_seen": "2026-09-10",
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
      "moved": 1
     }
    ]
   },
   {
-   "file": "anthropic-claude-sonnet-5__anthropic.json",
-   "model": "anthropic/claude-sonnet-5",
-   "host": "Anthropic",
+   "file": "openai-gpt-5.6-sol__openai.json",
+   "model": "openai/gpt-5.6-sol",
+   "host": "OpenAI",
    "first_tracked": "2026-08-25",
    "versions": [
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-06",
+     "last_seen": "2026-09-10",
      "moved": 0
     },
     {
      "v": 2,
-     "first_seen": "2026-09-07",
-     "last_seen": "2026-09-10",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "x-ai-grok-4.6__xai.json",
-   "model": "x-ai/grok-4.6",
-   "host": "xAI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-03",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-04",
-     "last_seen": "2026-09-04",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-05",
-     "last_seen": "2026-09-10",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "anthropic-claude-opus-5__anthropic.json",
-   "model": "anthropic/claude-opus-5",
-   "host": "Anthropic",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-31",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-01",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-02",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-03",
-     "last_seen": "2026-09-10",
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
      "moved": 2
-    }
-   ]
-  },
-  {
-   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
-   "model": "deepseek/deepseek-v4-flash",
-   "host": "SiliconFlow",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-26",
-     "last_seen": "2026-08-27",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-28",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-10",
-     "moved": 1
     }
    ]
   },
@@ -309,6 +213,160 @@
      "first_seen": "2026-09-02",
      "last_seen": "2026-09-10",
      "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
+     "moved": 5
+    }
+   ]
+  },
+  {
+   "file": "openai-gpt-5.6-terra__openai.json",
+   "model": "openai/gpt-5.6-terra",
+   "host": "OpenAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-02",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-03",
+     "last_seen": "2026-09-03",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-04",
+     "last_seen": "2026-09-07",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-09",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-sonnet-5__anthropic.json",
+   "model": "anthropic/claude-sonnet-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-06",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-07",
+     "last_seen": "2026-09-11",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "x-ai-grok-4.6__xai.json",
+   "model": "x-ai/grok-4.6",
+   "host": "xAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-03",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-04",
+     "last_seen": "2026-09-04",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-05",
+     "last_seen": "2026-09-11",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-opus-5__anthropic.json",
+   "model": "anthropic/claude-opus-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-31",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-01",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-02",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-03",
+     "last_seen": "2026-09-11",
+     "moved": 2
+    }
+   ]
+  },
+  {
+   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
+   "model": "deepseek/deepseek-v4-flash",
+   "host": "SiliconFlow",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-26",
+     "last_seen": "2026-08-27",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-28",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-11",
+     "moved": 1
     }
    ]
   },
@@ -339,7 +397,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-02",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 3
     }
    ]
@@ -365,7 +423,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 1
     }
    ]
@@ -391,7 +449,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-29",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 1
     }
    ]
@@ -411,7 +469,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 5
     }
    ]
@@ -425,7 +483,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 0
     }
    ]
@@ -439,7 +497,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 0
     }
    ]
@@ -453,7 +511,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 0
     }
    ]
@@ -467,35 +525,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
-     "moved": 0
-    }
-   ]
-  },
-  {
-   "file": "openai-gpt-5.6-luna__openai.json",
-   "model": "openai/gpt-5.6-luna",
-   "host": "OpenAI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
-     "moved": 0
-    }
-   ]
-  },
-  {
-   "file": "openai-gpt-5.6-sol__openai.json",
-   "model": "openai/gpt-5.6-sol",
-   "host": "OpenAI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 0
     }
    ]
@@ -509,7 +539,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 0
     }
    ]
@@ -523,7 +553,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 0
     }
    ]
@@ -537,7 +567,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
+     "last_seen": "2026-09-11",
      "moved": 0
     }
    ]
