@@ -1,6 +1,6 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-09-12",
+ "generated": "2026-09-13",
  "models": [
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
@@ -103,6 +103,56 @@
      "first_seen": "2026-09-12",
      "last_seen": "2026-09-12",
      "moved": 3
+    },
+    {
+     "v": 17,
+     "first_seen": "2026-09-13",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "openai-gpt-5.6-terra__openai.json",
+   "model": "openai/gpt-5.6-terra",
+   "host": "OpenAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-02",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-03",
+     "last_seen": "2026-09-03",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-04",
+     "last_seen": "2026-09-07",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-09",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-10",
+     "last_seen": "2026-09-12",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-13",
+     "last_seen": "2026-09-13",
+     "moved": 1
     }
    ]
   },
@@ -145,7 +195,7 @@
     {
      "v": 6,
      "first_seen": "2026-09-12",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 1
     }
    ]
@@ -171,7 +221,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-12",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 1
     }
    ]
@@ -197,7 +247,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-12",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 2
     }
    ]
@@ -241,46 +291,8 @@
     {
      "v": 6,
      "first_seen": "2026-09-11",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 5
-    }
-   ]
-  },
-  {
-   "file": "openai-gpt-5.6-terra__openai.json",
-   "model": "openai/gpt-5.6-terra",
-   "host": "OpenAI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-02",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-03",
-     "last_seen": "2026-09-03",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-04",
-     "last_seen": "2026-09-07",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-08",
-     "last_seen": "2026-09-09",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-10",
-     "last_seen": "2026-09-12",
-     "moved": 1
     }
    ]
   },
@@ -299,7 +311,7 @@
     {
      "v": 2,
      "first_seen": "2026-09-07",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 1
     }
    ]
@@ -325,7 +337,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-05",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 1
     }
    ]
@@ -357,7 +369,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-03",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 2
     }
    ]
@@ -389,7 +401,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-02",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 1
     }
    ]
@@ -421,7 +433,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-02",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 3
     }
    ]
@@ -447,7 +459,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 1
     }
    ]
@@ -473,7 +485,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-29",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 1
     }
    ]
@@ -493,7 +505,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 5
     }
    ]
@@ -507,7 +519,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 0
     }
    ]
@@ -521,7 +533,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 0
     }
    ]
@@ -535,7 +547,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 0
     }
    ]
@@ -549,7 +561,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 0
     }
    ]
@@ -563,7 +575,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 0
     }
    ]
@@ -577,7 +589,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 0
     }
    ]
@@ -591,7 +603,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
      "moved": 0
     }
    ]
