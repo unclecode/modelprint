@@ -1,45 +1,7 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-09-14",
+ "generated": "2026-09-15",
  "models": [
-  {
-   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
-   "model": "deepseek/deepseek-v4-flash",
-   "host": "SiliconFlow",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-26",
-     "last_seen": "2026-08-27",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-28",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-09-14",
-     "moved": 1
-    }
-   ]
-  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -153,6 +115,88 @@
      "first_seen": "2026-09-14",
      "last_seen": "2026-09-14",
      "moved": 3
+    },
+    {
+     "v": 19,
+     "first_seen": "2026-09-15",
+     "last_seen": "2026-09-15",
+     "moved": 2
+    }
+   ]
+  },
+  {
+   "file": "openai-gpt-5.6-luna__openai.json",
+   "model": "openai/gpt-5.6-luna",
+   "host": "OpenAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-10",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-09-14",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-15",
+     "last_seen": "2026-09-15",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
+   "model": "deepseek/deepseek-v4-flash",
+   "host": "SiliconFlow",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-26",
+     "last_seen": "2026-08-27",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-28",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
+     "moved": 1
     }
    ]
   },
@@ -201,40 +245,8 @@
     {
      "v": 7,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 2
-    }
-   ]
-  },
-  {
-   "file": "openai-gpt-5.6-luna__openai.json",
-   "model": "openai/gpt-5.6-luna",
-   "host": "OpenAI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-10",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-11",
-     "last_seen": "2026-09-11",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-12",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-09-14",
-     "moved": 1
     }
    ]
   },
@@ -283,7 +295,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 1
     }
    ]
@@ -315,7 +327,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 1
     }
    ]
@@ -341,7 +353,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-12",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 2
     }
    ]
@@ -385,7 +397,7 @@
     {
      "v": 6,
      "first_seen": "2026-09-11",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 5
     }
    ]
@@ -405,7 +417,7 @@
     {
      "v": 2,
      "first_seen": "2026-09-07",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 1
     }
    ]
@@ -437,7 +449,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-03",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 2
     }
    ]
@@ -469,7 +481,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-02",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 3
     }
    ]
@@ -495,7 +507,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 1
     }
    ]
@@ -521,7 +533,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-29",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 1
     }
    ]
@@ -541,7 +553,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 5
     }
    ]
@@ -555,7 +567,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 0
     }
    ]
@@ -569,7 +581,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 0
     }
    ]
@@ -583,7 +595,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 0
     }
    ]
@@ -597,7 +609,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 0
     }
    ]
@@ -611,7 +623,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 0
     }
    ]
@@ -625,7 +637,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 0
     }
    ]
@@ -639,7 +651,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-14",
+     "last_seen": "2026-09-15",
      "moved": 0
     }
    ]
