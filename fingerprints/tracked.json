@@ -85,6 +85,14 @@
   {
    "model": "nousresearch/hermes-4-405b",
    "host": "Nebius"
+  },
+  {
+   "model": "z-ai/glm-5.3-flash",
+   "host": null
+  },
+  {
+   "model": "unbiased/pareto",
+   "host": null
   }
  ]
 }

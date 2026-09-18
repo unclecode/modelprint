@@ -1,0 +1,78 @@
+{
+ "model": "z-ai/glm-5.3-flash",
+ "host": null,
+ "first_tracked": "2026-08-27",
+ "versions": [
+  {
+   "v": 1,
+   "first_seen": "2026-08-27",
+   "last_seen": "2026-08-27",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "60",
+    "tok-emoji": "89",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1310720 tokens",
+    "err-code-family": "numeric-code · type:backend_error",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · Z.AI · direct · attempt-2",
+    "net-genrecord": "Z.AI · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "unstable (multi-host routing)"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "unstable (multi-host routing)"
+    }
+   ],
+   "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-08-27",
+   "last_seen": "2026-08-27",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1310720 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "KUL · Z.AI · direct",
+    "net-genrecord": "GMICloud · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47",
+    "tok-chinese": "56"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "tok-emoji",
+     "from": "89",
+     "to": "90"
+    },
+    {
+     "probe": "err-code-family",
+     "from": "numeric-code · type:backend_error",
+     "to": "no upstream error (accepts 2.0)"
+    },
+    {
+     "probe": "net-genrecord",
+     "from": "Z.AI · global",
+     "to": "GMICloud · global"
+    }
+   ]
+  }
+ ]
+}
