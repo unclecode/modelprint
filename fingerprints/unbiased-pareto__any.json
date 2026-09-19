@@ -42,6 +42,53 @@
     }
    ],
    "moved": []
+  },
+  {
+   "v": 2,
+   "first_seen": "2026-09-19",
+   "last_seen": "2026-09-19",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "60",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 262144 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "MSP · Unbiased · direct",
+    "net-genrecord": "Unbiased · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47",
+    "tok-chinese": "98",
+    "template-offset": "+3 (delta 29)"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "unstable (multi-host routing)"
+    },
+    {
+     "probe": "tok-code",
+     "why": "unstable (multi-host routing)"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "unstable (multi-host routing)"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "tok-chinese",
+     "from": "76",
+     "to": "98"
+    },
+    {
+     "probe": "template-offset",
+     "from": "+25 (delta 7)",
+     "to": "+3 (delta 29)"
+    }
+   ]
   }
  ]
 }
