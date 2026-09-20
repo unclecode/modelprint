@@ -108,6 +108,36 @@
      "to": "cf-ray · server:cloudflare · id:gen- · fp"
     }
    ]
+  },
+  {
+   "v": 4,
+   "first_seen": "2026-09-20",
+   "last_seen": "2026-09-20",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1310720 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "MSP · Relace · direct",
+    "net-genrecord": "Relace · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47",
+    "tok-chinese": "56"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "net-headerdna",
+     "from": "cf-ray · server:cloudflare · id:gen- · fp",
+     "to": "cf-ray · server:cloudflare · id:gen-"
+    }
+   ]
   }
  ]
 }
