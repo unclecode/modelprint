@@ -223,6 +223,42 @@
      "to": "91"
     }
    ]
+  },
+  {
+   "v": 8,
+   "first_seen": "2026-09-21",
+   "last_seen": "2026-09-21",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-chinese": "75",
+    "tok-code": "60",
+    "tok-emoji": "91",
+    "template-offset": "+7 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1050000 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "completed · max_output_tokens",
+    "net-region": "SJC · OpenAI · direct · attempt-2",
+    "net-genrecord": "OpenAI · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "OpenAI · toplogprobs25",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47",
+    "cap-contextceiling": "≥256k (ladder-top)"
+   },
+   "unavailable": [
+    {
+     "probe": "cap-contextceiling",
+     "why": "probe-failed: 200"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "tok-chinese",
+     "from": "68",
+     "to": "75"
+    }
+   ]
   }
  ]
 }
