@@ -1,33 +1,7 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-09-21",
+ "generated": "2026-09-22",
  "models": [
-  {
-   "file": "anthropic-claude-sonnet-5__anthropic.json",
-   "model": "anthropic/claude-sonnet-5",
-   "host": "Anthropic",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-06",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-07",
-     "last_seen": "2026-09-20",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-21",
-     "last_seen": "2026-09-21",
-     "moved": 1
-    }
-   ]
-  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -183,6 +157,12 @@
      "first_seen": "2026-09-21",
      "last_seen": "2026-09-21",
      "moved": 2
+    },
+    {
+     "v": 26,
+     "first_seen": "2026-09-22",
+     "last_seen": "2026-09-22",
+     "moved": 3
     }
    ]
   },
@@ -239,6 +219,12 @@
      "first_seen": "2026-09-21",
      "last_seen": "2026-09-21",
      "moved": 1
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-09-22",
+     "last_seen": "2026-09-22",
+     "moved": 1
     }
    ]
   },
@@ -271,6 +257,82 @@
      "first_seen": "2026-09-21",
      "last_seen": "2026-09-21",
      "moved": 2
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-22",
+     "last_seen": "2026-09-22",
+     "moved": 2
+    }
+   ]
+  },
+  {
+   "file": "z-ai-glm-5.3__z.ai.json",
+   "model": "z-ai/glm-5.3",
+   "host": "Z.AI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-28",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-29",
+     "last_seen": "2026-08-29",
+     "moved": 2
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-19",
+     "moved": 3
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-20",
+     "last_seen": "2026-09-21",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-22",
+     "last_seen": "2026-09-22",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "anthropic-claude-sonnet-5__anthropic.json",
+   "model": "anthropic/claude-sonnet-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-06",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-07",
+     "last_seen": "2026-09-20",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
+     "moved": 1
     }
    ]
   },
@@ -307,7 +369,7 @@
     {
      "v": 5,
      "first_seen": "2026-09-21",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 1
     }
    ]
@@ -341,44 +403,6 @@
      "first_seen": "2026-09-19",
      "last_seen": "2026-09-19",
      "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-20",
-     "last_seen": "2026-09-21",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "z-ai-glm-5.3__z.ai.json",
-   "model": "z-ai/glm-5.3",
-   "host": "Z.AI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-28",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-29",
-     "last_seen": "2026-08-29",
-     "moved": 2
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-30",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-19",
-     "moved": 3
     },
     {
      "v": 5,
@@ -445,7 +469,7 @@
     {
      "v": 9,
      "first_seen": "2026-09-19",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 1
     }
    ]
@@ -483,7 +507,7 @@
     {
      "v": 5,
      "first_seen": "2026-09-18",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 1
     }
    ]
@@ -521,7 +545,7 @@
     {
      "v": 5,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 1
     }
    ]
@@ -571,7 +595,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 2
     }
    ]
@@ -597,7 +621,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-12",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 2
     }
    ]
@@ -641,7 +665,7 @@
     {
      "v": 6,
      "first_seen": "2026-09-11",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 5
     }
    ]
@@ -673,7 +697,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-03",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 2
     }
    ]
@@ -699,7 +723,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 1
     }
    ]
@@ -719,7 +743,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 5
     }
    ]
@@ -733,7 +757,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 0
     }
    ]
@@ -747,7 +771,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 0
     }
    ]
@@ -761,7 +785,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 0
     }
    ]
@@ -775,7 +799,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 0
     }
    ]
@@ -789,7 +813,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 0
     }
    ]
@@ -803,7 +827,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 0
     }
    ]
@@ -817,7 +841,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
      "moved": 0
     }
    ]
