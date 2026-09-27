@@ -1,6 +1,6 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-09-26",
+ "generated": "2026-09-27",
  "models": [
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
@@ -181,6 +181,12 @@
      "first_seen": "2026-09-26",
      "last_seen": "2026-09-26",
      "moved": 3
+    },
+    {
+     "v": 30,
+     "first_seen": "2026-09-27",
+     "last_seen": "2026-09-27",
+     "moved": 2
     }
    ]
   },
@@ -255,62 +261,12 @@
      "first_seen": "2026-09-26",
      "last_seen": "2026-09-26",
      "moved": 2
-    }
-   ]
-  },
-  {
-   "file": "unbiased-pareto__any.json",
-   "model": "unbiased/pareto",
-   "host": null,
-   "first_tracked": "2026-09-18",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-09-18",
-     "last_seen": "2026-09-18",
-     "moved": 0
     },
     {
-     "v": 2,
-     "first_seen": "2026-09-19",
-     "last_seen": "2026-09-19",
-     "moved": 2
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-20",
-     "last_seen": "2026-09-20",
-     "moved": 3
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-21",
-     "last_seen": "2026-09-21",
-     "moved": 2
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-22",
-     "last_seen": "2026-09-22",
-     "moved": 2
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-09-24",
+     "v": 12,
+     "first_seen": "2026-09-27",
+     "last_seen": "2026-09-27",
      "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-25",
-     "last_seen": "2026-09-25",
-     "moved": 5
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-09-26",
-     "last_seen": "2026-09-26",
-     "moved": 5
     }
    ]
   },
@@ -373,6 +329,68 @@
      "first_seen": "2026-09-26",
      "last_seen": "2026-09-26",
      "moved": 2
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-09-27",
+     "last_seen": "2026-09-27",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "unbiased-pareto__any.json",
+   "model": "unbiased/pareto",
+   "host": null,
+   "first_tracked": "2026-09-18",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-09-18",
+     "last_seen": "2026-09-18",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-19",
+     "last_seen": "2026-09-19",
+     "moved": 2
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-20",
+     "last_seen": "2026-09-20",
+     "moved": 3
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-21",
+     "last_seen": "2026-09-21",
+     "moved": 2
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-22",
+     "last_seen": "2026-09-22",
+     "moved": 2
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-09-24",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-25",
+     "last_seen": "2026-09-25",
+     "moved": 5
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
+     "moved": 5
     }
    ]
   },
@@ -397,7 +415,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-24",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -441,7 +459,7 @@
     {
      "v": 6,
      "first_seen": "2026-09-23",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 2
     }
    ]
@@ -491,7 +509,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-23",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -553,7 +571,7 @@
     {
      "v": 9,
      "first_seen": "2026-09-22",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -597,7 +615,7 @@
     {
      "v": 6,
      "first_seen": "2026-09-22",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -623,7 +641,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-21",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -661,7 +679,7 @@
     {
      "v": 5,
      "first_seen": "2026-09-20",
-     "last_seen": "2026-09-25",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -699,7 +717,7 @@
     {
      "v": 5,
      "first_seen": "2026-09-18",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -749,7 +767,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 2
     }
    ]
@@ -775,7 +793,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-12",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 2
     }
    ]
@@ -807,7 +825,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-03",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 2
     }
    ]
@@ -833,7 +851,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 1
     }
    ]
@@ -853,7 +871,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 5
     }
    ]
@@ -867,7 +885,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 0
     }
    ]
@@ -881,7 +899,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 0
     }
    ]
@@ -895,7 +913,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 0
     }
    ]
@@ -909,7 +927,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 0
     }
    ]
@@ -923,7 +941,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 0
     }
    ]
@@ -937,7 +955,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
      "moved": 0
     }
    ]
