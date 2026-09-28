@@ -338,6 +338,50 @@
      "to": "+25 (delta 7)"
     }
    ]
+  },
+  {
+   "v": 9,
+   "first_seen": "2026-09-28",
+   "last_seen": "2026-09-28",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "60",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 262144 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "IAD · Unbiased · direct",
+    "net-genrecord": "Unbiased · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47",
+    "tok-chinese": "76",
+    "template-offset": "+25 (delta 7)",
+    "tok-emoji": "51",
+    "cap-contextceiling": "≥256k (ladder-top)"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "unstable (multi-host routing)"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "unstable (multi-host routing)"
+    },
+    {
+     "probe": "tok-code",
+     "why": "unstable (multi-host routing)"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "tok-emoji",
+     "from": "93",
+     "to": "51"
+    }
+   ]
   }
  ]
 }
