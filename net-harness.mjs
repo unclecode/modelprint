@@ -3,6 +3,7 @@
 // reasoning tokens, stream timeline) so every probe behaves identically
 // in CI and in the page.
 import { readFileSync } from "fs";
+import { parseJsonResponse } from "./response-utils.mjs";
 
 export function loadKey() {
   return process.env.OPENROUTER_API_KEY
@@ -89,8 +90,12 @@ export async function chat(model, payload) {
 
     const text = await r.text();
     const ms = performance.now() - t0;
-    if (!r.ok) return { ok: false, status: r.status, error: text, ms, ttftMs, headers: hdrs };
-    const d = JSON.parse(text);
+    const parsed = parseJsonResponse(text, r.headers.get("content-type"));
+    if (!r.ok) return { ok: false, status: r.status,
+      error: parsed.ok ? text : parsed.error, ms, ttftMs, headers: hdrs };
+    if (!parsed.ok) return { ok: false, status: r.status, error: parsed.error,
+      ms, ttftMs, headers: hdrs };
+    const d = parsed.json;
     const choice = (d.choices || [])[0] || {};
     return { ok: true, status: r.status, ms, ttftMs, headers: hdrs,
       id: d.id, reportedModel: d.model, systemFingerprint: d.system_fingerprint,
