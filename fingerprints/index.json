@@ -1,161 +1,7 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-10-03",
+ "generated": "2026-10-04",
  "models": [
-  {
-   "file": "x-ai-grok-4.6__xai.json",
-   "model": "x-ai/grok-4.6",
-   "host": "xAI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-03",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-04",
-     "last_seen": "2026-09-04",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-05",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-09-17",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-18",
-     "last_seen": "2026-09-28",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-29",
-     "last_seen": "2026-10-02",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-10-03",
-     "last_seen": "2026-10-03",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "z-ai-glm-5.3-flash__any.json",
-   "model": "z-ai/glm-5.3-flash",
-   "host": null,
-   "first_tracked": "2026-08-27",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-27",
-     "last_seen": "2026-08-27",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-27",
-     "last_seen": "2026-08-27",
-     "moved": 3
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-19",
-     "last_seen": "2026-09-19",
-     "moved": 2
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-20",
-     "last_seen": "2026-09-20",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-21",
-     "last_seen": "2026-09-22",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-09-23",
-     "moved": 2
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-24",
-     "last_seen": "2026-09-24",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-09-25",
-     "last_seen": "2026-09-25",
-     "moved": 2
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-09-26",
-     "last_seen": "2026-09-26",
-     "moved": 2
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-09-27",
-     "last_seen": "2026-09-27",
-     "moved": 1
-    },
-    {
-     "v": 11,
-     "first_seen": "2026-09-28",
-     "last_seen": "2026-09-28",
-     "moved": 1
-    },
-    {
-     "v": 12,
-     "first_seen": "2026-09-29",
-     "last_seen": "2026-09-29",
-     "moved": 2
-    },
-    {
-     "v": 13,
-     "first_seen": "2026-09-30",
-     "last_seen": "2026-09-30",
-     "moved": 2
-    },
-    {
-     "v": 14,
-     "first_seen": "2026-10-01",
-     "last_seen": "2026-10-01",
-     "moved": 1
-    },
-    {
-     "v": 15,
-     "first_seen": "2026-10-02",
-     "last_seen": "2026-10-02",
-     "moved": 1
-    },
-    {
-     "v": 16,
-     "first_seen": "2026-10-03",
-     "last_seen": "2026-10-03",
-     "moved": 1
-    }
-   ]
-  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -365,6 +211,252 @@
      "first_seen": "2026-10-02",
      "last_seen": "2026-10-03",
      "moved": 3
+    },
+    {
+     "v": 35,
+     "first_seen": "2026-10-04",
+     "last_seen": "2026-10-04",
+     "moved": 2
+    }
+   ]
+  },
+  {
+   "file": "unbiased-pareto__any.json",
+   "model": "unbiased/pareto",
+   "host": null,
+   "first_tracked": "2026-09-18",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-09-18",
+     "last_seen": "2026-09-18",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-19",
+     "last_seen": "2026-09-19",
+     "moved": 2
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-20",
+     "last_seen": "2026-09-20",
+     "moved": 3
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-21",
+     "last_seen": "2026-09-21",
+     "moved": 2
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-22",
+     "last_seen": "2026-09-22",
+     "moved": 2
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-09-24",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-25",
+     "last_seen": "2026-09-25",
+     "moved": 5
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
+     "moved": 5
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-09-28",
+     "last_seen": "2026-09-28",
+     "moved": 1
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-09-29",
+     "last_seen": "2026-09-29",
+     "moved": 5
+    },
+    {
+     "v": 11,
+     "first_seen": "2026-09-30",
+     "last_seen": "2026-10-03",
+     "moved": 5
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-10-04",
+     "last_seen": "2026-10-04",
+     "moved": 2
+    }
+   ]
+  },
+  {
+   "file": "z-ai-glm-5.3-flash__any.json",
+   "model": "z-ai/glm-5.3-flash",
+   "host": null,
+   "first_tracked": "2026-08-27",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-27",
+     "last_seen": "2026-08-27",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-27",
+     "last_seen": "2026-08-27",
+     "moved": 3
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-19",
+     "last_seen": "2026-09-19",
+     "moved": 2
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-20",
+     "last_seen": "2026-09-20",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-21",
+     "last_seen": "2026-09-22",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-09-23",
+     "moved": 2
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-24",
+     "last_seen": "2026-09-24",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-09-25",
+     "last_seen": "2026-09-25",
+     "moved": 2
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-09-26",
+     "last_seen": "2026-09-26",
+     "moved": 2
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-09-27",
+     "last_seen": "2026-09-27",
+     "moved": 1
+    },
+    {
+     "v": 11,
+     "first_seen": "2026-09-28",
+     "last_seen": "2026-09-28",
+     "moved": 1
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-09-29",
+     "last_seen": "2026-09-29",
+     "moved": 2
+    },
+    {
+     "v": 13,
+     "first_seen": "2026-09-30",
+     "last_seen": "2026-09-30",
+     "moved": 2
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-10-01",
+     "last_seen": "2026-10-01",
+     "moved": 1
+    },
+    {
+     "v": 15,
+     "first_seen": "2026-10-02",
+     "last_seen": "2026-10-02",
+     "moved": 1
+    },
+    {
+     "v": 16,
+     "first_seen": "2026-10-03",
+     "last_seen": "2026-10-03",
+     "moved": 1
+    },
+    {
+     "v": 17,
+     "first_seen": "2026-10-04",
+     "last_seen": "2026-10-04",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "x-ai-grok-4.6__xai.json",
+   "model": "x-ai/grok-4.6",
+   "host": "xAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-03",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-04",
+     "last_seen": "2026-09-04",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-05",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-09-17",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-18",
+     "last_seen": "2026-09-28",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-29",
+     "last_seen": "2026-10-02",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
+     "moved": 1
     }
    ]
   },
@@ -437,7 +529,7 @@
     {
      "v": 11,
      "first_seen": "2026-10-02",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -529,7 +621,7 @@
     {
      "v": 14,
      "first_seen": "2026-10-01",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -579,7 +671,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -605,7 +697,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -631,82 +723,8 @@
     {
      "v": 3,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "unbiased-pareto__any.json",
-   "model": "unbiased/pareto",
-   "host": null,
-   "first_tracked": "2026-09-18",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-09-18",
-     "last_seen": "2026-09-18",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-19",
-     "last_seen": "2026-09-19",
-     "moved": 2
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-20",
-     "last_seen": "2026-09-20",
-     "moved": 3
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-21",
-     "last_seen": "2026-09-21",
-     "moved": 2
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-22",
-     "last_seen": "2026-09-22",
-     "moved": 2
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-09-24",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-25",
-     "last_seen": "2026-09-25",
-     "moved": 5
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-09-26",
-     "last_seen": "2026-09-27",
-     "moved": 5
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-09-28",
-     "last_seen": "2026-09-28",
-     "moved": 1
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-09-29",
-     "last_seen": "2026-09-29",
-     "moved": 5
-    },
-    {
-     "v": 11,
-     "first_seen": "2026-09-30",
-     "last_seen": "2026-10-03",
-     "moved": 5
     }
    ]
   },
@@ -761,7 +779,7 @@
     {
      "v": 8,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 2
     }
    ]
@@ -793,7 +811,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-28",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -819,7 +837,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-24",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -869,7 +887,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-23",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -895,7 +913,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-21",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -933,7 +951,7 @@
     {
      "v": 5,
      "first_seen": "2026-09-20",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -983,7 +1001,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 2
     }
    ]
@@ -1015,7 +1033,7 @@
     {
      "v": 4,
      "first_seen": "2026-09-03",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 2
     }
    ]
@@ -1041,7 +1059,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 1
     }
    ]
@@ -1061,7 +1079,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 5
     }
    ]
@@ -1075,7 +1093,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 0
     }
    ]
@@ -1089,7 +1107,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 0
     }
    ]
@@ -1103,7 +1121,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 0
     }
    ]
@@ -1117,7 +1135,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-03",
+     "last_seen": "2026-10-04",
      "moved": 0
     }
    ]
