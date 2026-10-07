@@ -92,7 +92,7 @@
   {
    "v": 3,
    "first_seen": "2026-09-30",
-   "last_seen": "2026-10-06",
+   "last_seen": "2026-10-07",
    "probe_set": "0.8.0",
    "values": {
     "err-temperature": "accepts 2.0 (ceiling >= 2)",

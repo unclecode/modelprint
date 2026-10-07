@@ -1,7 +1,45 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-10-06",
+ "generated": "2026-10-07",
  "models": [
+  {
+   "file": "anthropic-claude-opus-5__anthropic.json",
+   "model": "anthropic/claude-opus-5",
+   "host": "Anthropic",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-31",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-01",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-02",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-03",
+     "last_seen": "2026-10-06",
+     "moved": 2
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-07",
+     "moved": 1
+    }
+   ]
+  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -229,6 +267,12 @@
      "first_seen": "2026-10-06",
      "last_seen": "2026-10-06",
      "moved": 4
+    },
+    {
+     "v": 38,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-07",
+     "moved": 2
     }
    ]
   },
@@ -272,6 +316,12 @@
      "v": 6,
      "first_seen": "2026-10-06",
      "last_seen": "2026-10-06",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -353,6 +403,12 @@
      "first_seen": "2026-10-06",
      "last_seen": "2026-10-06",
      "moved": 1
+    },
+    {
+     "v": 13,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-07",
+     "moved": 2
     }
    ]
   },
@@ -439,6 +495,12 @@
      "first_seen": "2026-10-06",
      "last_seen": "2026-10-06",
      "moved": 1
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-07",
+     "moved": 5
     }
    ]
   },
@@ -561,6 +623,12 @@
      "first_seen": "2026-10-06",
      "last_seen": "2026-10-06",
      "moved": 2
+    },
+    {
+     "v": 20,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-07",
+     "moved": 3
     }
    ]
   },
@@ -615,7 +683,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-05",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -653,7 +721,7 @@
     {
      "v": 5,
      "first_seen": "2026-10-05",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -703,7 +771,7 @@
     {
      "v": 7,
      "first_seen": "2026-10-03",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -795,7 +863,7 @@
     {
      "v": 14,
      "first_seen": "2026-10-01",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -821,7 +889,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -847,7 +915,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -903,7 +971,7 @@
     {
      "v": 8,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 2
     }
    ]
@@ -929,7 +997,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-24",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -979,7 +1047,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-23",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -1005,7 +1073,7 @@
     {
      "v": 3,
      "first_seen": "2026-09-21",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -1055,39 +1123,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-10-06",
-     "moved": 2
-    }
-   ]
-  },
-  {
-   "file": "anthropic-claude-opus-5__anthropic.json",
-   "model": "anthropic/claude-opus-5",
-   "host": "Anthropic",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-31",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-01",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-02",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-03",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 2
     }
    ]
@@ -1113,7 +1149,7 @@
     {
      "v": 3,
      "first_seen": "2026-08-30",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 1
     }
    ]
@@ -1133,7 +1169,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 5
     }
    ]
@@ -1147,7 +1183,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 0
     }
    ]
@@ -1161,7 +1197,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 0
     }
    ]
@@ -1175,7 +1211,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 0
     }
    ]
@@ -1189,7 +1225,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-06",
+     "last_seen": "2026-10-07",
      "moved": 0
     }
    ]

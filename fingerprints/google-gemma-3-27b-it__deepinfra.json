@@ -212,6 +212,37 @@
      "to": "record-not-found"
     }
    ]
+  },
+  {
+   "v": 7,
+   "first_seen": "2026-10-07",
+   "last_seen": "2026-10-07",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "44",
+    "tok-chinese": "57",
+    "tok-code": "68",
+    "tok-emoji": "73",
+    "template-offset": "+10 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 131072 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "LAX · DeepInfra · direct",
+    "net-genrecord": "DeepInfra · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "DeepInfra · badfmt",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">128k ≤200k"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "net-genrecord",
+     "from": "record-not-found",
+     "to": "DeepInfra · global"
+    }
+   ]
   }
  ]
 }
