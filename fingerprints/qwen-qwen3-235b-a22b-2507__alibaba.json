@@ -87,6 +87,89 @@
      "to": "Alibaba · global"
     }
    ]
+  },
+  {
+   "v": 4,
+   "first_seen": "2026-10-10",
+   "last_seen": "2026-10-10",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "58",
+    "tok-code": "60",
+    "tok-emoji": "57",
+    "template-offset": "+9 (delta 7)",
+    "err-temperature": "No endpoints found for qwen/qwen3-235b-a22b-2507. Every candidate endpoint was removed during routing: Filter by Fallback removed gmicloud/fp8, deepinfra/fp8, parasail/fp8, venice/fp8, nebius/fp8, google-vertex/us-south1. · code 404",
+    "err-maxtokens": "router-validated (no upstream signal)",
+    "err-code-family": "router-validated (no upstream signal)",
+    "finish-vocab": "stop · length",
+    "net-region": "IAD · Alibaba · direct",
+    "net-genrecord": "Alibaba · global",
+    "net-headerdna": "cf-ray · server:cloudflare",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">128k ≤200k"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-code",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "template-offset",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "finish-vocab",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-region",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "probe-failed: 404"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-temperature",
+     "from": "data: {\"error\":{\"code\":\"invalid_parameter_error\",\"param\":null,\"message\":\"'temperature' must be Float\",\"type\":\"invalid_request_error\"},\"id\":\"…\"}\n\n",
+     "to": "No endpoints found for qwen/qwen3-235b-a22b-2507. Every candidate endpoint was removed during routing: Filter by Fallback removed gmicloud/fp8, deepinfra/fp8, parasail/fp8, venice/fp8, nebius/fp8, google-vertex/us-south1. · code 404"
+    },
+    {
+     "probe": "err-code-family",
+     "from": "opaque-text",
+     "to": "router-validated (no upstream signal)"
+    },
+    {
+     "probe": "net-headerdna",
+     "from": "cf-ray · server:cloudflare · id:gen-",
+     "to": "cf-ray · server:cloudflare"
+    },
+    {
+     "probe": "net-pathsplit",
+     "from": "Alibaba · temp2.0",
+     "to": "no-upstream-reject-path"
+    }
+   ]
   }
  ]
 }
