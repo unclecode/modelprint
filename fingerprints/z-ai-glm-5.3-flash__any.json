@@ -823,6 +823,47 @@
      "to": "Friendli · global"
     }
    ]
+  },
+  {
+   "v": 25,
+   "first_seen": "2026-10-15",
+   "last_seen": "2026-10-15",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "EWR · AtlasCloud · direct · attempt-3",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47",
+    "tok-chinese": "56",
+    "cap-contextceiling": "≥256k (ladder-top)"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "tok-emoji",
+     "from": "91",
+     "to": "90"
+    },
+    {
+     "probe": "template-offset",
+     "from": "+13 (delta 8)",
+     "to": "+13 (delta 7)"
+    },
+    {
+     "probe": "net-genrecord",
+     "from": "Friendli · global",
+     "to": "record-not-found"
+    }
+   ]
   }
  ]
 }

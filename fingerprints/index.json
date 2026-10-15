@@ -1,7 +1,75 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-10-14",
+ "generated": "2026-10-15",
  "models": [
+  {
+   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
+   "model": "deepseek/deepseek-v4-flash",
+   "host": "SiliconFlow",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-26",
+     "last_seen": "2026-08-27",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-28",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-09-22",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-09-29",
+     "moved": 2
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-30",
+     "last_seen": "2026-10-04",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-05",
+     "last_seen": "2026-10-09",
+     "moved": 1
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-10-10",
+     "last_seen": "2026-10-14",
+     "moved": 1
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-15",
+     "moved": 1
+    }
+   ]
+  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -277,6 +345,12 @@
      "first_seen": "2026-10-14",
      "last_seen": "2026-10-14",
      "moved": 1
+    },
+    {
+     "v": 46,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-15",
+     "moved": 3
     }
    ]
   },
@@ -315,43 +389,145 @@
      "first_seen": "2026-10-14",
      "last_seen": "2026-10-14",
      "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-15",
+     "moved": 1
     }
    ]
   },
   {
-   "file": "qwen-qwen3.8-27b__chutes.json",
-   "model": "qwen/qwen3.8-27b",
-   "host": "Chutes",
-   "first_tracked": "2026-08-25",
+   "file": "unbiased-pareto__any.json",
+   "model": "unbiased/pareto",
+   "host": null,
+   "first_tracked": "2026-09-18",
    "versions": [
     {
      "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-28",
+     "first_seen": "2026-09-18",
+     "last_seen": "2026-09-18",
      "moved": 0
     },
     {
      "v": 2,
-     "first_seen": "2026-09-29",
-     "last_seen": "2026-09-29",
-     "moved": 1
+     "first_seen": "2026-09-19",
+     "last_seen": "2026-09-19",
+     "moved": 2
     },
     {
      "v": 3,
+     "first_seen": "2026-09-20",
+     "last_seen": "2026-09-20",
+     "moved": 3
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-21",
+     "last_seen": "2026-09-21",
+     "moved": 2
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-22",
+     "last_seen": "2026-09-22",
+     "moved": 2
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-09-24",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-25",
+     "last_seen": "2026-09-25",
+     "moved": 5
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-09-26",
+     "last_seen": "2026-09-27",
+     "moved": 5
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-09-28",
+     "last_seen": "2026-09-28",
+     "moved": 1
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-09-29",
+     "last_seen": "2026-09-29",
+     "moved": 5
+    },
+    {
+     "v": 11,
      "first_seen": "2026-09-30",
+     "last_seen": "2026-10-03",
+     "moved": 5
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-10-04",
+     "last_seen": "2026-10-05",
+     "moved": 2
+    },
+    {
+     "v": 13,
+     "first_seen": "2026-10-06",
+     "last_seen": "2026-10-06",
+     "moved": 1
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-07",
+     "moved": 5
+    },
+    {
+     "v": 15,
+     "first_seen": "2026-10-08",
+     "last_seen": "2026-10-08",
+     "moved": 5
+    },
+    {
+     "v": 16,
+     "first_seen": "2026-10-09",
+     "last_seen": "2026-10-09",
+     "moved": 5
+    },
+    {
+     "v": 17,
+     "first_seen": "2026-10-10",
+     "last_seen": "2026-10-10",
+     "moved": 3
+    },
+    {
+     "v": 18,
+     "first_seen": "2026-10-11",
+     "last_seen": "2026-10-11",
+     "moved": 2
+    },
+    {
+     "v": 19,
+     "first_seen": "2026-10-12",
      "last_seen": "2026-10-12",
      "moved": 1
     },
     {
-     "v": 4,
+     "v": 20,
      "first_seen": "2026-10-13",
-     "last_seen": "2026-10-13",
+     "last_seen": "2026-10-14",
      "moved": 1
     },
     {
-     "v": 5,
-     "first_seen": "2026-10-14",
-     "last_seen": "2026-10-14",
+     "v": 21,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -505,133 +681,111 @@
      "first_seen": "2026-10-14",
      "last_seen": "2026-10-14",
      "moved": 2
+    },
+    {
+     "v": 25,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-15",
+     "moved": 3
     }
    ]
   },
   {
-   "file": "unbiased-pareto__any.json",
-   "model": "unbiased/pareto",
-   "host": null,
-   "first_tracked": "2026-09-18",
+   "file": "z-ai-glm-5.3__z.ai.json",
+   "model": "z-ai/glm-5.3",
+   "host": "Z.AI",
+   "first_tracked": "2026-08-25",
    "versions": [
     {
      "v": 1,
-     "first_seen": "2026-09-18",
-     "last_seen": "2026-09-18",
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-28",
      "moved": 0
     },
     {
      "v": 2,
-     "first_seen": "2026-09-19",
-     "last_seen": "2026-09-19",
+     "first_seen": "2026-08-29",
+     "last_seen": "2026-08-29",
      "moved": 2
     },
     {
      "v": 3,
-     "first_seen": "2026-09-20",
-     "last_seen": "2026-09-20",
-     "moved": 3
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-21",
-     "last_seen": "2026-09-21",
-     "moved": 2
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-22",
-     "last_seen": "2026-09-22",
-     "moved": 2
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-09-24",
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-09-01",
      "moved": 1
     },
     {
-     "v": 7,
-     "first_seen": "2026-09-25",
-     "last_seen": "2026-09-25",
-     "moved": 5
+     "v": 4,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-19",
+     "moved": 3
     },
     {
-     "v": 8,
-     "first_seen": "2026-09-26",
-     "last_seen": "2026-09-27",
-     "moved": 5
+     "v": 5,
+     "first_seen": "2026-09-20",
+     "last_seen": "2026-09-21",
+     "moved": 1
     },
     {
-     "v": 9,
-     "first_seen": "2026-09-28",
+     "v": 6,
+     "first_seen": "2026-09-22",
      "last_seen": "2026-09-28",
      "moved": 1
     },
     {
-     "v": 10,
+     "v": 7,
      "first_seen": "2026-09-29",
      "last_seen": "2026-09-29",
-     "moved": 5
-    },
-    {
-     "v": 11,
-     "first_seen": "2026-09-30",
-     "last_seen": "2026-10-03",
-     "moved": 5
-    },
-    {
-     "v": 12,
-     "first_seen": "2026-10-04",
-     "last_seen": "2026-10-05",
-     "moved": 2
-    },
-    {
-     "v": 13,
-     "first_seen": "2026-10-06",
-     "last_seen": "2026-10-06",
      "moved": 1
     },
     {
-     "v": 14,
-     "first_seen": "2026-10-07",
-     "last_seen": "2026-10-07",
-     "moved": 5
-    },
-    {
-     "v": 15,
-     "first_seen": "2026-10-08",
-     "last_seen": "2026-10-08",
-     "moved": 5
-    },
-    {
-     "v": 16,
-     "first_seen": "2026-10-09",
-     "last_seen": "2026-10-09",
-     "moved": 5
-    },
-    {
-     "v": 17,
-     "first_seen": "2026-10-10",
-     "last_seen": "2026-10-10",
-     "moved": 3
-    },
-    {
-     "v": 18,
-     "first_seen": "2026-10-11",
-     "last_seen": "2026-10-11",
+     "v": 8,
+     "first_seen": "2026-09-30",
+     "last_seen": "2026-10-14",
      "moved": 2
     },
     {
-     "v": 19,
-     "first_seen": "2026-10-12",
+     "v": 9,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-15",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "qwen-qwen3.8-27b__chutes.json",
+   "model": "qwen/qwen3.8-27b",
+   "host": "Chutes",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-28",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-29",
+     "last_seen": "2026-09-29",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-30",
      "last_seen": "2026-10-12",
      "moved": 1
     },
     {
-     "v": 20,
+     "v": 4,
      "first_seen": "2026-10-13",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-13",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -663,7 +817,7 @@
     {
      "v": 4,
      "first_seen": "2026-10-12",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -707,7 +861,7 @@
     {
      "v": 6,
      "first_seen": "2026-10-12",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -769,69 +923,7 @@
     {
      "v": 9,
      "first_seen": "2026-10-12",
-     "last_seen": "2026-10-14",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
-   "model": "deepseek/deepseek-v4-flash",
-   "host": "SiliconFlow",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-26",
-     "last_seen": "2026-08-27",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-28",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-09-22",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-09-29",
-     "moved": 2
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-30",
-     "last_seen": "2026-10-04",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-05",
-     "last_seen": "2026-10-09",
-     "moved": 1
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-10-10",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -935,7 +1027,7 @@
     {
      "v": 16,
      "first_seen": "2026-10-10",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 2
     }
    ]
@@ -967,7 +1059,7 @@
     {
      "v": 4,
      "first_seen": "2026-10-10",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 2
     }
    ]
@@ -1071,7 +1163,7 @@
     {
      "v": 16,
      "first_seen": "2026-10-09",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 2
     }
    ]
@@ -1115,7 +1207,7 @@
     {
      "v": 6,
      "first_seen": "2026-10-08",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -1165,7 +1257,7 @@
     {
      "v": 7,
      "first_seen": "2026-10-07",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -1191,64 +1283,8 @@
     {
      "v": 3,
      "first_seen": "2026-09-30",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "z-ai-glm-5.3__z.ai.json",
-   "model": "z-ai/glm-5.3",
-   "host": "Z.AI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-28",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-29",
-     "last_seen": "2026-08-29",
-     "moved": 2
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-30",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-19",
-     "moved": 3
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-20",
-     "last_seen": "2026-09-21",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-22",
-     "last_seen": "2026-09-28",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-29",
-     "last_seen": "2026-09-29",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-09-30",
-     "last_seen": "2026-10-14",
-     "moved": 2
     }
    ]
   },
@@ -1297,7 +1333,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-23",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 1
     }
    ]
@@ -1347,7 +1383,7 @@
     {
      "v": 7,
      "first_seen": "2026-09-14",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 2
     }
    ]
@@ -1367,7 +1403,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 5
     }
    ]
@@ -1381,7 +1417,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 0
     }
    ]
@@ -1395,7 +1431,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 0
     }
    ]
@@ -1409,7 +1445,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 0
     }
    ]
@@ -1423,7 +1459,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-14",
+     "last_seen": "2026-10-15",
      "moved": 0
     }
    ]
