@@ -134,6 +134,52 @@
      "to": "Google AI Studio · global"
     }
    ]
+  },
+  {
+   "v": 4,
+   "first_seen": "2026-10-16",
+   "last_seen": "2026-10-16",
+   "probe_set": "0.8.0",
+   "values": {
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "STOP · MAX_TOKENS",
+    "net-region": "SEA · Google AI Studio · direct",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-code",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "template-offset",
+     "why": "usage not reported"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "net-genrecord",
+     "from": "Google AI Studio · global",
+     "to": "record-not-found"
+    }
+   ]
   }
  ]
 }
