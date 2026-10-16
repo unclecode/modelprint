@@ -3,6 +3,7 @@
 
 import { REGISTRY } from "./probes/index.js";
 import { isBusy } from "./probes/_failure.js";
+import { addProviderHeaders, parseJsonResponse } from "./response-utils.mjs";
 
 /* The key-credits backend (worker/). When an OpenRouter lane has NO key, the
    page runs through this proxy on the house budget: model whitelist, daily
@@ -61,6 +62,8 @@ const PROVIDERS = {
                models: [], modelsPublic: true },
   openai:    { label: "OpenAI", keyHint: "sk-…", base: "https://api.openai.com/v1", models: [] },
   deepseek:  { label: "DeepSeek", keyHint: "sk-…", base: "https://api.deepseek.com", models: [] },
+  "opencode-go": { label: "OpenCode Go", keyHint: "sk-…",
+                   base: "https://opencode.ai/zen/go/v1", models: [], sessionHeader: true },
   anthropic: { label: "Anthropic", keyHint: "sk-ant-…", base: "https://api.anthropic.com/v1",
                models: [], anthropic: true },
   mimo:      { label: "Xiaomi MiMo", keyHint: "sk-…", base: "https://api.xiaomimimo.com/v1",
@@ -76,6 +79,8 @@ const POPULAR = {
   openai: ["gpt-5.6-sol", "gpt-5.6-luna", "gpt-5.4-nano"],
   mimo: ["mimo-v2.5-pro", "mimo-v2.5"],
   deepseek: ["deepseek-v4-flash", "deepseek-v4-pro"],
+  "opencode-go": ["glm-5.3-flash", "deepseek-v4-flash", "deepseek-v4.1-flash",
+    "gpt-5.6-sol", "qwen3.8-flash", "kimi-k3"],
   anthropic: ["claude-opus-5", "claude-sonnet-5"],
   demo: ["stealth/ox-alpha", "z-ai/glm-5.3", "deepseek/deepseek-v4-flash"],
 };
@@ -96,6 +101,7 @@ async function fetchModels(provider, key) {
       ? { "x-api-key": key, "anthropic-version": "2023-06-01",
           "anthropic-dangerous-direct-browser-access": "true" }
       : { Authorization: "Bearer " + key };
+    if (p.sessionHeader) headers["x-opencode-session"] = crypto.randomUUID();
     const r = await fetch(p.base + "/models", { headers });
     const d = await r.json();
     return (d.data || []).map(m => m.id).sort();
@@ -129,6 +135,7 @@ async function chat(lane, payload) {
         signal: AbortSignal.timeout(60_000),
       });
       const text = await r.text();
+      const parsed = parseJsonResponse(text, r.headers.get("content-type"));
       if (r.status === 429) {
         let kind = "visitor";
         try { kind = JSON.parse(text).error === "global-exhausted" ? "global" : "visitor"; } catch {}
@@ -136,8 +143,10 @@ async function chat(lane, payload) {
         showCreditsBanner(kind);
         return { ok: false, status: 429, error: text };
       }
-      if (!r.ok) return { ok: false, status: r.status, error: text };
-      const d = JSON.parse(text);
+      if (!r.ok) return { ok: false, status: r.status,
+        error: parsed.ok ? text : parsed.error };
+      if (!parsed.ok) return { ok: false, status: r.status, error: parsed.error };
+      const d = parsed.json;
       const choice = (d.choices || [])[0] || {};
       return { ok: true, status: r.status,
         usage: { prompt_tokens: d.usage?.prompt_tokens, completion_tokens: d.usage?.completion_tokens },
@@ -168,6 +177,7 @@ async function chat(lane, payload) {
       if (lane.provider === "openrouter" && lane.pinHost)
         body.provider = { order: [lane.pinHost], allow_fallbacks: false };
     }
+    addProviderHeaders(headers, lane, p);
     const r = await fetch(url, { method: "POST", headers, body: JSON.stringify(body),
       signal: AbortSignal.timeout(60_000) });
     const ttftMs = performance.now() - t0;          // response HEADERS arrived
@@ -197,9 +207,12 @@ async function chat(lane, payload) {
 
     const text = await r.text();
     const ms = performance.now() - t0;
-    if (!r.ok) return { ok: false, status: r.status, error: text,
+    const parsed = parseJsonResponse(text, r.headers.get("content-type"));
+    if (!r.ok) return { ok: false, status: r.status,
+      error: parsed.ok ? text : parsed.error, ms, ttftMs, headers: hdrs };
+    if (!parsed.ok) return { ok: false, status: r.status, error: parsed.error,
       ms, ttftMs, headers: hdrs };
-    const d = JSON.parse(text);
+    const d = parsed.json;
     const common = { ok: true, status: r.status, ms, ttftMs, headers: hdrs,
       id: d.id, reportedModel: d.model, systemFingerprint: d.system_fingerprint,
       metadata: d.openrouter_metadata };
@@ -287,6 +300,7 @@ async function httpGet(lane, pathOrUrl) {
       ? { "x-api-key": lane.key, "anthropic-version": "2023-06-01",
           "anthropic-dangerous-direct-browser-access": "true" }
       : { Authorization: "Bearer " + lane.key };
+    addProviderHeaders(headers, lane, p);
     const r = await fetch(url, { headers, signal: AbortSignal.timeout(30_000) });
     const text = await r.text();
     let json = null; try { json = JSON.parse(text); } catch {}
