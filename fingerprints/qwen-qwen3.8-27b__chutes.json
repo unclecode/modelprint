@@ -182,6 +182,37 @@
      "to": "record-not-found"
     }
    ]
+  },
+  {
+   "v": 7,
+   "first_seen": "2026-10-17",
+   "last_seen": "2026-10-17",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "51",
+    "tok-code": "63",
+    "tok-emoji": "92",
+    "template-offset": "+53 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-validated (no upstream signal)",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "DFW · Chutes · direct",
+    "net-genrecord": "Chutes · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen- · fp",
+    "net-pathsplit": "Chutes · badfmt",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": "≥256k (ladder-top)"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "net-genrecord",
+     "from": "record-not-found",
+     "to": "Chutes · global"
+    }
+   ]
   }
  ]
 }
