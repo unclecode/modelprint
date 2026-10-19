@@ -324,6 +324,42 @@
      "to": "Z.AI · global"
     }
    ]
+  },
+  {
+   "v": 11,
+   "first_seen": "2026-10-19",
+   "last_seen": "2026-10-19",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "56",
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "LAX · Z.AI · direct",
+    "net-genrecord": "Z.AI · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">200k ≤256k"
+   },
+   "unavailable": [
+    {
+     "probe": "lp-geometry",
+     "why": "probe-failed: 402"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "cap-contextceiling",
+     "from": "≥256k (ladder-top)",
+     "to": ">200k ≤256k"
+    }
+   ]
   }
  ]
 }

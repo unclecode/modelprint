@@ -243,6 +243,84 @@
      "to": "DeepInfra · global"
     }
    ]
+  },
+  {
+   "v": 8,
+   "first_seen": "2026-10-19",
+   "last_seen": "2026-10-19",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "44",
+    "tok-chinese": "57",
+    "tok-code": "68",
+    "tok-emoji": "73",
+    "template-offset": "+10 (delta 7)",
+    "err-temperature": "Insufficient credits. Add more using https://openrouter.ai/settings/credits · code 402",
+    "err-maxtokens": "router-reported limit: 131072 tokens",
+    "err-code-family": "router-validated (no upstream signal)",
+    "finish-vocab": "stop · length",
+    "net-region": "LAX · DeepInfra · direct",
+    "net-genrecord": "DeepInfra · global",
+    "net-headerdna": "cf-ray · server:cloudflare",
+    "net-pathsplit": "DeepInfra · badfmt",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">128k ≤200k"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "model busy (rate limited)"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "model busy (rate limited)"
+    },
+    {
+     "probe": "template-offset",
+     "why": "probe-failed: 402"
+    },
+    {
+     "probe": "finish-vocab",
+     "why": "probe-failed: 402"
+    },
+    {
+     "probe": "net-region",
+     "why": "probe-failed: 402"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "probe-failed: 402"
+    },
+    {
+     "probe": "net-pathsplit",
+     "why": "probe-failed: 402"
+    },
+    {
+     "probe": "cap-contextceiling",
+     "why": "probe-failed: 402"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "probe-failed: 402"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-temperature",
+     "from": "accepts 2.0 (ceiling >= 2)",
+     "to": "Insufficient credits. Add more using https://openrouter.ai/settings/credits · code 402"
+    },
+    {
+     "probe": "err-code-family",
+     "from": "no upstream error (accepts 2.0)",
+     "to": "router-validated (no upstream signal)"
+    },
+    {
+     "probe": "net-headerdna",
+     "from": "cf-ray · server:cloudflare · id:gen-",
+     "to": "cf-ray · server:cloudflare"
+    }
+   ]
   }
  ]
 }
