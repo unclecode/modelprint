@@ -310,6 +310,74 @@
      "to": "No endpoints found for z-ai/glm-4.7-flash. Every candidate endpoint was removed during routing: Filter by Fallback removed venice/fp8, cloudflare, novita/bf16. · code 404"
     }
    ]
+  },
+  {
+   "v": 8,
+   "first_seen": "2026-10-20",
+   "last_seen": "2026-10-20",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "47",
+    "tok-chinese": "56",
+    "tok-code": "60",
+    "tok-emoji": "90",
+    "template-offset": "+6 (delta 7)",
+    "err-temperature": "No endpoints found for z-ai/glm-4.7-flash. Every candidate endpoint was removed during routing: Filter by Fallback removed cloudflare, novita/bf16. · code 404",
+    "err-maxtokens": "router-validated (no upstream signal)",
+    "err-code-family": "router-validated (no upstream signal)",
+    "finish-vocab": "stop · length",
+    "net-region": "MSP · DeepInfra · direct",
+    "net-genrecord": "DeepInfra · global",
+    "net-headerdna": "cf-ray · server:cloudflare",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">200k ≤256k"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-code",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "template-offset",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "finish-vocab",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-region",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "probe-failed: 404"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-temperature",
+     "from": "No endpoints found for z-ai/glm-4.7-flash. Every candidate endpoint was removed during routing: Filter by Fallback removed venice/fp8, cloudflare, novita/bf16. · code 404",
+     "to": "No endpoints found for z-ai/glm-4.7-flash. Every candidate endpoint was removed during routing: Filter by Fallback removed cloudflare, novita/bf16. · code 404"
+    }
+   ]
   }
  ]
 }

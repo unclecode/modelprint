@@ -517,6 +517,69 @@
      "to": "cf-ray · server:cloudflare"
     }
    ]
+  },
+  {
+   "v": 11,
+   "first_seen": "2026-10-20",
+   "last_seen": "2026-10-20",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "48",
+    "tok-chinese": "59",
+    "tok-code": "65",
+    "tok-emoji": "53",
+    "template-offset": "+207 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 500000 tokens",
+    "err-code-family": "opaque-text",
+    "finish-vocab": "completed · max_output_tokens",
+    "net-region": "SJC · xAI · direct",
+    "net-genrecord": "xAI · global",
+    "net-headerdna": "cf-ray · server:cloudflare"
+   },
+   "unavailable": [
+    {
+     "probe": "finish-vocab",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-region",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-headerdna",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "net-pathsplit",
+     "why": "time budget spent"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "time budget spent"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-temperature",
+     "from": "Insufficient credits. Add more using https://openrouter.ai/settings/credits · code 402",
+     "to": "accepts 2.0 (ceiling >= 2)"
+    },
+    {
+     "probe": "err-maxtokens",
+     "from": "router-validated (no upstream signal)",
+     "to": "router-reported limit: 500000 tokens"
+    },
+    {
+     "probe": "err-code-family",
+     "from": "router-validated (no upstream signal)",
+     "to": "opaque-text"
+    }
+   ]
   }
  ]
 }
