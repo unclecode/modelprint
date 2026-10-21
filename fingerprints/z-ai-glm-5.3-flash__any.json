@@ -1033,6 +1033,57 @@
      "to": "47"
     }
    ]
+  },
+  {
+   "v": 30,
+   "first_seen": "2026-10-21",
+   "last_seen": "2026-10-21",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "76",
+    "tok-emoji": "106",
+    "template-offset": "+13 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "MSP · Sail Research · direct",
+    "net-genrecord": "Sail Research · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "62",
+    "tok-chinese": "71",
+    "cap-contextceiling": ">200k ≤256k"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "tok-english",
+     "from": "47",
+     "to": "62"
+    },
+    {
+     "probe": "tok-chinese",
+     "from": "56",
+     "to": "71"
+    },
+    {
+     "probe": "tok-code",
+     "from": "60",
+     "to": "76"
+    },
+    {
+     "probe": "tok-emoji",
+     "from": "90",
+     "to": "106"
+    },
+    {
+     "probe": "net-genrecord",
+     "from": "Wafer · global",
+     "to": "Sail Research · global"
+    }
+   ]
   }
  ]
 }

@@ -2344,6 +2344,66 @@
      "to": "GMICloud · badfmt"
     }
    ]
+  },
+  {
+   "v": 52,
+   "first_seen": "2026-10-21",
+   "last_seen": "2026-10-21",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "49",
+    "tok-chinese": "53",
+    "tok-code": "141",
+    "tok-emoji": "4",
+    "template-offset": "+5 (delta 86)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "router-reported limit: 1048576 tokens",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · stop",
+    "net-region": "MSP · GMICloud · direct",
+    "net-genrecord": "GMICloud · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">32k ≤64k"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "unstable (multi-host routing)"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "unstable (multi-host routing)"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "tok-chinese",
+     "from": "-26",
+     "to": "53"
+    },
+    {
+     "probe": "tok-code",
+     "from": "62",
+     "to": "141"
+    },
+    {
+     "probe": "template-offset",
+     "from": "+84 (delta -72)",
+     "to": "+5 (delta 86)"
+    },
+    {
+     "probe": "finish-vocab",
+     "from": "stop · length",
+     "to": "stop · stop"
+    },
+    {
+     "probe": "net-pathsplit",
+     "from": "GMICloud · badfmt",
+     "to": "no-upstream-reject-path"
+    }
+   ]
   }
  ]
 }

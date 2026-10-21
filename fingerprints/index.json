@@ -1,99 +1,7 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-10-20",
+ "generated": "2026-10-21",
  "models": [
-  {
-   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
-   "model": "deepseek/deepseek-v4-flash",
-   "host": "SiliconFlow",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-25",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-26",
-     "last_seen": "2026-08-27",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-28",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-09-22",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-09-29",
-     "moved": 2
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-30",
-     "last_seen": "2026-10-04",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-05",
-     "last_seen": "2026-10-09",
-     "moved": 1
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-10-10",
-     "last_seen": "2026-10-14",
-     "moved": 1
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-10-15",
-     "last_seen": "2026-10-15",
-     "moved": 1
-    },
-    {
-     "v": 11,
-     "first_seen": "2026-10-16",
-     "last_seen": "2026-10-16",
-     "moved": 1
-    },
-    {
-     "v": 12,
-     "first_seen": "2026-10-17",
-     "last_seen": "2026-10-18",
-     "moved": 2
-    },
-    {
-     "v": 13,
-     "first_seen": "2026-10-19",
-     "last_seen": "2026-10-19",
-     "moved": 4
-    },
-    {
-     "v": 14,
-     "first_seen": "2026-10-20",
-     "last_seen": "2026-10-20",
-     "moved": 3
-    }
-   ]
-  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -405,68 +313,12 @@
      "first_seen": "2026-10-20",
      "last_seen": "2026-10-20",
      "moved": 3
-    }
-   ]
-  },
-  {
-   "file": "google-gemma-3-27b-it__deepinfra.json",
-   "model": "google/gemma-3-27b-it",
-   "host": "DeepInfra",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-27",
-     "moved": 0
     },
     {
-     "v": 2,
-     "first_seen": "2026-08-28",
-     "last_seen": "2026-08-28",
-     "moved": 2
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-29",
-     "last_seen": "2026-09-18",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-19",
-     "last_seen": "2026-09-19",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-20",
-     "last_seen": "2026-10-05",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-10-06",
-     "last_seen": "2026-10-06",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-10-07",
-     "last_seen": "2026-10-18",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-19",
-     "last_seen": "2026-10-19",
-     "moved": 3
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-10-20",
-     "last_seen": "2026-10-20",
-     "moved": 3
+     "v": 52,
+     "first_seen": "2026-10-21",
+     "last_seen": "2026-10-21",
+     "moved": 5
     }
    ]
   },
@@ -504,6 +356,62 @@
      "v": 5,
      "first_seen": "2026-10-20",
      "last_seen": "2026-10-20",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-10-21",
+     "last_seen": "2026-10-21",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "qwen-qwen3.7-flash__alibaba.json",
+   "model": "qwen/qwen3.7-flash",
+   "host": "Alibaba",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-22",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-09-23",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-24",
+     "last_seen": "2026-10-09",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-10-10",
+     "last_seen": "2026-10-15",
+     "moved": 2
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-10-16",
+     "last_seen": "2026-10-16",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-10-17",
+     "last_seen": "2026-10-20",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-10-21",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -657,6 +565,12 @@
      "first_seen": "2026-10-20",
      "last_seen": "2026-10-20",
      "moved": 1
+    },
+    {
+     "v": 25,
+     "first_seen": "2026-10-21",
+     "last_seen": "2026-10-21",
+     "moved": 1
     }
    ]
   },
@@ -731,62 +645,12 @@
      "first_seen": "2026-10-20",
      "last_seen": "2026-10-20",
      "moved": 3
-    }
-   ]
-  },
-  {
-   "file": "z-ai-glm-4.7-flash__deepinfra.json",
-   "model": "z-ai/glm-4.7-flash",
-   "host": "DeepInfra",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-29",
-     "moved": 0
     },
     {
-     "v": 2,
-     "first_seen": "2026-08-30",
-     "last_seen": "2026-08-30",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-31",
-     "last_seen": "2026-08-31",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-01",
-     "last_seen": "2026-09-01",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-02",
-     "last_seen": "2026-09-10",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-11",
-     "last_seen": "2026-09-22",
-     "moved": 5
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-10-19",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-20",
-     "last_seen": "2026-10-20",
-     "moved": 1
+     "v": 12,
+     "first_seen": "2026-10-21",
+     "last_seen": "2026-10-21",
+     "moved": 2
     }
    ]
   },
@@ -969,6 +833,222 @@
      "first_seen": "2026-10-20",
      "last_seen": "2026-10-20",
      "moved": 1
+    },
+    {
+     "v": 30,
+     "first_seen": "2026-10-21",
+     "last_seen": "2026-10-21",
+     "moved": 5
+    }
+   ]
+  },
+  {
+   "file": "deepseek-deepseek-v4-flash__siliconflow.json",
+   "model": "deepseek/deepseek-v4-flash",
+   "host": "SiliconFlow",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-25",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-26",
+     "last_seen": "2026-08-27",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-28",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-09-22",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-09-29",
+     "moved": 2
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-30",
+     "last_seen": "2026-10-04",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-05",
+     "last_seen": "2026-10-09",
+     "moved": 1
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-10-10",
+     "last_seen": "2026-10-14",
+     "moved": 1
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-15",
+     "moved": 1
+    },
+    {
+     "v": 11,
+     "first_seen": "2026-10-16",
+     "last_seen": "2026-10-16",
+     "moved": 1
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-10-17",
+     "last_seen": "2026-10-18",
+     "moved": 2
+    },
+    {
+     "v": 13,
+     "first_seen": "2026-10-19",
+     "last_seen": "2026-10-19",
+     "moved": 4
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
+     "moved": 3
+    }
+   ]
+  },
+  {
+   "file": "google-gemma-3-27b-it__deepinfra.json",
+   "model": "google/gemma-3-27b-it",
+   "host": "DeepInfra",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-27",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-28",
+     "last_seen": "2026-08-28",
+     "moved": 2
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-29",
+     "last_seen": "2026-09-18",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-19",
+     "last_seen": "2026-09-19",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-20",
+     "last_seen": "2026-10-05",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-10-06",
+     "last_seen": "2026-10-06",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-10-07",
+     "last_seen": "2026-10-18",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-19",
+     "last_seen": "2026-10-19",
+     "moved": 3
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
+     "moved": 3
+    }
+   ]
+  },
+  {
+   "file": "z-ai-glm-4.7-flash__deepinfra.json",
+   "model": "z-ai/glm-4.7-flash",
+   "host": "DeepInfra",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-29",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-08-30",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-31",
+     "last_seen": "2026-08-31",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-01",
+     "last_seen": "2026-09-01",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-02",
+     "last_seen": "2026-09-10",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-22",
+     "moved": 5
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-23",
+     "last_seen": "2026-10-19",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
+     "moved": 1
     }
    ]
   },
@@ -1095,7 +1175,7 @@
     {
      "v": 20,
      "first_seen": "2026-10-19",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1151,7 +1231,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-19",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1207,7 +1287,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-19",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1281,7 +1361,7 @@
     {
      "v": 11,
      "first_seen": "2026-10-19",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1307,7 +1387,7 @@
     {
      "v": 3,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1363,7 +1443,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1407,7 +1487,7 @@
     {
      "v": 6,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1445,7 +1525,7 @@
     {
      "v": 5,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1507,7 +1587,7 @@
     {
      "v": 9,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 2
     }
    ]
@@ -1533,7 +1613,7 @@
     {
      "v": 3,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1589,7 +1669,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1705,51 +1785,7 @@
     {
      "v": 18,
      "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "qwen-qwen3.7-flash__alibaba.json",
-   "model": "qwen/qwen3.7-flash",
-   "host": "Alibaba",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-22",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-23",
-     "last_seen": "2026-09-23",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-24",
-     "last_seen": "2026-10-09",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-10-10",
-     "last_seen": "2026-10-15",
-     "moved": 2
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-10-16",
-     "last_seen": "2026-10-16",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-10-17",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 1
     }
    ]
@@ -1769,7 +1805,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 5
     }
    ]
@@ -1783,7 +1819,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-20",
+     "last_seen": "2026-10-21",
      "moved": 0
     }
    ]
