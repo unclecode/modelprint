@@ -182,6 +182,37 @@
      "to": "Anthropic · global"
     }
    ]
+  },
+  {
+   "v": 7,
+   "first_seen": "2026-10-23",
+   "last_seen": "2026-10-23",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "79",
+    "tok-chinese": "97",
+    "tok-code": "93",
+    "tok-emoji": "119",
+    "template-offset": "+7 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "accepted 10^9 (silently capped)",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "end_turn · max_tokens",
+    "net-region": "SEA · Anthropic · direct · attempt-2",
+    "net-genrecord": "Anthropic · global",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">64k ≤128k"
+   },
+   "unavailable": [],
+   "moved": [
+    {
+     "probe": "err-maxtokens",
+     "from": "router-reported limit: 1000000 tokens",
+     "to": "accepted 10^9 (silently capped)"
+    }
+   ]
   }
  ]
 }
