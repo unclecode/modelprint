@@ -403,6 +403,42 @@
      "to": "headers-hidden-by-cors"
     }
    ]
+  },
+  {
+   "v": 11,
+   "first_seen": "2026-10-24",
+   "last_seen": "2026-10-24",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-english": "44",
+    "tok-chinese": "57",
+    "tok-code": "68",
+    "tok-emoji": "73",
+    "template-offset": "+10 (delta 7)",
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "accepted 10^9 (silently capped)",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "stop · length",
+    "net-region": "SEA · DeepInfra · direct",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "headers-hidden-by-cors",
+    "net-pathsplit": "DeepInfra · badfmt",
+    "lp-geometry": "logprobs-unsupported",
+    "cap-contextceiling": ">128k ≤200k"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "model busy (rate limited)"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "net-genrecord",
+     "from": "DeepInfra · global",
+     "to": "record-not-found"
+    }
+   ]
   }
  ]
 }
