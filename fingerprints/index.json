@@ -1,6 +1,6 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-10-24",
+ "generated": "2026-10-25",
  "models": [
   {
    "file": "deepseek-deepseek-v4-flash__siliconflow.json",
@@ -108,6 +108,12 @@
      "v": 17,
      "first_seen": "2026-10-24",
      "last_seen": "2026-10-24",
+     "moved": 1
+    },
+    {
+     "v": 18,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -447,6 +453,12 @@
      "first_seen": "2026-10-24",
      "last_seen": "2026-10-24",
      "moved": 1
+    },
+    {
+     "v": 56,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
+     "moved": 1
     }
    ]
   },
@@ -521,74 +533,12 @@
      "first_seen": "2026-10-24",
      "last_seen": "2026-10-24",
      "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "minimax-minimax-m3__atlascloud.json",
-   "model": "minimax/minimax-m3",
-   "host": "AtlasCloud",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
-     "moved": 0
     },
     {
-     "v": 2,
-     "first_seen": "2026-09-08",
-     "last_seen": "2026-09-08",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-09",
-     "last_seen": "2026-09-09",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-10",
-     "last_seen": "2026-09-10",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-11",
-     "last_seen": "2026-09-11",
+     "v": 12,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
      "moved": 2
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-12",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-10-15",
-     "moved": 2
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-16",
-     "last_seen": "2026-10-16",
-     "moved": 2
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-10-17",
-     "last_seen": "2026-10-23",
-     "moved": 2
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-10-24",
-     "last_seen": "2026-10-24",
-     "moved": 1
     }
    ]
   },
@@ -620,6 +570,12 @@
      "v": 4,
      "first_seen": "2026-10-24",
      "last_seen": "2026-10-24",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -670,6 +626,146 @@
      "v": 7,
      "first_seen": "2026-10-24",
      "last_seen": "2026-10-24",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "openai-gpt-5.6-terra__openai.json",
+   "model": "openai/gpt-5.6-terra",
+   "host": "OpenAI",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-02",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-03",
+     "last_seen": "2026-09-03",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-04",
+     "last_seen": "2026-09-07",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-09",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-10",
+     "last_seen": "2026-09-12",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-13",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-09-17",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-09-18",
+     "last_seen": "2026-09-18",
+     "moved": 1
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-09-19",
+     "last_seen": "2026-09-24",
+     "moved": 1
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-09-25",
+     "last_seen": "2026-09-25",
+     "moved": 1
+    },
+    {
+     "v": 11,
+     "first_seen": "2026-09-26",
+     "last_seen": "2026-09-26",
+     "moved": 2
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-09-27",
+     "last_seen": "2026-09-29",
+     "moved": 1
+    },
+    {
+     "v": 13,
+     "first_seen": "2026-09-30",
+     "last_seen": "2026-09-30",
+     "moved": 1
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-10-01",
+     "last_seen": "2026-10-07",
+     "moved": 1
+    },
+    {
+     "v": 15,
+     "first_seen": "2026-10-08",
+     "last_seen": "2026-10-08",
+     "moved": 2
+    },
+    {
+     "v": 16,
+     "first_seen": "2026-10-09",
+     "last_seen": "2026-10-15",
+     "moved": 2
+    },
+    {
+     "v": 17,
+     "first_seen": "2026-10-16",
+     "last_seen": "2026-10-16",
+     "moved": 1
+    },
+    {
+     "v": 18,
+     "first_seen": "2026-10-17",
+     "last_seen": "2026-10-21",
+     "moved": 1
+    },
+    {
+     "v": 19,
+     "first_seen": "2026-10-22",
+     "last_seen": "2026-10-22",
+     "moved": 1
+    },
+    {
+     "v": 20,
+     "first_seen": "2026-10-23",
+     "last_seen": "2026-10-24",
+     "moved": 2
+    },
+    {
+     "v": 21,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -841,6 +937,12 @@
      "first_seen": "2026-10-24",
      "last_seen": "2026-10-24",
      "moved": 2
+    },
+    {
+     "v": 28,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
+     "moved": 1
     }
    ]
   },
@@ -926,6 +1028,80 @@
      "v": 13,
      "first_seen": "2026-10-24",
      "last_seen": "2026-10-24",
+     "moved": 1
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-10-25",
+     "last_seen": "2026-10-25",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "minimax-minimax-m3__atlascloud.json",
+   "model": "minimax/minimax-m3",
+   "host": "AtlasCloud",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-07",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-08",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-09",
+     "last_seen": "2026-09-09",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-10",
+     "last_seen": "2026-09-10",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
+     "moved": 2
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-10-15",
+     "moved": 2
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-16",
+     "last_seen": "2026-10-16",
+     "moved": 2
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-10-17",
+     "last_seen": "2026-10-23",
+     "moved": 2
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1131,7 +1307,7 @@
     {
      "v": 33,
      "first_seen": "2026-10-24",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 4
     }
    ]
@@ -1163,7 +1339,7 @@
     {
      "v": 4,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1225,7 +1401,7 @@
     {
      "v": 9,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1275,7 +1451,7 @@
     {
      "v": 7,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1319,7 +1495,7 @@
     {
      "v": 6,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1453,7 +1629,7 @@
     {
      "v": 21,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1515,136 +1691,8 @@
     {
      "v": 9,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "openai-gpt-5.6-terra__openai.json",
-   "model": "openai/gpt-5.6-terra",
-   "host": "OpenAI",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-02",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-03",
-     "last_seen": "2026-09-03",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-04",
-     "last_seen": "2026-09-07",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-08",
-     "last_seen": "2026-09-09",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-10",
-     "last_seen": "2026-09-12",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-13",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-09-17",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-09-18",
-     "last_seen": "2026-09-18",
-     "moved": 1
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-09-19",
-     "last_seen": "2026-09-24",
-     "moved": 1
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-09-25",
-     "last_seen": "2026-09-25",
-     "moved": 1
-    },
-    {
-     "v": 11,
-     "first_seen": "2026-09-26",
-     "last_seen": "2026-09-26",
-     "moved": 2
-    },
-    {
-     "v": 12,
-     "first_seen": "2026-09-27",
-     "last_seen": "2026-09-29",
-     "moved": 1
-    },
-    {
-     "v": 13,
-     "first_seen": "2026-09-30",
-     "last_seen": "2026-09-30",
-     "moved": 1
-    },
-    {
-     "v": 14,
-     "first_seen": "2026-10-01",
-     "last_seen": "2026-10-07",
-     "moved": 1
-    },
-    {
-     "v": 15,
-     "first_seen": "2026-10-08",
-     "last_seen": "2026-10-08",
-     "moved": 2
-    },
-    {
-     "v": 16,
-     "first_seen": "2026-10-09",
-     "last_seen": "2026-10-15",
-     "moved": 2
-    },
-    {
-     "v": 17,
-     "first_seen": "2026-10-16",
-     "last_seen": "2026-10-16",
-     "moved": 1
-    },
-    {
-     "v": 18,
-     "first_seen": "2026-10-17",
-     "last_seen": "2026-10-21",
-     "moved": 1
-    },
-    {
-     "v": 19,
-     "first_seen": "2026-10-22",
-     "last_seen": "2026-10-22",
-     "moved": 1
-    },
-    {
-     "v": 20,
-     "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
-     "moved": 2
     }
    ]
   },
@@ -1705,7 +1753,7 @@
     {
      "v": 9,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1761,7 +1809,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 2
     }
    ]
@@ -1841,7 +1889,7 @@
     {
      "v": 12,
      "first_seen": "2026-10-23",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1897,7 +1945,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-20",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1953,7 +2001,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-19",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 1
     }
    ]
@@ -1973,7 +2021,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 5
     }
    ]
@@ -1987,7 +2035,7 @@
     {
      "v": 1,
      "first_seen": "2026-08-25",
-     "last_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
      "moved": 0
     }
    ]
