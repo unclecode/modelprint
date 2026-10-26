@@ -272,6 +272,56 @@
      "to": "accepted 10^9 (silently capped)"
     }
    ]
+  },
+  {
+   "v": 7,
+   "first_seen": "2026-10-26",
+   "last_seen": "2026-10-26",
+   "probe_set": "0.8.0",
+   "values": {
+    "err-temperature": "accepts 2.0 (ceiling >= 2)",
+    "err-maxtokens": "accepted 10^9 (silently capped)",
+    "err-code-family": "no upstream error (accepts 2.0)",
+    "finish-vocab": "STOP · MAX_TOKENS",
+    "net-region": "IAD · Google AI Studio · direct",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "cf-ray · server:cloudflare · id:gen-",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-code",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "template-offset",
+     "why": "usage not reported"
+    },
+    {
+     "probe": "cap-contextceiling",
+     "why": "probe-failed: 200"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "net-genrecord",
+     "from": "Google AI Studio · global",
+     "to": "record-not-found"
+    }
+   ]
   }
  ]
 }
