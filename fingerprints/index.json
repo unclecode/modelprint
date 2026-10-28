@@ -1,7 +1,81 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-10-27",
+ "generated": "2026-10-28",
  "models": [
+  {
+   "file": "qwen-qwen3-235b-a22b-2507__alibaba.json",
+   "model": "qwen/qwen3-235b-a22b-2507",
+   "host": "Alibaba",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-28",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-29",
+     "last_seen": "2026-08-29",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-10-09",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-10-10",
+     "last_seen": "2026-10-13",
+     "moved": 4
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-10-14",
+     "last_seen": "2026-10-14",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-17",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-10-18",
+     "last_seen": "2026-10-18",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-19",
+     "last_seen": "2026-10-22",
+     "moved": 1
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-10-23",
+     "last_seen": "2026-10-26",
+     "moved": 1
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-10-27",
+     "last_seen": "2026-10-27",
+     "moved": 1
+    },
+    {
+     "v": 11,
+     "first_seen": "2026-10-28",
+     "last_seen": "2026-10-28",
+     "moved": 1
+    }
+   ]
+  },
   {
    "file": "anthropic-claude-haiku-4.5__anthropic.json",
    "model": "anthropic/claude-haiku-4.5",
@@ -41,7 +115,7 @@
     {
      "v": 6,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -115,7 +189,7 @@
     {
      "v": 11,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -177,7 +251,7 @@
     {
      "v": 9,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -305,7 +379,7 @@
     {
      "v": 20,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 1
     }
    ]
@@ -661,7 +735,7 @@
     {
      "v": 58,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -717,7 +791,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -809,7 +883,7 @@
     {
      "v": 14,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -889,7 +963,7 @@
     {
      "v": 12,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 3
     }
    ]
@@ -939,7 +1013,7 @@
     {
      "v": 7,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -1007,7 +1081,7 @@
     {
      "v": 10,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -1153,7 +1227,7 @@
     {
      "v": 23,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -1227,7 +1301,7 @@
     {
      "v": 11,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -1373,7 +1447,7 @@
     {
      "v": 23,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -1393,76 +1467,8 @@
     {
      "v": 2,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 3
-    }
-   ]
-  },
-  {
-   "file": "qwen-qwen3-235b-a22b-2507__alibaba.json",
-   "model": "qwen/qwen3-235b-a22b-2507",
-   "host": "Alibaba",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-28",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-29",
-     "last_seen": "2026-08-29",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-30",
-     "last_seen": "2026-10-09",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-10-10",
-     "last_seen": "2026-10-13",
-     "moved": 4
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-10-14",
-     "last_seen": "2026-10-14",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-10-15",
-     "last_seen": "2026-10-17",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-10-18",
-     "last_seen": "2026-10-18",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-19",
-     "last_seen": "2026-10-22",
-     "moved": 1
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-10-23",
-     "last_seen": "2026-10-26",
-     "moved": 1
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
-     "moved": 1
     }
    ]
   },
@@ -1529,7 +1535,7 @@
     {
      "v": 10,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -1597,7 +1603,7 @@
     {
      "v": 10,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 3
     }
    ]
@@ -1785,7 +1791,7 @@
     {
      "v": 30,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -1889,7 +1895,7 @@
     {
      "v": 16,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 1
     }
    ]
@@ -2107,7 +2113,7 @@
     {
      "v": 35,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -2199,7 +2205,7 @@
     {
      "v": 14,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 4
     }
    ]
@@ -2255,7 +2261,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-20",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 1
     }
    ]
@@ -2275,7 +2281,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-10-27",
+     "last_seen": "2026-10-28",
      "moved": 5
     }
    ]
