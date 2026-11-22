@@ -1,7 +1,251 @@
 {
  "window_start": "2026-08-21",
- "generated": "2026-11-21",
+ "generated": "2026-11-22",
  "models": [
+  {
+   "file": "minimax-minimax-m3__atlascloud.json",
+   "model": "minimax/minimax-m3",
+   "host": "AtlasCloud",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-09-07",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-09-08",
+     "last_seen": "2026-09-08",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-09-09",
+     "last_seen": "2026-09-09",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-09-10",
+     "last_seen": "2026-09-10",
+     "moved": 1
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-09-11",
+     "last_seen": "2026-09-11",
+     "moved": 2
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-09-12",
+     "last_seen": "2026-09-13",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-09-14",
+     "last_seen": "2026-10-15",
+     "moved": 2
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-16",
+     "last_seen": "2026-10-16",
+     "moved": 2
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-10-17",
+     "last_seen": "2026-10-23",
+     "moved": 2
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-10-24",
+     "last_seen": "2026-10-25",
+     "moved": 1
+    },
+    {
+     "v": 11,
+     "first_seen": "2026-10-26",
+     "last_seen": "2026-10-26",
+     "moved": 1
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-10-27",
+     "last_seen": "2026-11-08",
+     "moved": 3
+    },
+    {
+     "v": 13,
+     "first_seen": "2026-11-09",
+     "last_seen": "2026-11-12",
+     "moved": 1
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-11-13",
+     "last_seen": "2026-11-16",
+     "moved": 1
+    },
+    {
+     "v": 15,
+     "first_seen": "2026-11-17",
+     "last_seen": "2026-11-17",
+     "moved": 1
+    },
+    {
+     "v": 16,
+     "first_seen": "2026-11-18",
+     "last_seen": "2026-11-20",
+     "moved": 1
+    },
+    {
+     "v": 17,
+     "first_seen": "2026-11-21",
+     "last_seen": "2026-11-21",
+     "moved": 1
+    },
+    {
+     "v": 18,
+     "first_seen": "2026-11-22",
+     "last_seen": "2026-11-22",
+     "moved": 1
+    }
+   ]
+  },
+  {
+   "file": "qwen-qwen3-235b-a22b-2507__alibaba.json",
+   "model": "qwen/qwen3-235b-a22b-2507",
+   "host": "Alibaba",
+   "first_tracked": "2026-08-25",
+   "versions": [
+    {
+     "v": 1,
+     "first_seen": "2026-08-25",
+     "last_seen": "2026-08-28",
+     "moved": 0
+    },
+    {
+     "v": 2,
+     "first_seen": "2026-08-29",
+     "last_seen": "2026-08-29",
+     "moved": 1
+    },
+    {
+     "v": 3,
+     "first_seen": "2026-08-30",
+     "last_seen": "2026-10-09",
+     "moved": 1
+    },
+    {
+     "v": 4,
+     "first_seen": "2026-10-10",
+     "last_seen": "2026-10-13",
+     "moved": 4
+    },
+    {
+     "v": 5,
+     "first_seen": "2026-10-14",
+     "last_seen": "2026-10-14",
+     "moved": 1
+    },
+    {
+     "v": 6,
+     "first_seen": "2026-10-15",
+     "last_seen": "2026-10-17",
+     "moved": 1
+    },
+    {
+     "v": 7,
+     "first_seen": "2026-10-18",
+     "last_seen": "2026-10-18",
+     "moved": 1
+    },
+    {
+     "v": 8,
+     "first_seen": "2026-10-19",
+     "last_seen": "2026-10-22",
+     "moved": 1
+    },
+    {
+     "v": 9,
+     "first_seen": "2026-10-23",
+     "last_seen": "2026-10-26",
+     "moved": 1
+    },
+    {
+     "v": 10,
+     "first_seen": "2026-10-27",
+     "last_seen": "2026-10-27",
+     "moved": 1
+    },
+    {
+     "v": 11,
+     "first_seen": "2026-10-28",
+     "last_seen": "2026-10-28",
+     "moved": 1
+    },
+    {
+     "v": 12,
+     "first_seen": "2026-10-29",
+     "last_seen": "2026-10-29",
+     "moved": 1
+    },
+    {
+     "v": 13,
+     "first_seen": "2026-10-30",
+     "last_seen": "2026-10-31",
+     "moved": 1
+    },
+    {
+     "v": 14,
+     "first_seen": "2026-11-01",
+     "last_seen": "2026-11-07",
+     "moved": 1
+    },
+    {
+     "v": 15,
+     "first_seen": "2026-11-08",
+     "last_seen": "2026-11-08",
+     "moved": 1
+    },
+    {
+     "v": 16,
+     "first_seen": "2026-11-09",
+     "last_seen": "2026-11-09",
+     "moved": 1
+    },
+    {
+     "v": 17,
+     "first_seen": "2026-11-10",
+     "last_seen": "2026-11-10",
+     "moved": 1
+    },
+    {
+     "v": 18,
+     "first_seen": "2026-11-11",
+     "last_seen": "2026-11-14",
+     "moved": 1
+    },
+    {
+     "v": 19,
+     "first_seen": "2026-11-15",
+     "last_seen": "2026-11-21",
+     "moved": 1
+    },
+    {
+     "v": 20,
+     "first_seen": "2026-11-22",
+     "last_seen": "2026-11-22",
+     "moved": 1
+    }
+   ]
+  },
   {
    "file": "deepseek-deepseek-v4-pro__gmicloud.json",
    "model": "deepseek/deepseek-v4-pro",
@@ -359,240 +603,8 @@
     {
      "v": 59,
      "first_seen": "2026-11-21",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 2
-    }
-   ]
-  },
-  {
-   "file": "minimax-minimax-m3__atlascloud.json",
-   "model": "minimax/minimax-m3",
-   "host": "AtlasCloud",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-09-07",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-09-08",
-     "last_seen": "2026-09-08",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-09-09",
-     "last_seen": "2026-09-09",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-09-10",
-     "last_seen": "2026-09-10",
-     "moved": 1
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-09-11",
-     "last_seen": "2026-09-11",
-     "moved": 2
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-09-12",
-     "last_seen": "2026-09-13",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-09-14",
-     "last_seen": "2026-10-15",
-     "moved": 2
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-16",
-     "last_seen": "2026-10-16",
-     "moved": 2
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-10-17",
-     "last_seen": "2026-10-23",
-     "moved": 2
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-10-24",
-     "last_seen": "2026-10-25",
-     "moved": 1
-    },
-    {
-     "v": 11,
-     "first_seen": "2026-10-26",
-     "last_seen": "2026-10-26",
-     "moved": 1
-    },
-    {
-     "v": 12,
-     "first_seen": "2026-10-27",
-     "last_seen": "2026-11-08",
-     "moved": 3
-    },
-    {
-     "v": 13,
-     "first_seen": "2026-11-09",
-     "last_seen": "2026-11-12",
-     "moved": 1
-    },
-    {
-     "v": 14,
-     "first_seen": "2026-11-13",
-     "last_seen": "2026-11-16",
-     "moved": 1
-    },
-    {
-     "v": 15,
-     "first_seen": "2026-11-17",
-     "last_seen": "2026-11-17",
-     "moved": 1
-    },
-    {
-     "v": 16,
-     "first_seen": "2026-11-18",
-     "last_seen": "2026-11-20",
-     "moved": 1
-    },
-    {
-     "v": 17,
-     "first_seen": "2026-11-21",
-     "last_seen": "2026-11-21",
-     "moved": 1
-    }
-   ]
-  },
-  {
-   "file": "qwen-qwen3-235b-a22b-2507__alibaba.json",
-   "model": "qwen/qwen3-235b-a22b-2507",
-   "host": "Alibaba",
-   "first_tracked": "2026-08-25",
-   "versions": [
-    {
-     "v": 1,
-     "first_seen": "2026-08-25",
-     "last_seen": "2026-08-28",
-     "moved": 0
-    },
-    {
-     "v": 2,
-     "first_seen": "2026-08-29",
-     "last_seen": "2026-08-29",
-     "moved": 1
-    },
-    {
-     "v": 3,
-     "first_seen": "2026-08-30",
-     "last_seen": "2026-10-09",
-     "moved": 1
-    },
-    {
-     "v": 4,
-     "first_seen": "2026-10-10",
-     "last_seen": "2026-10-13",
-     "moved": 4
-    },
-    {
-     "v": 5,
-     "first_seen": "2026-10-14",
-     "last_seen": "2026-10-14",
-     "moved": 1
-    },
-    {
-     "v": 6,
-     "first_seen": "2026-10-15",
-     "last_seen": "2026-10-17",
-     "moved": 1
-    },
-    {
-     "v": 7,
-     "first_seen": "2026-10-18",
-     "last_seen": "2026-10-18",
-     "moved": 1
-    },
-    {
-     "v": 8,
-     "first_seen": "2026-10-19",
-     "last_seen": "2026-10-22",
-     "moved": 1
-    },
-    {
-     "v": 9,
-     "first_seen": "2026-10-23",
-     "last_seen": "2026-10-26",
-     "moved": 1
-    },
-    {
-     "v": 10,
-     "first_seen": "2026-10-27",
-     "last_seen": "2026-10-27",
-     "moved": 1
-    },
-    {
-     "v": 11,
-     "first_seen": "2026-10-28",
-     "last_seen": "2026-10-28",
-     "moved": 1
-    },
-    {
-     "v": 12,
-     "first_seen": "2026-10-29",
-     "last_seen": "2026-10-29",
-     "moved": 1
-    },
-    {
-     "v": 13,
-     "first_seen": "2026-10-30",
-     "last_seen": "2026-10-31",
-     "moved": 1
-    },
-    {
-     "v": 14,
-     "first_seen": "2026-11-01",
-     "last_seen": "2026-11-07",
-     "moved": 1
-    },
-    {
-     "v": 15,
-     "first_seen": "2026-11-08",
-     "last_seen": "2026-11-08",
-     "moved": 1
-    },
-    {
-     "v": 16,
-     "first_seen": "2026-11-09",
-     "last_seen": "2026-11-09",
-     "moved": 1
-    },
-    {
-     "v": 17,
-     "first_seen": "2026-11-10",
-     "last_seen": "2026-11-10",
-     "moved": 1
-    },
-    {
-     "v": 18,
-     "first_seen": "2026-11-11",
-     "last_seen": "2026-11-14",
-     "moved": 1
-    },
-    {
-     "v": 19,
-     "first_seen": "2026-11-15",
-     "last_seen": "2026-11-21",
-     "moved": 1
     }
    ]
   },
@@ -635,7 +647,7 @@
     {
      "v": 6,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -709,7 +721,7 @@
     {
      "v": 11,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -771,7 +783,7 @@
     {
      "v": 9,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -899,7 +911,7 @@
     {
      "v": 20,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 1
     }
    ]
@@ -955,7 +967,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1047,7 +1059,7 @@
     {
      "v": 14,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1097,7 +1109,7 @@
     {
      "v": 7,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1165,7 +1177,7 @@
     {
      "v": 10,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1311,7 +1323,7 @@
     {
      "v": 23,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1385,7 +1397,7 @@
     {
      "v": 11,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1531,7 +1543,7 @@
     {
      "v": 23,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1551,7 +1563,7 @@
     {
      "v": 2,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 3
     }
    ]
@@ -1619,7 +1631,7 @@
     {
      "v": 10,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1687,7 +1699,7 @@
     {
      "v": 10,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 3
     }
    ]
@@ -1875,7 +1887,7 @@
     {
      "v": 30,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -1979,7 +1991,7 @@
     {
      "v": 16,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 1
     }
    ]
@@ -2197,7 +2209,7 @@
     {
      "v": 35,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -2289,7 +2301,7 @@
     {
      "v": 14,
      "first_seen": "2026-10-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 4
     }
    ]
@@ -2345,7 +2357,7 @@
     {
      "v": 8,
      "first_seen": "2026-10-20",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 1
     }
    ]
@@ -2365,7 +2377,7 @@
     {
      "v": 2,
      "first_seen": "2026-08-27",
-     "last_seen": "2026-11-21",
+     "last_seen": "2026-11-22",
      "moved": 5
     }
    ]
