@@ -1267,6 +1267,79 @@
      "to": "cf-ray · server:cloudflare"
     }
    ]
+  },
+  {
+   "v": 31,
+   "first_seen": "2026-11-26",
+   "last_seen": "2026-11-26",
+   "probe_set": "0.8.0",
+   "values": {
+    "tok-code": "60",
+    "err-temperature": "No endpoints available for any model in version group for ~latest alias ~unbiased/pareto-latest · code 404",
+    "err-maxtokens": "router-validated (no upstream signal)",
+    "err-code-family": "numeric-code",
+    "finish-vocab": "stop · length",
+    "net-region": "IAD · Unbiased · latest",
+    "net-genrecord": "record-not-found",
+    "net-headerdna": "cf-ray · server:cloudflare",
+    "net-pathsplit": "no-upstream-reject-path",
+    "lp-geometry": "logprobs-unsupported",
+    "tok-english": "47",
+    "tok-chinese": "76",
+    "template-offset": "+25 (delta 7)",
+    "tok-emoji": "93",
+    "cap-contextceiling": "≥256k (ladder-top)"
+   },
+   "unavailable": [
+    {
+     "probe": "tok-english",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-chinese",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-code",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "tok-emoji",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "template-offset",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "finish-vocab",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-region",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "net-genrecord",
+     "why": "probe-failed: 404"
+    },
+    {
+     "probe": "lp-geometry",
+     "why": "probe-failed: 404"
+    }
+   ],
+   "moved": [
+    {
+     "probe": "err-temperature",
+     "from": "Key limit exceeded (total limit). Manage it using https://openrouter.ai/workspaces/default/keys/99bd8d3d8aed7229912a9fa83323d982cf570b270890c1f2f5a0e3810c083a38 $81.09 of $80.00 used; does not reset. · code 403",
+     "to": "No endpoints available for any model in version group for ~latest alias ~unbiased/pareto-latest · code 404"
+    },
+    {
+     "probe": "err-code-family",
+     "from": "router-validated (no upstream signal)",
+     "to": "numeric-code"
+    }
+   ]
   }
  ]
 }
